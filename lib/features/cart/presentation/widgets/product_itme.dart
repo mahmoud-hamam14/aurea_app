@@ -20,6 +20,8 @@ class ProductItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isAsset = imageUrl.startsWith('assets/');
+
     return Card(
       margin: const EdgeInsets.symmetric(vertical: 10),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -62,9 +64,7 @@ class ProductItem extends StatelessWidget {
                       ),
                     ),
             ),
-
             const SizedBox(height: 10),
-
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -89,7 +89,6 @@ class ProductItem extends StatelessWidget {
                 ),
               ],
             ),
-
             const SizedBox(height: 8),
 
             Text(
@@ -100,7 +99,6 @@ class ProductItem extends StatelessWidget {
             ),
 
             const SizedBox(height: 10),
-
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -123,18 +121,18 @@ class ProductItem extends StatelessWidget {
                       children: [
                         IconButton(
                           icon: const Icon(Icons.remove, size: 25),
-                          onPressed: () {},
+                          onPressed: onRemove,
                         ),
-                        const Text(
-                          "1",
-                          style: TextStyle(
+                        Text(
+                          "$quantity",
+                          style: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         IconButton(
                           icon: const Icon(Icons.add, size: 25),
-                          onPressed: () {},
+                          onPressed: onAdd,
                         ),
                       ],
                     ),
