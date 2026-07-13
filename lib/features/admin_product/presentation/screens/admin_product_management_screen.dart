@@ -1,22 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:nti_ecommerce_team4/core/theme/app_theme.dart';
 import 'package:nti_ecommerce_team4/features/admin_product/presentation/widgets/add_product_list_view.dart';
+import 'package:nti_ecommerce_team4/features/admin_product/presentation/widgets/product_model.dart';
+import 'package:nti_ecommerce_team4/features/admin_product/presentation/widgets/search_page.dart';
 
 import 'add_product_screen.dart';
 
-class AdminProductManagement extends StatelessWidget {
+class AdminProductManagement extends StatefulWidget {
   const AdminProductManagement({super.key});
 
   @override
+  State<AdminProductManagement> createState() => _AdminProductManagementState();
+}
+
+class _AdminProductManagementState extends State<AdminProductManagement> {
+  
+  int itemCount =0;
+  void _updateItemCount(int count) {
+    setState(() {
+      itemCount = count;});
+  }
+    @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
+        onPressed: () async {
+          await Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => const AddProductPage()),
           );
+          setState(() {});
         },
         shape: CircleBorder(),
         child: Icon(Icons.add),
@@ -31,7 +45,7 @@ class AdminProductManagement extends StatelessWidget {
             Navigator.pop(context);
           },
           icon: Icon(Icons.arrow_back_ios, size: 20),
-          // style: IconButton.styleFrom(),
+          
         ),
         title: Text(
           'Products',
@@ -41,7 +55,10 @@ class AdminProductManagement extends StatelessWidget {
           ),
         ),
         actions: [
-          IconButton(onPressed: () {}, icon: Icon(Icons.search, size: 24)),
+          IconButton(onPressed: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context)=> const SearchPage(),
+            ),);
+          }, icon: Icon(Icons.search, size: 24)),
           IconButton(
             onPressed: () {},
             icon: Icon(Icons.shopping_bag_outlined, size: 24),
@@ -64,7 +81,7 @@ class AdminProductManagement extends StatelessWidget {
                 ),
               ),
               Text(
-                "24 Items",
+                "$itemCount Items",
                 style: AppTextStyles.bodyLarge.copyWith(
                   color: theme.colorScheme.onSurface,
                   fontWeight: FontWeight.w600,
@@ -74,7 +91,9 @@ class AdminProductManagement extends StatelessWidget {
               ),
               SizedBox(height: 16),
 
-              AddProductListview(),
+              AddProductListview(
+                onCountChanged:_updateItemCount,
+              ),
             ],
           ),
         ),
