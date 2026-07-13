@@ -1,23 +1,19 @@
-import '../../data/models/cart_model.dart';
+import 'package:nti_ecommerce_team4/features/cart/data/models/cart_item_model.dart';
 
-sealed class CartState {}
+abstract class CartState {}
 
-final class CartInitial extends CartState {}
+class CartInitialState extends CartState {}
 
-final class CartLoading extends CartState {}
+class CartLoadingState extends CartState {}
 
-final class CartSuccess extends CartState {
-  final List<CartModel> cartItems;
-  CartSuccess({required this.cartItems});
+class CartSuccessState extends CartState {
+  final List<CartItemModel> items;
+
+  CartSuccessState(this.items);
 }
 
-final class CartError extends CartState {
+class CartErrorState extends CartState {
   final String errorMessage;
-  CartError({required this.errorMessage});
-}
 
-final class AddToCartLoading extends CartState {}
-final class AddToCartSuccess extends CartState {
-  final String message;
-  AddToCartSuccess({required this.message});
+  CartErrorState({required this.errorMessage});
 }
