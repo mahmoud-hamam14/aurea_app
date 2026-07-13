@@ -77,9 +77,8 @@ class _CreateNewPasswordScreenState extends State<CreateNewPasswordScreen> {
                       validator: (pass) {
                         return Validator.validatePassword(pass!);
                       },
-                      onChanged: (value) {
-                        setState(() {});
-                      },
+                      onChanged: (p0) =>
+                          context.read<AuthCubit>().passConditions(p0),
                     ),
                     Gap(20),
                     CustomTextFormField(
@@ -89,28 +88,39 @@ class _CreateNewPasswordScreenState extends State<CreateNewPasswordScreen> {
                       validator: (pass) {
                         return Validator.validatePassword(pass!);
                       },
-                      onChanged: (value) {
-                        setState(() {});
-                      },
+                      onChanged: (p0) =>
+                          context.read<AuthCubit>().passConditions(p0),
                     ),
                     Gap(32),
 
-                    PasswordConditions(
-                      text: "At least 8 characters long",
-                      stateColor: passController.text.length >= 8
-                          ? Colors.green
-                          : AppColors.lightTextSecondary,
+                    BlocBuilder<AuthCubit, AuthState>(
+                      builder: (context, state) {
+                        bool isLength = false;
+                        bool isSymbol = false;
+                        if (state is NewPassConditionsState) {
+                          isLength = state.isLengthValid;
+                          isSymbol = state.hasSymbolOrNumber;
+                        }
+                        return Column(
+                          children: [
+                            PasswordConditions(
+                              text: "At least 8 characters long",
+                              stateColor: isLength
+                                  ? Colors.green
+                                  : AppColors.lightTextSecondary,
+                            ),
+                            Gap(5),
+                            PasswordConditions(
+                              text: "Contains a symbol or number",
+                              stateColor: isSymbol
+                                  ? Colors.green
+                                  : AppColors.lightTextSecondary,
+                            ),
+                          ],
+                        );
+                      },
                     ),
-                    Gap(5),
-                    PasswordConditions(
-                      text: "Contains a symbol or number",
-                      stateColor:
-                          passController.text.contains(
-                            RegExp(r'[0-9!@#\$&*~+-=_%^()]'),
-                          )
-                          ? Colors.green
-                          : AppColors.lightTextSecondary,
-                    ),
+
                     Gap(32),
                     BlocConsumer<AuthCubit, AuthState>(
                       listener: (context, state) {

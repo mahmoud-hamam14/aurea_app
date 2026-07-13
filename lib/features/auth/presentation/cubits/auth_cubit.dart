@@ -125,4 +125,16 @@ class AuthCubit extends Cubit<AuthState> {
       emit(ResendOtpFailureState(errorMessage: e.toString()));
     }
   }
+
+  void passConditions(String pass) async {
+    final isLengthValid = pass.length >= 8;
+    final hasSymbolOrNumber = pass.contains(RegExp(r'[0-9!@#\$&*~+-=_%^()]'));
+
+    emit(
+      NewPassConditionsState(
+        isLengthValid: isLengthValid,
+        hasSymbolOrNumber: hasSymbolOrNumber,
+      ),
+    );
+  }
 }

@@ -45,3 +45,13 @@ class ResendOtpSuccessState extends AuthState {
   final MessageResponseModel msg;
   ResendOtpSuccessState({required this.msg});
 }
+
+class NewPassConditionsState extends AuthState {
+  final bool isLengthValid;
+  final bool hasSymbolOrNumber;
+
+  NewPassConditionsState({
+    this.isLengthValid = false,
+    this.hasSymbolOrNumber = false,
+  });
+}
