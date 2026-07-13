@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../screens/product_details_screen.dart';
-
 class AddProductListview extends StatelessWidget {
   const AddProductListview({super.key});
 
@@ -15,10 +13,10 @@ class AddProductListview extends StatelessWidget {
           final theme = Theme.of(context);
           return InkWell(
             onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => ProductDetailsScreen(productId: 'product_id',)),
-              );
+              // Navigator.push(
+              //   context,
+              //   MaterialPageRoute(builder: (context) => ProductDetailsScreen()),
+              // );
             },
             child: Card(
               margin: EdgeInsets.only(bottom: 16),
@@ -71,6 +69,7 @@ class AddProductListview extends StatelessWidget {
                         "assets/icons/delete.svg",
                         height: 20,
                         width: 20,
+                        // ignore: deprecated_member_use
                         color: theme.iconTheme.color,
                       ),
                     ),

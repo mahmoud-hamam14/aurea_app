@@ -9,14 +9,8 @@ import 'glass_icon_button.dart';
 class HeroCarousel extends StatefulWidget {
   final int bagCount;
   final VoidCallback onBack;
-  final List<String> images;
 
-  const HeroCarousel({
-    super.key,
-    required this.bagCount,
-    required this.onBack,
-    required this.images,
-  });
+  const HeroCarousel({super.key, required this.bagCount, required this.onBack});
 
   @override
   State<HeroCarousel> createState() => _HeroCarouselState();
@@ -31,14 +25,12 @@ class _HeroCarouselState extends State<HeroCarousel> {
   void initState() {
     super.initState();
     _auto = Timer.periodic(const Duration(seconds: 5), (_) {
-      if (widget.images.isNotEmpty) {
-        final next = (_page + 1) % widget.images.length;
-        _controller.animateToPage(
-          next,
-          duration: const Duration(milliseconds: 450),
-          curve: Curves.easeInOutCubic,
-        );
-      }
+      final next = (_page + 1) % heroImages.length;
+      _controller.animateToPage(
+        next,
+        duration: const Duration(milliseconds: 450),
+        curve: Curves.easeInOutCubic,
+      );
     });
   }
 
@@ -58,18 +50,13 @@ class _HeroCarouselState extends State<HeroCarousel> {
         children: [
           PageView.builder(
             controller: _controller,
-            itemCount: widget.images.length,
+            itemCount: heroImages.length,
             onPageChanged: (i) => setState(() => _page = i),
             itemBuilder: (context, i) {
               return Stack(
                 fit: StackFit.expand,
                 children: [
-                  Image.network(
-                    widget.images[i],
-                    fit: BoxFit.cover,
-                    errorBuilder: (context, error, stackTrace) =>
-                        const Center(child: Icon(Icons.broken_image)),
-                  ),
+                  Image.network(heroImages[i], fit: BoxFit.cover),
                   Container(
                     // Photo-overlay chrome — intentionally theme-independent,
                     // this sits on top of a photograph, not the UI surface.
@@ -154,7 +141,7 @@ class _HeroCarouselState extends State<HeroCarousel> {
             right: 0,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: List.generate(widget.images.length, (i) {
+              children: List.generate(heroImages.length, (i) {
                 final active = i == _page;
                 return GestureDetector(
                   onTap: () => _controller.animateToPage(

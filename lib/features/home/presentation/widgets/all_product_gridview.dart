@@ -20,7 +20,7 @@ class AllProductGridView extends StatelessWidget {
         } else if (state is ProductsSuccessState) {
           return GridView.builder(
             shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
+            physics: const NeverScrollableScrollPhysics(),
 
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               childAspectRatio: 0.70,
@@ -43,8 +43,7 @@ class AllProductGridView extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) =>
-                            ProductDetailsScreen(productId: product.id),
+                        builder: (context) => const ProductDetailsScreen(),
                       ),
                     );
                   },
@@ -62,7 +61,7 @@ class AllProductGridView extends StatelessWidget {
                                 width: double.infinity,
                                 height: double.infinity,
                                 errorBuilder: (context, error, stackTrace) {
-                                  return Icon(Icons.image_not_supported);
+                                  return const Icon(Icons.image_not_supported);
                                 },
                               ),
                             ),
@@ -79,7 +78,7 @@ class AllProductGridView extends StatelessWidget {
                                 ),
                                 child: IconButton(
                                   onPressed: () {},
-                                  icon: Icon(
+                                  icon: const Icon(
                                     Icons.favorite_border,
                                     color: AppColors.darkBackground,
                                     size: 18,
@@ -108,7 +107,7 @@ class AllProductGridView extends StatelessWidget {
                             "${product.price} SAR",
                             style: TextStyle(
                               fontWeight: FontWeight.w400,
-                              color: Color.fromARGB(255, 158, 125, 16),
+                              color: const Color.fromARGB(255, 158, 125, 16),
                               fontSize: 16,
                             ),
                           ),

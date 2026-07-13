@@ -90,10 +90,7 @@ class OrderSummary extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8),
                 ),
               ),
-              onPressed: ()
-              {
-              },
-
+              onPressed: () {},
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

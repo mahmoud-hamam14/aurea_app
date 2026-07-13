@@ -4,18 +4,16 @@ import 'package:nti_ecommerce_team4/features/products/presentation/widgets/start
 import '../screens/product_details_screen.dart';
 
 class RatingRow extends StatelessWidget {
-  final double rating;
-  final int reviewsCount;
-  const RatingRow({super.key, required this.rating, required this.reviewsCount});
+  const RatingRow({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
-        StarRating(rating: rating, size: 14),
+        const StarRating(rating: 4.9, size: 14),
         const SizedBox(width: 8),
         Text(
-          '$rating',
+          '4.9',
           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
             fontWeight: FontWeight.w600,
             fontSize: 13,
@@ -24,7 +22,7 @@ class RatingRow extends StatelessWidget {
         ),
         const SizedBox(width: 4),
         Text(
-          '($reviewsCount reviews)',
+          '(120 reviews)',
           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
             fontSize: 12.5,
             color: context.textSecondary,
