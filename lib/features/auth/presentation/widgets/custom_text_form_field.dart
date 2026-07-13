@@ -8,6 +8,7 @@ class CustomTextFormField extends StatelessWidget {
     this.prefixIcon,
     this.suffixIcon,
     this.validator,
+    this.onChanged,
   });
 
   final String labelText;
@@ -16,12 +17,13 @@ class CustomTextFormField extends StatelessWidget {
 
   final TextEditingController? controller;
   final String? Function(String?)? validator;
+  final Function(String)? onChanged;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       autovalidateMode: AutovalidateMode.onUserInteraction,
-
+      onChanged: onChanged,
       validator: validator,
       controller: controller,
       decoration: InputDecoration(

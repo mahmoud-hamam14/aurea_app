@@ -14,7 +14,7 @@ import 'package:nti_ecommerce_team4/features/auth/presentation/widgets/custom_bu
 import 'package:nti_ecommerce_team4/features/auth/presentation/widgets/custom_text_form_field.dart';
 import 'package:nti_ecommerce_team4/features/auth/presentation/widgets/password_conditions.dart';
 
-class CreateNewPasswordScreen extends StatelessWidget {
+class CreateNewPasswordScreen extends StatefulWidget {
   const CreateNewPasswordScreen({
     super.key,
     required this.email,
@@ -22,12 +22,26 @@ class CreateNewPasswordScreen extends StatelessWidget {
   });
   final String email;
   final String otp;
+
+  @override
+  State<CreateNewPasswordScreen> createState() =>
+      _CreateNewPasswordScreenState();
+}
+
+class _CreateNewPasswordScreenState extends State<CreateNewPasswordScreen> {
+  final TextEditingController passController = TextEditingController();
+  final TextEditingController confirmPassController = TextEditingController();
+
+  final GlobalKey<FormState> myKey = GlobalKey();
+  Color color = AppColors.lightTextSecondary;
+  @override
+  void dispose() {
+    passController.dispose(); // ممارسة ممتازة عشان الذاكرة
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final TextEditingController passController = TextEditingController();
-    final TextEditingController confirmPassController = TextEditingController();
-
-    final GlobalKey<FormState> myKey = GlobalKey();
     return Scaffold(
       appBar: AuthAppbar(),
       body: SafeArea(
@@ -63,6 +77,9 @@ class CreateNewPasswordScreen extends StatelessWidget {
                       validator: (pass) {
                         return Validator.validatePassword(pass!);
                       },
+                      onChanged: (value) {
+                        setState(() {});
+                      },
                     ),
                     Gap(20),
                     CustomTextFormField(
@@ -72,11 +89,28 @@ class CreateNewPasswordScreen extends StatelessWidget {
                       validator: (pass) {
                         return Validator.validatePassword(pass!);
                       },
+                      onChanged: (value) {
+                        setState(() {});
+                      },
                     ),
                     Gap(32),
-                    PasswordConditions(text: "At least 8 characters long"),
+
+                    PasswordConditions(
+                      text: "At least 8 characters long",
+                      stateColor: passController.text.length >= 8
+                          ? Colors.green
+                          : AppColors.lightTextSecondary,
+                    ),
                     Gap(5),
-                    PasswordConditions(text: "Contains a symbol or number"),
+                    PasswordConditions(
+                      text: "Contains a symbol or number",
+                      stateColor:
+                          passController.text.contains(
+                            RegExp(r'[0-9!@#\$&*~+-=_%^()]'),
+                          )
+                          ? Colors.green
+                          : AppColors.lightTextSecondary,
+                    ),
                     Gap(32),
                     BlocConsumer<AuthCubit, AuthState>(
                       listener: (context, state) {
@@ -120,8 +154,8 @@ class CreateNewPasswordScreen extends StatelessWidget {
                                 if (confirmPassController.text ==
                                     passController.text) {
                                   context.read<AuthCubit>().resetPassword(
-                                    email: email,
-                                    otp: otp,
+                                    email: widget.email,
+                                    otp: widget.otp,
                                     newPassword: confirmPassController.text,
                                   );
                                 } else {

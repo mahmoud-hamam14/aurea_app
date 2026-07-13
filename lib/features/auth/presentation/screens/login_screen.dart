@@ -51,23 +51,24 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
           key: myKey,
           child: Column(
             children: [
-              const Gap(50),
+              const Gap(15),
               //* AuthHeader
               const Image(
                 image: AssetImage('assets/images/logo.png'),
-                height: 130,
-                width: 130,
+                height: 120,
+                width: 120,
               ),
 
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                margin: EdgeInsets.symmetric(vertical: 40, horizontal: 15),
+                margin: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
                 decoration: BoxDecoration(
                   // color: AppColors.lightBackground,
                   borderRadius: BorderRadius.circular(50),
                   border: Border.all(color: AppColors.lightBorder),
                 ),
                 child: Column(
+                  spacing: 4,
                   children: [
                     const Gap(25),
                     const AuthHeader(
@@ -121,7 +122,7 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
                       ),
                     ),
 
-                    const Gap(25),
+                    const Gap(20),
                     BlocConsumer<AuthCubit, AuthState>(
                       listener: (context, state) {
                         if (state is AuthSuccessState) {
@@ -193,11 +194,10 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
                       },
                     ),
 
-                    const Gap(30),
+                    const Gap(25),
                   ],
                 ),
               ),
-              const Gap(50),
             ],
           ),
         ),
