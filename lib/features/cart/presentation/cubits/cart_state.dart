@@ -15,3 +15,14 @@ final class CartError extends CartState {
   final String errorMessage;
   CartError({required this.errorMessage});
 }
+
+final class AddToCartLoading extends CartState {
+  final String buttonId; // 'buyNow' or 'addToCart'
+  AddToCartLoading({required this.buttonId});
+}
+
+final class AddToCartSuccess extends CartState {
+  final String message;
+  final String buttonId;
+  AddToCartSuccess({required this.message, required this.buttonId});
+}

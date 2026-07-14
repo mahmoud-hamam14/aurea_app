@@ -8,7 +8,10 @@ class ProductDetailsRemoteDataSource {
   // Required task: get product by id
   Future<ProductItem> getProductDetails(String productId) async {
     try {
-      final response = await DioHelper.get(url: "products/$productId");
+      final response = await DioHelper.dio.get(
+        "products/$productId",
+        options: Options(contentType: null),
+      );
       log("Product details response: ${response.data}");
       return ProductItem.fromJson(response.data);
     } catch (e) {
@@ -20,9 +23,10 @@ class ProductDetailsRemoteDataSource {
   // Required task: get reviews
   Future<ReviewResponse> getReviews(String productId) async {
     try {
-      final response = await DioHelper.get(
-        url: "reviews/$productId",
-        queryParameters: {"page": 1, "limit": 10},
+      final response = await DioHelper.dio.get(
+        "reviews/$productId",
+        queryParameters: {"page": 1, "pageSize": 10},
+        options: Options(contentType: null),
       );
       return ReviewResponse.fromJson(response.data);
     } catch (e) {
