@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:nti_ecommerce_team4/features/home/data/models/offers_model.dart';
 import 'package:nti_ecommerce_team4/features/home/presentation/cubits/offers_cubit/offers_cubit.dart';
 import 'package:nti_ecommerce_team4/features/home/presentation/cubits/offers_cubit/offers_states.dart';
 
@@ -19,10 +20,13 @@ class OfferSection extends StatelessWidget {
         } else if (state is OffersFailiurState) {
           return Center(child: Text("Something went wrong"));
         } else if (state is OffersSuccessState) {
-          final offer = state.offers.first;
-          log(offer.coverul);
+          List<OffersModel>offers=state.offers;
+          List<OffersModel>last4Offers= offers.length>=4 
+          ? offers.sublist((offers.length - 4))
+          :offers;
+          
           return CarouselSlider(
-            items: state.offers.map((offer) {
+            items: last4Offers.map((offer) {
               return SizedBox(
                 height: 300,
                 width: double.infinity,
