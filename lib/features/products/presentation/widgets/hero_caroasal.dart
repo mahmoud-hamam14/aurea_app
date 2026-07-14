@@ -54,7 +54,8 @@ class _HeroCarouselState extends State<HeroCarousel> {
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.sizeOf(context).height;
     // Responsive height: adjusts based on screen height
-    final double carouselHeight = widget.height ?? (screenHeight * 0.45).clamp(300.0, 500.0);
+    final double carouselHeight =
+        widget.height ?? (screenHeight * 0.45).clamp(300.0, 500.0);
 
     return SizedBox(
       height: carouselHeight,
@@ -80,7 +81,11 @@ class _HeroCarouselState extends State<HeroCarousel> {
                       gradient: LinearGradient(
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
-                        colors: [Color(0x59141210), Color(0x00141210), Color(0x8C141210)],
+                        colors: [
+                          Color(0x59141210),
+                          Color(0x00141210),
+                          Color(0x8C141210),
+                        ],
                         stops: [0.0, 0.4, 1.0],
                       ),
                     ),
@@ -96,7 +101,10 @@ class _HeroCarouselState extends State<HeroCarousel> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                GlassIconButton(icon: Icons.arrow_back_ios_new_rounded, onTap: widget.onBack),
+                GlassIconButton(
+                  icon: Icons.arrow_back_ios_new_rounded,
+                  onTap: widget.onBack,
+                ),
                 const Text(
                   'AUREA',
                   style: TextStyle(
@@ -110,13 +118,9 @@ class _HeroCarouselState extends State<HeroCarousel> {
               ],
             ),
           ),
-          Positioned(
-            bottom: 20,
-            left: 0,
-            right: 0,
-            child: _buildDots(),
-          ),
-      ],
+          Positioned(bottom: 20, left: 0, right: 0, child: _buildDots()),
+        ],
+      ),
     );
   }
 
@@ -131,10 +135,17 @@ class _HeroCarouselState extends State<HeroCarousel> {
             right: -4,
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
-              decoration: BoxDecoration(color: context.gold, borderRadius: BorderRadius.circular(10)),
+              decoration: BoxDecoration(
+                color: context.gold,
+                borderRadius: BorderRadius.circular(10),
+              ),
               child: Text(
                 '${widget.bagCount}',
-                style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Colors.black),
+                style: const TextStyle(
+                  fontSize: 10,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
               ),
             ),
           ),
