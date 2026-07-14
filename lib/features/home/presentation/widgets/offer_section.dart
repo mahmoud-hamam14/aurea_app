@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,7 +7,7 @@ import 'package:nti_ecommerce_team4/features/home/presentation/cubits/offers_cub
 import 'package:nti_ecommerce_team4/features/home/presentation/cubits/offers_cubit/offers_states.dart';
 
 class OfferSection extends StatelessWidget {
-  const OfferSection({super.key,required this.onShopNow});
+  const OfferSection({super.key, required this.onShopNow});
   final VoidCallback onShopNow;
 
   @override

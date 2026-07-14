@@ -14,7 +14,7 @@ class AllProductGridView extends StatelessWidget {
     return BlocBuilder<ProductsCubit, ProductsStates>(
       builder: (context, state) {
         if (state is ProductsLoadingState) {
-          return Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator());
         } else if (state is ProductsFailiurState) {
           return Center(child: Text(state.message));
         } else if (state is ProductsSuccessState) {
@@ -36,7 +36,6 @@ class AllProductGridView extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15),
                 ),
-
                 elevation: 0,
                 color: Colors.transparent,
                 child: InkWell(
@@ -71,7 +70,6 @@ class AllProductGridView extends StatelessWidget {
                                 },
                               ),
                             ),
-
                             Positioned(
                               top: 8,
                               right: 8,
@@ -103,32 +101,32 @@ class AllProductGridView extends StatelessWidget {
                           ],
                         ),
                       ),
-                      SizedBox(height: 10),
-
+                      const SizedBox(height: 10),
                       Text(
                         product.name,
-                        style: TextStyle(
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
                           fontSize: 16,
                           fontFamily: 'Inter',
                           fontWeight: FontWeight.w400,
                         ),
                       ),
-
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
                             "${product.price} SAR",
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontWeight: FontWeight.w400,
                               color: Color.fromARGB(255, 158, 125, 16),
                               fontSize: 16,
                             ),
                           ),
-                          SizedBox(width: 5),
+                          const SizedBox(width: 5),
                           IconButton.filled(
                             onPressed: () {},
-                            icon: Icon(Icons.add),
+                            icon: const Icon(Icons.add),
                             iconSize: 20,
                           ),
                         ],
@@ -140,7 +138,7 @@ class AllProductGridView extends StatelessWidget {
             },
           );
         } else {
-          return SizedBox.shrink();
+          return const SizedBox.shrink();
         }
       },
     );
