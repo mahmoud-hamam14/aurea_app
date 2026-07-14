@@ -62,10 +62,12 @@ class AllProductGridView extends StatelessWidget {
                                 width: double.infinity,
                                 height: double.infinity,
                                 errorBuilder: (context, error, stackTrace) {
-                                  return Image.asset('assets/images/beso.jpg',
-                                  fit: BoxFit.cover,
-                                width: double.infinity,
-                                height: double.infinity,);
+                                  return Image.asset(
+                                    'assets/images/No-Image-Placeholder1.webp',
+                                    fit: BoxFit.cover,
+                                    width: double.infinity,
+                                    height: double.infinity,
+                                  );
                                 },
                               ),
                             ),

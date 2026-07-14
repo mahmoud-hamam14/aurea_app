@@ -53,7 +53,8 @@ extension AureaThemeX on BuildContext {
 
   Color get success => AppColors.success;
 
-  Color get successBg => AppColors.success.withValues(alpha: isDark ? 0.18 : 0.12);
+  Color get successBg =>
+      AppColors.success.withValues(alpha: isDark ? 0.18 : 0.12);
 }
 
 const heroImages = [
@@ -160,6 +161,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                         onBack: () {
                           Navigator.pop(context);
                         },
+                        images: [],
                       ),
                       Padding(
                         padding: const EdgeInsets.fromLTRB(20, 20, 20, 8),
