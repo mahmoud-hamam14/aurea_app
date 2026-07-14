@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nti_ecommerce_team4/core/theme/app_theme.dart';
+import 'package:nti_ecommerce_team4/features/cart/presentation/cubits/add_to_cart_cubit.dart';
 import 'package:nti_ecommerce_team4/features/home/presentation/cubits/products_cubit/products_cubit.dart';
 import 'package:nti_ecommerce_team4/features/home/presentation/cubits/products_cubit/products_states.dart';
+
+import '../../../cart/presentation/cubits/add_to_cart_state.dart';
 
 import '../../../products/presentation/screens/product_details_screen.dart';
 
@@ -11,8 +14,33 @@ class AllProductGridView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ProductsCubit, ProductsStates>(
-      builder: (context, state) {
+    return BlocListener<AddToCartCubit, AddToCartState>(
+      listener: (context, state) {
+        if (state is AddToCartSuccess) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(state.message),
+              backgroundColor: Colors.green,
+              duration: const Duration(seconds: 2),
+            ),
+          );
+        } else if (state is CartError) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(state.errorMessage),
+              backgroundColor: Colors.red,
+              duration: const Duration(seconds: 2),
+            ),
+          );
+        }
+      },
+      child: BlocBuilder<ProductsCubit, ProductsStates>(
+        buildWhen: (previous, current) =>
+            current is ProductsLoadingState ||
+            current is ProductsFailiurState ||
+            current is ProductsSuccessState,
+        builder: (context, state) {
+
         if (state is ProductsLoadingState) {
           return const Center(child: CircularProgressIndicator());
         } else if (state is ProductsFailiurState) {
@@ -41,9 +69,10 @@ class AllProductGridView extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => ProductDetailsScreen(
-                          productId: product.id,
-                        ),
+                        builder: (context) =>
+                            ProductDetailsScreen(
+                              productId: product.id,
+                            ),
                       ),
                     );
                   },
@@ -111,10 +140,30 @@ class AllProductGridView extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(width: 5),
-                          IconButton.filled(
-                            onPressed: () {},
-                            icon: const Icon(Icons.add),
-                            iconSize: 20,
+                          BlocBuilder<AddToCartCubit, AddToCartState>(
+                            builder: (context, state) {
+                              if (state is AddToCartLoading && state.buttonId == "addToCart_${product.id}") {
+                                return const SizedBox(
+                                  width: 40,
+                                  height: 40,
+                                  child: Padding(
+                                    padding: EdgeInsets.all(8.0),
+                                    child: CircularProgressIndicator(strokeWidth: 2),
+                                  ),
+                                );
+                              }
+                              return IconButton.filled(
+                                onPressed: () {
+                                  context.read<AddToCartCubit>().addToCart(
+                                        1,
+                                        productId: product.id,
+                                        buttonId: "addToCart_${product.id}",
+                                      );
+                                },
+                                icon: const Icon(Icons.add),
+                                iconSize: 20,
+                              );
+                            },
                           ),
                         ],
                       ),
@@ -128,6 +177,7 @@ class AllProductGridView extends StatelessWidget {
           return const SizedBox.shrink();
         }
       },
-    );
+    ),
+);
   }
 }

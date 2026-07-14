@@ -7,7 +7,6 @@ import 'package:provider/provider.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-
   DioHelper.init();
 
   runApp(

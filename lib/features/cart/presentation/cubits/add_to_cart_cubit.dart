@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:nti_ecommerce_team4/core/error/api_error_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../data/date_source/cart_remote_data_source.dart';
+import '../../data/date_source/cart_get_data.dart';
 import 'add_to_cart_state.dart';
 
 class AddToCartCubit extends Cubit<AddToCartState> {
@@ -10,8 +10,8 @@ class AddToCartCubit extends Cubit<AddToCartState> {
   AddToCartCubit(this.cartRemoteDataSource) : super(CartInitial());
 
   Future<void> addToCart(
-    String productId,
-    int quantity, {
+       int quantity,
+     {required String productId,
     required String buttonId,
   }) async {
     emit(AddToCartLoading(buttonId: buttonId));

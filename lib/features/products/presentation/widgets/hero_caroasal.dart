@@ -6,6 +6,7 @@ import 'glass_icon_button.dart';
 class HeroCarousel extends StatefulWidget {
   final int bagCount;
   final VoidCallback onBack;
+  final VoidCallback? onAdd;
   final List<String> images;
   final double? height;
 
@@ -14,6 +15,7 @@ class HeroCarousel extends StatefulWidget {
     required this.bagCount,
     required this.onBack,
     required this.images,
+    this.onAdd,
     this.height,
   });
 
@@ -110,6 +112,15 @@ class _HeroCarouselState extends State<HeroCarousel> {
               ],
             ),
           ),
+          if (widget.onAdd != null)
+            Positioned(
+              bottom: 20,
+              right: 16,
+              child: GlassIconButton(
+                icon: Icons.add_rounded,
+                onTap: widget.onAdd!,
+              ),
+            ),
           Positioned(
             bottom: 20,
             left: 0,

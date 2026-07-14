@@ -24,7 +24,7 @@ class ProductDetailsCubit extends Cubit<ProductDetailsState> {
         if (kDebugMode) {
           print('Error fetching reviews: $e');
         }}
-      
+
       emit(ProductDetailsSuccess(
         product: product,
         reviews: reviews,

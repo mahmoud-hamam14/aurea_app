@@ -1,13 +1,13 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:nti_ecommerce_team4/features/cart/data/date_source/cart_remote_data_source.dart';
 import 'package:nti_ecommerce_team4/features/cart/presentation/cubits/add_to_cart_cubit.dart';
 import 'package:nti_ecommerce_team4/features/cart/presentation/cubits/add_to_cart_state.dart';
 import 'package:nti_ecommerce_team4/features/cart/presentation/screens/cart_screen.dart';
 import 'package:nti_ecommerce_team4/features/products/data/date_source/product_details_remote_data_source.dart';
 import 'package:nti_ecommerce_team4/features/products/presentation/cubits/product_details_cubit.dart';
 import '../../../../core/theme/app_theme.dart';
+import '../../../cart/data/date_source/cart_get_data.dart';
 import '../widgets/add_cart_button.dart';
 import '../widgets/buy_now_button.dart';
 import '../widgets/chain_divider.dart';
@@ -266,9 +266,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                       return BuyNowButton(
                         onTap: () {
                           blocContext.read<AddToCartCubit>().addToCart(
-                            product.id,
-                            qty,
-                            buttonId: 'buyNow',
+                            qty, buttonId: 'buyNow', productId: product.id,
                           );
                         },
                       );
@@ -292,9 +290,10 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                       return AddToCartButton(
                         onAdded: () {
                           blocContext.read<AddToCartCubit>().addToCart(
-                            product.id,
-                            qty,
-                            buttonId: 'addToCart',
+
+
+
+                            buttonId: 'addToCart', productId: product.id,  qty,
                           );
                         },
                       );

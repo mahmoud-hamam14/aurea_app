@@ -1,3 +1,5 @@
+import 'package:nti_ecommerce_team4/features/cart/data/models/cart_item_model.dart';
+
 import '../../data/models/cart_model.dart';
 
 sealed class AddToCartState {}
@@ -7,7 +9,7 @@ final class CartInitial extends AddToCartState {}
 final class CartLoading extends AddToCartState {}
 
 final class CartSuccess extends AddToCartState {
-  final List<CartModel> cartItems;
+  final List<CartItemModel> cartItems;
   CartSuccess({required this.cartItems});
 }
 

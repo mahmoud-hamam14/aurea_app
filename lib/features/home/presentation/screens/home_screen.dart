@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:nti_ecommerce_team4/features/cart/data/date_source/cart_get_data.dart';
+import 'package:nti_ecommerce_team4/features/cart/presentation/cubits/add_to_cart_cubit.dart';
 import 'package:nti_ecommerce_team4/features/categories/presentation/cubits/categories_cubit.dart';
 import 'package:nti_ecommerce_team4/features/home/presentation/cubits/offers_cubit/offers_cubit.dart';
 import 'package:nti_ecommerce_team4/features/home/presentation/cubits/products_cubit/products_cubit.dart';
@@ -19,7 +21,9 @@ class _HomeScreenState extends State<HomeScreen> {
   final GlobalKey collectionsKey = GlobalKey();
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return BlocProvider(
+  create: (context) => AddToCartCubit(CartRemoteDataSource()),
+  child: Scaffold(
       drawer: const DevDrawer(),
 
       appBar: AppBar(
@@ -152,6 +156,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ),
-    );
+    ),
+);
   }
 }
