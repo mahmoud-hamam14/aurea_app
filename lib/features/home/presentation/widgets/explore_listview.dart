@@ -43,7 +43,7 @@ class ExploreListView extends StatelessWidget {
                                   width: 70,
                                   height: 70,
                                   fit: BoxFit.cover,
-                                  errorBuilder: (_, __, ___) {
+                                  errorBuilder: (_, _, _) {
                                     return Image.asset(
                                       "assets/images/beso.jpg",
                                       width: 70,
