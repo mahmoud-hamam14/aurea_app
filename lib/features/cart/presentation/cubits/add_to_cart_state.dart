@@ -1,27 +1,27 @@
 import '../../data/models/cart_model.dart';
 
-sealed class CartState {}
+sealed class AddToCartState {}
 
-final class CartInitial extends CartState {}
+final class CartInitial extends AddToCartState {}
 
-final class CartLoading extends CartState {}
+final class CartLoading extends AddToCartState {}
 
-final class CartSuccess extends CartState {
+final class CartSuccess extends AddToCartState {
   final List<CartModel> cartItems;
   CartSuccess({required this.cartItems});
 }
 
-final class CartError extends CartState {
+final class CartError extends AddToCartState {
   final String errorMessage;
   CartError({required this.errorMessage});
 }
 
-final class AddToCartLoading extends CartState {
+final class AddToCartLoading extends AddToCartState {
   final String buttonId; // 'buyNow' or 'addToCart'
   AddToCartLoading({required this.buttonId});
 }
 
-final class AddToCartSuccess extends CartState {
+final class AddToCartSuccess extends AddToCartState {
   final String message;
   final String buttonId;
   AddToCartSuccess({required this.message, required this.buttonId});

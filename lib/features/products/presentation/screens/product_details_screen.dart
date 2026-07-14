@@ -2,8 +2,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nti_ecommerce_team4/features/cart/data/date_source/cart_remote_data_source.dart';
-import 'package:nti_ecommerce_team4/features/cart/presentation/cubits/cart_cubit.dart';
-import 'package:nti_ecommerce_team4/features/cart/presentation/cubits/cart_state.dart';
+import 'package:nti_ecommerce_team4/features/cart/presentation/cubits/add_to_cart_cubit.dart';
+import 'package:nti_ecommerce_team4/features/cart/presentation/cubits/add_to_cart_state.dart';
 import 'package:nti_ecommerce_team4/features/cart/presentation/screens/cart_screen.dart';
 import 'package:nti_ecommerce_team4/features/products/data/date_source/product_details_remote_data_source.dart';
 import 'package:nti_ecommerce_team4/features/products/presentation/cubits/product_details_cubit.dart';
@@ -58,7 +58,8 @@ extension AureaThemeX on BuildContext {
 
   Color get success => AppColors.success;
 
-  Color get successBg => AppColors.success.withValues(alpha: isDark ? 0.18 : 0.12);
+  Color get successBg =>
+      AppColors.success.withValues(alpha: isDark ? 0.18 : 0.12);
 }
 
 class ProductDetailsScreen extends StatefulWidget {
@@ -92,11 +93,11 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                 ..getProductDetails(widget.productId),
         ),
         BlocProvider(
-          create: (context) => CartCubit(CartRemoteDataSource()),
+          create: (context) => AddToCartCubit(CartRemoteDataSource()),
         ),
       ],
       child: Scaffold(
-        body: BlocListener<CartCubit, CartState>(
+        body: BlocListener<AddToCartCubit, AddToCartState>(
           listener: (context, state) {
             if (state is AddToCartSuccess) {
               if (state.buttonId == 'buyNow') {
@@ -148,13 +149,15 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                         decoration: BoxDecoration(
                           color: context.cardColor,
                           borderRadius: BorderRadius.circular(isWide ? 34 : 0),
-                          boxShadow: isWide ? [
-                            BoxShadow(
-                              color: Colors.black.withValues(alpha: 0.08),
-                              blurRadius: 30,
-                              offset: const Offset(0, 10),
-                            ),
-                          ] : null,
+                          boxShadow: isWide
+                              ? [
+                                  BoxShadow(
+                                    color: Colors.black.withValues(alpha: 0.08),
+                                    blurRadius: 30,
+                                    offset: const Offset(0, 10),
+                                  ),
+                                ]
+                              : null,
                         ),
                         clipBehavior: Clip.antiAlias,
                         child: Stack(
@@ -175,7 +178,10 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                     flex: 6,
                                     child: SingleChildScrollView(
                                       padding: const EdgeInsets.all(40),
-                                      child: _buildProductInfo(product, reviews),
+                                      child: _buildProductInfo(
+                                        product,
+                                        reviews,
+                                      ),
                                     ),
                                   ),
                                 ],
@@ -192,7 +198,10 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.all(20),
-                                      child: _buildProductInfo(product, reviews),
+                                      child: _buildProductInfo(
+                                        product,
+                                        reviews,
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -217,10 +226,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        TitleRow(
-          name: product.name,
-          arabicName: product.arabicName,
-        ),
+        TitleRow(name: product.name, arabicName: product.arabicName),
         const SizedBox(height: 12),
         RatingRow(
           rating: product.rating.toDouble(),
@@ -239,45 +245,67 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           arabicDescription: product.arabicDescription,
         ),
         const SizedBox(height: 30),
-        
-        Builder(builder: (blocContext) {
-          return Row(
-            children: [
-              Expanded(
-                child: BlocBuilder<CartCubit, CartState>(
-                  builder: (context, cartState) {
-                    if (cartState is AddToCartLoading && cartState.buttonId == 'buyNow') {
-                      return const Center(
-                        child: SizedBox(height: 24, width: 24, child: CircularProgressIndicator(strokeWidth: 2))
+
+        Builder(
+          builder: (blocContext) {
+            return Row(
+              children: [
+                Expanded(
+                  child: BlocBuilder<AddToCartCubit, AddToCartState>(
+                    builder: (context, cartState) {
+                      if (cartState is AddToCartLoading &&
+                          cartState.buttonId == 'buyNow') {
+                        return const Center(
+                          child: SizedBox(
+                            height: 24,
+                            width: 24,
+                            child: CircularProgressIndicator(strokeWidth: 2),
+                          ),
+                        );
+                      }
+                      return BuyNowButton(
+                        onTap: () {
+                          blocContext.read<AddToCartCubit>().addToCart(
+                            product.id,
+                            qty,
+                            buttonId: 'buyNow',
+                          );
+                        },
                       );
-                    }
-                    return BuyNowButton(onTap: () {
-                      blocContext.read<CartCubit>().addToCart(product.id, qty, buttonId: 'buyNow');
-                    });
-                  },
+                    },
+                  ),
                 ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: BlocBuilder<CartCubit, CartState>(
-                  builder: (context, cartState) {
-                    if (cartState is AddToCartLoading && cartState.buttonId == 'addToCart') {
-                      return const Center(
-                        child: SizedBox(height: 24, width: 24, child: CircularProgressIndicator(strokeWidth: 2))
+                const SizedBox(width: 12),
+                Expanded(
+                  child: BlocBuilder<AddToCartCubit, AddToCartState>(
+                    builder: (context, cartState) {
+                      if (cartState is AddToCartLoading &&
+                          cartState.buttonId == 'addToCart') {
+                        return const Center(
+                          child: SizedBox(
+                            height: 24,
+                            width: 24,
+                            child: CircularProgressIndicator(strokeWidth: 2),
+                          ),
+                        );
+                      }
+                      return AddToCartButton(
+                        onAdded: () {
+                          blocContext.read<AddToCartCubit>().addToCart(
+                            product.id,
+                            qty,
+                            buttonId: 'addToCart',
+                          );
+                        },
                       );
-                    }
-                    return AddToCartButton(
-                      onAdded: () {
-                        blocContext.read<CartCubit>().addToCart(product.id, qty, buttonId: 'addToCart');
-                      },
-                    );
-                  },
+                    },
+                  ),
                 ),
-              ),
-            ],
-          );
-        }),
-        
+              ],
+            );
+          },
+        ),
+
         const SizedBox(height: 32),
         SpecsAccordion(product: product),
         const SizedBox(height: 28),
@@ -293,27 +321,48 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
         ),
         const SizedBox(height: 40),
         if (reviews.isNotEmpty) ...[
-          const SectionLabel(icon: Icons.reviews_outlined, label: 'Customer Reviews'),
+          const SectionLabel(
+            icon: Icons.reviews_outlined,
+            label: 'Customer Reviews',
+          ),
           const SizedBox(height: 20),
-          ...reviews.take(3).map((review) => Padding(
-                padding: const EdgeInsets.only(bottom: 20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Text(review.userName,
-                            style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 14)),
-                        const Spacer(),
-                        StarRating(rating: review.rating.toDouble(), size: 13),
-                      ],
-                    ),
-                    const SizedBox(height: 6),
-                    Text(review.comment,
-                        style: TextStyle(color: context.textSecondary, fontSize: 13.5, height: 1.5)),
-                  ],
+          ...reviews
+              .take(3)
+              .map(
+                (review) => Padding(
+                  padding: const EdgeInsets.only(bottom: 20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Text(
+                            review.userName,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w700,
+                              fontSize: 14,
+                            ),
+                          ),
+                          const Spacer(),
+                          StarRating(
+                            rating: review.rating.toDouble(),
+                            size: 13,
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 6),
+                      Text(
+                        review.comment,
+                        style: TextStyle(
+                          color: context.textSecondary,
+                          fontSize: 13.5,
+                          height: 1.5,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              )),
+              ),
         ],
         const SizedBox(height: 24),
       ],
@@ -336,17 +385,29 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             opacity: toastMessage == null ? 0 : 1,
             child: IgnorePointer(
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 12),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 22,
+                  vertical: 12,
+                ),
                 decoration: BoxDecoration(
-                  color: context.isDark ? AppColors.darkSurfaceAlt : Colors.black,
+                  color: context.isDark
+                      ? AppColors.darkSurfaceAlt
+                      : Colors.black,
                   borderRadius: BorderRadius.circular(30),
                   boxShadow: [
-                    BoxShadow(color: Colors.black.withValues(alpha: 0.1), blurRadius: 10)
-                  ]
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.1),
+                      blurRadius: 10,
+                    ),
+                  ],
                 ),
                 child: Text(
                   toastMessage!,
-                  style: const TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.w600),
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 13,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
             ),
