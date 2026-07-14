@@ -33,7 +33,7 @@ class DevDrawer extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const ProductDetailsScreen(productId: 'sdag'),
+                  builder: (context) => const ProductDetailsScreen(),
                 ),
               );
             },

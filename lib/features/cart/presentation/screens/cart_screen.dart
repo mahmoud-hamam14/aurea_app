@@ -43,9 +43,7 @@ class _CartScreenState extends State<CartScreen> {
         body: BlocBuilder<CartCubit, CartState>(
           builder: (context, state) {
             if (state is CartLoadingState) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
+              return const Center(child: CircularProgressIndicator());
             }
 
             if (state is CartErrorState) {
@@ -70,8 +68,8 @@ class _CartScreenState extends State<CartScreen> {
                         state.errorMessage,
                         textAlign: TextAlign.center,
                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                              color: Colors.red[400],
-                            ),
+                          color: Colors.red[400],
+                        ),
                       ),
                       const SizedBox(height: 24),
                       ElevatedButton.icon(
@@ -142,13 +140,18 @@ class _CartScreenState extends State<CartScreen> {
                 const SizedBox(height: 16),
                 ...items.map((item) {
                   return ProductItem(
-                    key: ValueKey(item.id),
-                    title: item.name,
-                    subtitle: item.description,
-                    price: "€${item.price.toStringAsFixed(2)}",
-                    imageUrl: item.coverPictureUrl,
+                    key: ValueKey(item.itemId),
+
+                    title: item.productName,
+
+                    subtitle: "Quantity: ${item.quantity}",
+
+                    price: "€${item.finalPricePerUnit.toStringAsFixed(2)}",
+
+                    imageUrl: item.productCoverUrl,
+
                     onDelete: () {
-                      context.read<CartCubit>().deleteCartItem(item.id);
+                      context.read<CartCubit>().deleteCartItem(item.itemId);
                     },
                   );
                 }),
