@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class ProductItem extends StatelessWidget {
   final String title;
   final String subtitle;
   final String price;
   final String imageUrl;
-  final int quantity;
-  final VoidCallback? onAdd;
-  final VoidCallback? onRemove;
   final VoidCallback? onDelete;
 
   const ProductItem({
@@ -17,16 +15,11 @@ class ProductItem extends StatelessWidget {
     required this.subtitle,
     required this.price,
     required this.imageUrl,
-    this.quantity = 1,
-    this.onAdd,
-    this.onRemove,
     this.onDelete,
   });
 
   @override
   Widget build(BuildContext context) {
-    bool isAsset = imageUrl.startsWith('assets/');
-
     return Card(
       margin: const EdgeInsets.symmetric(vertical: 10),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -38,14 +31,26 @@ class ProductItem extends StatelessWidget {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(10),
-              child: isAsset
-                  ? Image.asset(
-                      imageUrl,
+              child: imageUrl.startsWith('http')
+                  ? CachedNetworkImage(
+                      imageUrl: imageUrl,
                       height: 200,
                       width: double.infinity,
                       fit: BoxFit.cover,
+                      placeholder: (context, url) => Container(
+                        height: 200,
+                        color: Colors.grey[200],
+                        child: const Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                      ),
+                      errorWidget: (context, url, error) => Container(
+                        height: 200,
+                        color: Colors.grey[200],
+                        child: const Icon(Icons.error),
+                      ),
                     )
-                  : Image.network(
+                  : Image.asset(
                       imageUrl,
                       height: 200,
                       width: double.infinity,
@@ -53,17 +58,21 @@ class ProductItem extends StatelessWidget {
                       errorBuilder: (context, error, stackTrace) => Container(
                         height: 200,
                         color: Colors.grey[200],
-                        child: const Icon(Icons.broken_image, size: 50),
+                        child: const Icon(Icons.image_not_supported),
                       ),
                     ),
             ),
+
             const SizedBox(height: 10),
+
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Expanded(
                   child: Text(
                     title,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
                       fontSize: 17,
                       fontWeight: FontWeight.bold,
@@ -80,9 +89,18 @@ class ProductItem extends StatelessWidget {
                 ),
               ],
             ),
+
             const SizedBox(height: 8),
-            Text(subtitle, style: const TextStyle(fontSize: 14)),
+
+            Text(
+              subtitle,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(fontSize: 14),
+            ),
+
             const SizedBox(height: 10),
+
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -105,25 +123,29 @@ class ProductItem extends StatelessWidget {
                       children: [
                         IconButton(
                           icon: const Icon(Icons.remove, size: 25),
-                          onPressed: onRemove,
+                          onPressed: () {},
                         ),
-                        Text(
-                          "$quantity",
-                          style: const TextStyle(
+                        const Text(
+                          "1",
+                          style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         IconButton(
                           icon: const Icon(Icons.add, size: 25),
-                          onPressed: onAdd,
+                          onPressed: () {},
                         ),
                       ],
                     ),
                   ),
                 ),
                 const Gap(70),
-                IconButton(icon: const Icon(Icons.close), onPressed: onDelete),
+
+                IconButton(
+                  icon: const Icon(Icons.close),
+                  onPressed: onDelete,
+                ),
               ],
             ),
           ],

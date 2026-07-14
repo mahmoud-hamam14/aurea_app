@@ -13,7 +13,7 @@ class OffersDataSource {
 
       final token = await TokenManager.getToken();
       final response = await dio.get(
-        "https://accessories-eshop.runasp.net/api/offers",
+        "https://accessories-eshop.runasp.net/api/offers?pageSize=30",
          options: Options(
         headers: {
           "Authorization": "Bearer $token"

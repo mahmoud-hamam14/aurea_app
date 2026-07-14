@@ -10,7 +10,7 @@ class ProductsModel {
       name: json["name"],
       coverPictureUrl: json["coverPictureUrl"], 
       price: (json["price"] as num).toDouble(),
-      id: json["id"],
+      id: json["id"] ?? "",
     );
   }
   

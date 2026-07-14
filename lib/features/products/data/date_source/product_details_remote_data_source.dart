@@ -1,8 +1,8 @@
 import 'dart:developer';
 import 'package:dio/dio.dart';
+import 'package:nti_ecommerce_team4/features/products/data/models/product_model.dart';
+import 'package:nti_ecommerce_team4/features/products/data/models/review_model.dart';
 import '../../../../core/network/dio_helper.dart';
-import '../models/product_model.dart';
-import '../models/review_model.dart';
 
 class ProductDetailsRemoteDataSource {
   // Required task: get product by id

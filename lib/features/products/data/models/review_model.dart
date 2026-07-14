@@ -40,7 +40,9 @@ class ReviewList {
 
   factory ReviewList.fromJson(Map<String, dynamic> json) {
     return ReviewList(
-      items: (json['items'] as List).map((e) => ReviewItem.fromJson(e)).toList(),
+      items: (json['items'] as List)
+          .map((e) => ReviewItem.fromJson(e))
+          .toList(),
       page: json['page'],
       pageSize: json['pageSize'],
       totalCount: json['totalCount'],

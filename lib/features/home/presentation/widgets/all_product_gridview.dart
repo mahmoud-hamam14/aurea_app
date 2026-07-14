@@ -16,12 +16,13 @@ class AllProductGridView extends StatelessWidget {
         if (state is ProductsLoadingState) {
           return const Center(child: CircularProgressIndicator());
         } else if (state is ProductsFailiurState) {
-          return const Center(child: Text("something went wrong"));
+          return Center(child: Text(state.message));
         } else if (state is ProductsSuccessState) {
           return GridView.builder(
             shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            physics: NeverScrollableScrollPhysics(),
+
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               childAspectRatio: 0.70,
               crossAxisCount: 2,
               crossAxisSpacing: 10,
@@ -30,6 +31,7 @@ class AllProductGridView extends StatelessWidget {
             itemCount: state.products.length,
             itemBuilder: (context, index) {
               final product = state.products[index];
+              final isFav = state.favoriteIds.contains(product.id);
               return Card(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15),
@@ -41,9 +43,7 @@ class AllProductGridView extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => ProductDetailsScreen(
-                          productId: product.id,
-                        ),
+                        builder: (context) => ProductDetailsScreen(),
                       ),
                     );
                   },
@@ -61,7 +61,12 @@ class AllProductGridView extends StatelessWidget {
                                 width: double.infinity,
                                 height: double.infinity,
                                 errorBuilder: (context, error, stackTrace) {
-                                  return const Icon(Icons.image_not_supported);
+                                  return Image.asset(
+                                    'assets/images/No-Image-Placeholder1.webp',
+                                    fit: BoxFit.cover,
+                                    width: double.infinity,
+                                    height: double.infinity,
+                                  );
                                 },
                               ),
                             ),
@@ -76,10 +81,18 @@ class AllProductGridView extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(30),
                                 ),
                                 child: IconButton(
-                                  onPressed: () {},
-                                  icon: const Icon(
-                                    Icons.favorite_border,
-                                    color: AppColors.darkBackground,
+                                  onPressed: () {
+                                    context
+                                        .read<ProductsCubit>()
+                                        .toggleFavorite(product.id);
+                                  },
+                                  icon: Icon(
+                                    isFav
+                                        ? Icons.favorite
+                                        : Icons.favorite_border,
+                                    color: isFav
+                                        ? const Color.fromARGB(255, 160, 23, 14)
+                                        : AppColors.darkBackground,
                                     size: 18,
                                   ),
                                 ),

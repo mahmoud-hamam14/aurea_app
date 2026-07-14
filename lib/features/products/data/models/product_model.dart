@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 class ProductListResponse {
   final List<ProductItem> items;
   final int page;
@@ -19,7 +17,7 @@ class ProductListResponse {
 
   factory ProductListResponse.fromJson(Map<String, dynamic> json) {
     return ProductListResponse(
-      items: json['items'] != null 
+      items: json['items'] != null
           ? (json['items'] as List).map((e) => ProductItem.fromJson(e)).toList()
           : [],
       page: json['page'] ?? 1,
@@ -76,11 +74,16 @@ class ProductItem {
       productCode: json['productCode']?.toString() ?? "",
       name: json['name'] ?? json['productName'] ?? "No Name",
       description: json['description'] ?? "",
-      arabicName: json['arabicName'] ?? json['arabic_name'] ?? json['nameAr'] ?? "",
-      arabicDescription: json['arabicDescription'] ?? json['arabic_description'] ?? json['descriptionAr'] ?? "",
+      arabicName:
+          json['arabicName'] ?? json['arabic_name'] ?? json['nameAr'] ?? "",
+      arabicDescription:
+          json['arabicDescription'] ??
+          json['arabic_description'] ??
+          json['descriptionAr'] ??
+          "",
       coverPictureUrl: json['coverPictureUrl'] ?? json['cover_image'] ?? "",
-      productPictures: json['productPictures'] != null 
-          ? List<String>.from(json['productPictures']) 
+      productPictures: json['productPictures'] != null
+          ? List<String>.from(json['productPictures'])
           : [],
       price: (json['price'] as num? ?? 0).toDouble(),
       stock: (json['stock'] as num? ?? 0).toInt(),
@@ -90,8 +93,8 @@ class ProductItem {
       reviewsCount: (json['reviewsCount'] as num? ?? 0).toInt(),
       discountPercentage: (json['discountPercentage'] as num? ?? 0).toInt(),
       sellerId: json['sellerId']?.toString() ?? "",
-      categories: json['categories'] != null 
-          ? List<String>.from(json['categories']) 
+      categories: json['categories'] != null
+          ? List<String>.from(json['categories'])
           : [],
     );
   }

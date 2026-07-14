@@ -116,8 +116,7 @@ class _HeroCarouselState extends State<HeroCarousel> {
             right: 0,
             child: _buildDots(),
           ),
-        ],
-      ),
+      ],
     );
   }
 
