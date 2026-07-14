@@ -16,7 +16,7 @@ class AllProductGridView extends StatelessWidget {
         if (state is ProductsLoadingState) {
           return Center(child: CircularProgressIndicator());
         } else if (state is ProductsFailiurState) {
-          return Center(child: Text("somethig went wrong"));
+          return Center(child: Text(state.message));
         } else if (state is ProductsSuccessState) {
           return GridView.builder(
             shrinkWrap: true,
@@ -31,7 +31,7 @@ class AllProductGridView extends StatelessWidget {
             itemCount: state.products.length,
             itemBuilder: (context, index) {
               final product = state.products[index];
-              final isFav = state.favoriteIds.contains(product.id ?? "");
+              final isFav = state.favoriteIds.contains(product.id);
               return Card(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15),
@@ -62,7 +62,10 @@ class AllProductGridView extends StatelessWidget {
                                 width: double.infinity,
                                 height: double.infinity,
                                 errorBuilder: (context, error, stackTrace) {
-                                  return Icon(Icons.image_not_supported);
+                                  return Image.asset('assets/images/beso.jpg',
+                                  fit: BoxFit.cover,
+                                width: double.infinity,
+                                height: double.infinity,);
                                 },
                               ),
                             ),

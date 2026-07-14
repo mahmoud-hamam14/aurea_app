@@ -18,7 +18,7 @@ class OfferSection extends StatelessWidget {
         if (state is OffersLoadingState) {
           return Center(child: CircularProgressIndicator());
         } else if (state is OffersFailiurState) {
-          return Center(child: Text("Something went wrong"));
+          return Center(child: Text(state.message));
         } else if (state is OffersSuccessState) {
           List<OffersModel>offers=state.offers;
           List<OffersModel>last4Offers= offers.length>=4 

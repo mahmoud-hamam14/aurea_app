@@ -26,4 +26,8 @@ class ProductsSuccessState extends ProductsStates {
   }
 }
 
-class ProductsFailiurState extends ProductsStates{}
+class ProductsFailiurState extends ProductsStates{
+  final String message;
+
+  ProductsFailiurState({required this.message});
+}
