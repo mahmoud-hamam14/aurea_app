@@ -14,37 +14,26 @@ class AllProductGridView extends StatelessWidget {
     return BlocBuilder<ProductsCubit, ProductsStates>(
       builder: (context, state) {
         if (state is ProductsLoadingState) {
-          return Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator());
         } else if (state is ProductsFailiurState) {
-          return Center(child: Text("somethig went wrong"));
+          return const Center(child: Text("something went wrong"));
         } else if (state is ProductsSuccessState) {
           return GridView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
-
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        childAspectRatio: 0.70,
-        crossAxisCount: 2,
-        crossAxisSpacing: 10,
-        mainAxisSpacing: 10,
-      ),
-      itemCount: 10,
-      itemBuilder: (context, index) {
-        return Card(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15),
-          ),
-
-          elevation: 0,
-          color: Colors.transparent,
-          child: InkWell(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const ProductDetailsScreen(productId: '123e4567-e89b-12d3-a456-426614174000'),
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              childAspectRatio: 0.70,
+              crossAxisCount: 2,
+              crossAxisSpacing: 10,
+              mainAxisSpacing: 10,
+            ),
+            itemCount: state.products.length,
+            itemBuilder: (context, index) {
+              final product = state.products[index];
+              return Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15),
                 ),
-
                 elevation: 0,
                 color: Colors.transparent,
                 child: InkWell(
@@ -52,7 +41,9 @@ class AllProductGridView extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const ProductDetailsScreen(),
+                        builder: (context) => ProductDetailsScreen(
+                          productId: product.id,
+                        ),
                       ),
                     );
                   },
@@ -74,7 +65,6 @@ class AllProductGridView extends StatelessWidget {
                                 },
                               ),
                             ),
-
                             Positioned(
                               top: 8,
                               right: 8,
@@ -98,32 +88,32 @@ class AllProductGridView extends StatelessWidget {
                           ],
                         ),
                       ),
-                      SizedBox(height: 10),
-
+                      const SizedBox(height: 10),
                       Text(
                         product.name,
-                        style: TextStyle(
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
                           fontSize: 16,
                           fontFamily: 'Inter',
                           fontWeight: FontWeight.w400,
                         ),
                       ),
-
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
                             "${product.price} SAR",
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontWeight: FontWeight.w400,
-                              color: const Color.fromARGB(255, 158, 125, 16),
+                              color: Color.fromARGB(255, 158, 125, 16),
                               fontSize: 16,
                             ),
                           ),
-                          SizedBox(width: 5),
+                          const SizedBox(width: 5),
                           IconButton.filled(
                             onPressed: () {},
-                            icon: Icon(Icons.add),
+                            icon: const Icon(Icons.add),
                             iconSize: 20,
                           ),
                         ],
@@ -135,7 +125,7 @@ class AllProductGridView extends StatelessWidget {
             },
           );
         } else {
-          return SizedBox.shrink();
+          return const SizedBox.shrink();
         }
       },
     );
