@@ -1,34 +1,56 @@
 class CartItemModel {
-  final String id;
-  final String name;
-  final String description;
-  final String coverPictureUrl;
-  final double price;
+  final String itemId;
+  final String productId;
+  final String productName;
+  final String productCoverUrl;
+
+  final int productStock;
+  final double weightInGrams;
+
   final int quantity;
   final int discountPercentage;
-  final String color;
+
+  final double basePricePerUnit;
+  final double finalPricePerUnit;
+  final double totalPrice;
 
   CartItemModel({
-    required this.id,
-    required this.name,
-    required this.description,
-    required this.coverPictureUrl,
-    required this.price,
+    required this.itemId,
+    required this.productId,
+    required this.productName,
+    required this.productCoverUrl,
+    required this.productStock,
+    required this.weightInGrams,
     required this.quantity,
     required this.discountPercentage,
-    required this.color,
+    required this.basePricePerUnit,
+    required this.finalPricePerUnit,
+    required this.totalPrice,
   });
 
-  static CartItemModel fromJson(Map<String, dynamic> json) {
+  factory CartItemModel.fromJson(Map<String, dynamic> json) {
     return CartItemModel(
-      id: json['id']?.toString() ?? '',
-      name: json['name'] ?? '',
-      description: json['description'] ?? '',
-      coverPictureUrl: json['coverPictureUrl'] ?? '',
-      price: double.tryParse(json['price'].toString()) ?? 0.0,
-      quantity: json['quantity'] as int? ?? 1,
-      discountPercentage: json['discountPercentage'] as int? ?? 0,
-      color: json['color'] ?? '',
+      itemId: json['itemId'] ?? '',
+
+      productId: json['productId'] ?? '',
+
+      productName: json['productName'] ?? '',
+
+      productCoverUrl: json['productCoverUrl'] ?? '',
+
+      productStock: json['productStock'] ?? 0,
+
+      weightInGrams: (json['weightInGrams'] ?? 0).toDouble(),
+
+      quantity: json['quantity'] ?? 0,
+
+      discountPercentage: json['discountPercentage'] ?? 0,
+
+      basePricePerUnit: (json['basePricePerUnit'] ?? 0).toDouble(),
+
+      finalPricePerUnit: (json['finalPricePerUnit'] ?? 0).toDouble(),
+
+      totalPrice: (json['totalPrice'] ?? 0).toDouble(),
     );
   }
 }
