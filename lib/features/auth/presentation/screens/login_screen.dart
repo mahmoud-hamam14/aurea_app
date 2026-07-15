@@ -73,7 +73,7 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
                     const AuthHeader(
                       title: 'Welcome Back',
                       subtitle: '''Sign in to continue your luxury shopping
-                                 experience.''',
+                       experience.''',
                     ),
                     const Gap(25),
 
@@ -167,22 +167,22 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
                       },
                     ),
 
-                    const Gap(25),
+                    const Gap(40),
 
                     //* Alternative Login Options
                     const AuthDivider(dividerText: 'OR CONTINUE WITH'),
 
-                    const Gap(25),
+                    const Gap(40),
 
                     //* Social Auth Section
                     const SocialAuthSection(),
 
-                    const Gap(25),
+                    const Gap(40),
 
                     //* Dont have an account
                     AuthRedirectText(
                       question: 'Don\'t have an account?',
-                      actionText: 'Sign Up  ',
+                      actionText: 'Sign Up',
                       onPressed: () {
                         Navigator.push(
                           context,

@@ -1,6 +1,5 @@
 import 'package:nti_ecommerce_team4/features/cart/data/models/cart_item_model.dart';
 
-import '../../data/models/cart_model.dart';
 
 sealed class AddToCartState {}
 

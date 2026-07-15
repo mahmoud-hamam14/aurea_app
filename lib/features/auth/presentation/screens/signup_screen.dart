@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'package:gap/gap.dart';
 import 'package:nti_ecommerce_team4/core/theme/app_theme.dart';
 import 'package:nti_ecommerce_team4/core/utils/validators.dart';
@@ -8,12 +7,13 @@ import 'package:nti_ecommerce_team4/features/auth/data/auth_repo/auth_repo.dart'
 import 'package:nti_ecommerce_team4/features/auth/data/date_source/auth_remote_data_source.dart';
 import 'package:nti_ecommerce_team4/features/auth/presentation/cubits/auth_cubit.dart';
 import 'package:nti_ecommerce_team4/features/auth/presentation/cubits/auth_state.dart';
-//import 'package:nti_ecommerce_team4/features/auth/presentation/screens/login_screen.dart';
+import 'package:nti_ecommerce_team4/features/auth/presentation/screens/login_screen.dart';
 import 'package:nti_ecommerce_team4/features/auth/presentation/screens/verify_email_screen.dart';
 import 'package:nti_ecommerce_team4/features/auth/presentation/widgets/auth_divider.dart';
+import 'package:nti_ecommerce_team4/features/auth/presentation/widgets/auth_redirect_text.dart';
 import 'package:nti_ecommerce_team4/features/auth/presentation/widgets/custom_button.dart';
 import 'package:nti_ecommerce_team4/features/auth/presentation/widgets/custom_text_form_field.dart';
-import 'package:nti_ecommerce_team4/features/auth/presentation/widgets/social_button.dart';
+import 'package:nti_ecommerce_team4/features/auth/presentation/widgets/social_auth_section.dart';
 
 class SignupScreen extends StatelessWidget {
   const SignupScreen({super.key});
@@ -195,27 +195,26 @@ class _SignupScreenBodyState extends State<SignupScreenBody> {
 
                             const AuthDivider(dividerText: 'OR SIGN UP WITH'),
 
-                            const Gap(15),
+                            const Gap(1),
+                            //* Social Auth Section
+                            const SocialAuthSection(),
+                            const Gap(1),
 
-                            Row(
-                              spacing: 30,
-                              children: [
-                                Expanded(
-                                  child: SocialButton(
-                                    iconPath: "assets/icons/google.svg",
-                                    title: "Google",
+                            //* Dont have an account
+                            AuthRedirectText(
+                              question: 'You have an account?',
+                              actionText: 'Login',
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const LoginScreen(),
                                   ),
-                                ),
-
-                                Expanded(
-                                  child: SocialButton(
-                                    iconPath: "assets/icons/apple.svg",
-                                    title: "Apple",
-                                  ),
-                                ),
-                              ],
+                                );
+                              },
                             ),
-                            const Gap(8),
+
+                            const Gap(1),
                           ],
                         ),
                       ),
