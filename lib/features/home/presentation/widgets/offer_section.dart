@@ -14,12 +14,23 @@ class OfferSection extends StatelessWidget {
     return BlocBuilder<OffersCubit, OffersStates>(
       builder: (context, state) {
         if (state is OffersLoadingState) {
-          return Center(child: CircularProgressIndicator());
+          return const SizedBox(
+            height: 300,
+            child: Center(child: CircularProgressIndicator()),
+          );
         } else if (state is OffersFailiurState) {
-          return Center(child: Text("Something went wrong"));
+          return const SizedBox(
+            height: 300,
+            child: Center(child: Text("Something went wrong")),
+          );
         } else if (state is OffersSuccessState) {
-          final offer = state.offers.first;
-          log(offer.coverul);
+          if (state.offers.isEmpty) {
+            return const SizedBox(
+              height: 300,
+              child: Center(child: Text("No offers available")),
+            );
+          }
+
           return CarouselSlider(
             items: state.offers.map((offer) {
               return SizedBox(
@@ -31,20 +42,19 @@ class OfferSection extends StatelessWidget {
                       offer.coverul,
                       fit: BoxFit.cover,
                       width: double.infinity,
-                      // height: 300,
+                      height: 300,
                       errorBuilder: (context, error, stackTrace) {
                         return Image.asset(
                           "assets/images/beso.jpg",
                           width: double.infinity,
-                          // height: 300,
+                          height: 300,
                           fit: BoxFit.cover,
                         );
                       },
                     ),
-
                     Positioned.fill(
                       child: Container(
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           gradient: LinearGradient(
                             begin: Alignment.topCenter,
                             end: Alignment.bottomCenter,
@@ -53,18 +63,16 @@ class OfferSection extends StatelessWidget {
                         ),
                       ),
                     ),
-
                     Padding(
-                      padding: EdgeInsets.only(left: 20, top: 65),
+                      padding: const EdgeInsets.only(left: 20, top: 65),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        spacing: 5,
                         children: [
                           Text(
                             offer.name,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w600,
                               letterSpacing: 1.4,
@@ -72,12 +80,12 @@ class OfferSection extends StatelessWidget {
                               fontFamily: 'Inter',
                             ),
                           ),
-
+                          const SizedBox(height: 5),
                           Text(
                             offer.description,
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 24,
                               fontWeight: FontWeight.w700,
                               letterSpacing: -0.96,
@@ -85,24 +93,21 @@ class OfferSection extends StatelessWidget {
                               fontFamily: 'PlayfairDisplay',
                             ),
                           ),
-
-                          SizedBox(height: 5),
-
+                          const SizedBox(height: 10),
                           ElevatedButton(
                             onPressed: onShopNow,
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: Color(0xffD4AF37),
-                              padding: EdgeInsets.symmetric(
+                              backgroundColor: const Color(0xffD4AF37),
+                              padding: const EdgeInsets.symmetric(
                                 horizontal: 15,
                                 vertical: 10,
                               ),
                             ),
-                            child: Text(
+                            child: const Text(
                               'Shop Now',
                               style: TextStyle(
                                 fontSize: 15,
                                 fontWeight: FontWeight.w400,
-                                letterSpacing: 0,
                                 color: Color(0xff554300),
                                 fontFamily: 'Inter',
                               ),
@@ -115,22 +120,20 @@ class OfferSection extends StatelessWidget {
                 ),
               );
             }).toList(),
-
             options: CarouselOptions(
               height: 300,
               autoPlay: true,
               enlargeCenterPage: false,
-
-              autoPlayInterval: Duration(seconds: 3),
-              autoPlayAnimationDuration: Duration(milliseconds: 1200),
+              autoPlayInterval: const Duration(seconds: 3),
+              autoPlayAnimationDuration: const Duration(milliseconds: 1200),
               viewportFraction: 1,
               autoPlayCurve: Curves.fastOutSlowIn,
-              scrollPhysics: BouncingScrollPhysics(),
+              scrollPhysics: const BouncingScrollPhysics(),
               enableInfiniteScroll: true,
             ),
           );
         } else {
-          return SizedBox.shrink();
+          return const SizedBox(height: 300);
         }
       },
     );
