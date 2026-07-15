@@ -41,6 +41,7 @@ class _SignupScreenBodyState extends State<SignupScreenBody> {
   final TextEditingController lastNameContoller = TextEditingController();
   final TextEditingController emailContoller = TextEditingController();
   final TextEditingController passContoller = TextEditingController();
+  final TextEditingController confirmPassContoller = TextEditingController();
 
   final GlobalKey<FormState> myKey = GlobalKey();
   @override
@@ -163,16 +164,17 @@ class _SignupScreenBodyState extends State<SignupScreenBody> {
                             CustomTextFormField(
                               controller: passContoller,
                               labelText: "Password",
-                              suffixIcon: Icons.visibility,
+                              prefixIcon: Icons.lock,
+                              isPassword: true,
                               validator: (password) {
                                 return Validator.validatePassword(password!);
                               },
                             ),
-
                             CustomTextFormField(
-                              controller: passContoller,
+                              controller: confirmPassContoller,
                               labelText: "Confirm Password",
-                              suffixIcon: Icons.visibility,
+                              prefixIcon: Icons.lock,
+                              isPassword: true,
                               validator: (password) {
                                 return Validator.validatePassword(password!);
                               },

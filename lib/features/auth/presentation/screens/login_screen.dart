@@ -94,7 +94,7 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
                       controller: passwordController,
                       labelText: 'Password',
                       prefixIcon: Icons.lock,
-                      suffixIcon: Icons.visibility,
+                      isPassword: true,
                       validator: (password) {
                         return Validator.validatePassword(password!);
                       },
@@ -197,7 +197,6 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
                   ],
                 ),
               ),
-              const Gap(50),
             ],
           ),
         ),

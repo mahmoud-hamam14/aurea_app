@@ -58,17 +58,21 @@ class CreateNewPasswordScreen extends StatelessWidget {
                     Gap(40),
                     CustomTextFormField(
                       labelText: "New Password",
-                      suffixIcon: Icons.visibility,
                       controller: passController,
+                      prefixIcon: Icons.lock,
+                      isPassword: true,
                       validator: (pass) {
                         return Validator.validatePassword(pass!);
                       },
                     ),
+
                     Gap(20),
+
                     CustomTextFormField(
                       labelText: "Confirm Password",
-                      suffixIcon: Icons.visibility,
                       controller: confirmPassController,
+                      prefixIcon: Icons.lock,
+                      isPassword: true,
                       validator: (pass) {
                         return Validator.validatePassword(pass!);
                       },

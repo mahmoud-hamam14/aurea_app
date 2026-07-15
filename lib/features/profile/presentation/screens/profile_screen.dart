@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:nti_ecommerce_team4/features/auth/presentation/screens/login_screen.dart';
 import 'package:nti_ecommerce_team4/features/profile/presentation/screens/about_us_screen.dart';
 import 'package:nti_ecommerce_team4/features/profile/presentation/screens/privacy_policy_screen.dart';
 import 'package:nti_ecommerce_team4/features/profile/presentation/widgets/custom_widgets.dart';
@@ -120,8 +121,14 @@ class ProfileScreen extends StatelessWidget {
             ),
             const SizedBox(height: 20),
 
-            const LogoutButton(),
-
+            LogoutButton(
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const LoginScreen()),
+                );
+              },
+            ),
             const Gap(50),
           ],
         ),
