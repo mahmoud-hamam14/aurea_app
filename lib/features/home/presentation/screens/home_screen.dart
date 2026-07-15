@@ -91,7 +91,6 @@ class _HomeScreenState extends State<HomeScreen> {
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              spacing: 25,
               children: [
                 ClipRRect(
                   borderRadius: BorderRadius.circular(20),
@@ -99,21 +98,22 @@ class _HomeScreenState extends State<HomeScreen> {
                     create: (context) => OffersCubit()..getOffers(),
                     child: OfferSection(
                       onShopNow: () {
-                        Scrollable.ensureVisible(
-                          collectionsKey.currentContext!,
-                          duration: const Duration(milliseconds: 600),
-                          curve: Curves.easeInOut,
-                        );
+                        if (collectionsKey.currentContext != null) {
+                          Scrollable.ensureVisible(
+                            collectionsKey.currentContext!,
+                            duration: const Duration(milliseconds: 600),
+                            curve: Curves.easeInOut,
+                          );
+                        }
                       },
                     ),
                   ),
                 ),
-
+                const SizedBox(height: 25),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  spacing: 16,
                   children: [
-                    Text(
+                    const Text(
                       'Explore',
                       style: TextStyle(
                         fontSize: 24,
@@ -122,19 +122,18 @@ class _HomeScreenState extends State<HomeScreen> {
                         fontFamily: 'PlayfairDisplay',
                       ),
                     ),
-
+                    const SizedBox(height: 16),
                     BlocProvider(
                       create: (context) => CategoriesCubit()..getCategories(),
-                      child: SizedBox(height: 120, child: ExploreListView()),
+                      child: const SizedBox(height: 120, child: ExploreListView()),
                     ),
                   ],
                 ),
-
+                const SizedBox(height: 25),
                 Column(
-                  spacing: 24,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    const Text(
                       'All Products',
                       style: TextStyle(
                         fontSize: 24,
@@ -143,11 +142,11 @@ class _HomeScreenState extends State<HomeScreen> {
                         fontFamily: 'PlayfairDisplay',
                       ),
                     ),
-
+                    const SizedBox(height: 24),
                     BlocProvider(
                       create: (context) => ProductsCubit()..getProducts(),
                       key: collectionsKey,
-                      child: AllProductGridView(),
+                      child: const AllProductGridView(),
                     ),
                   ],
                 ),

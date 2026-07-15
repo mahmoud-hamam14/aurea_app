@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:nti_ecommerce_team4/core/error/api_error_model.dart';
-
 import 'api_constants.dart';
 import 'token_manager.dart';
 
@@ -11,50 +10,29 @@ class DioHelper {
     dio = Dio(
       BaseOptions(
         baseUrl: ApiConstants.baseUrl,
-
-        connectTimeout: const Duration(seconds: 30),
-
-        receiveTimeout: const Duration(seconds: 30),
-
-        sendTimeout: const Duration(seconds: 30),
-
+        connectTimeout: const Duration(seconds: 45), // Increased timeout
+        receiveTimeout: const Duration(seconds: 45),
+        sendTimeout: const Duration(seconds: 45),
         receiveDataWhenStatusError: true,
-
         headers: {
           "Accept": "application/json",
-          "Content-Type": "application/json",
         },
       ),
     );
-
-    dio.interceptors.add(LogInterceptor(requestBody: true, responseBody: true));
 
     dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (options, handler) async {
           final token = await TokenManager.getToken();
-
           if (token != null) {
             options.headers[ApiConstants.authorization] = "Bearer $token";
           }
-
+          if (options.data != null) {
+            options.headers["Content-Type"] = "application/json";
+          }
           return handler.next(options);
         },
-
-        // onError: (error, handler) async {
-        //   if (error.response?.statusCode == 401) {
-        //     await TokenManager.removeToken();
-        //   }
-
-        //   return handler.next(error);
-        // },
         onError: (error, handler) {
-          if (error.response?.data != null) {
-            final apiError = ApiErrorModel.fromJson(error.response!.data);
-
-            print(apiError.message);
-          }
-
           return handler.next(error);
         },
       ),
@@ -63,9 +41,7 @@ class DioHelper {
 
   static Future<Response> post({
     required String url,
-
     dynamic data,
-
     Map<String, dynamic>? queryParameters,
   }) async {
     return await dio.post(url, data: data, queryParameters: queryParameters);
@@ -73,8 +49,7 @@ class DioHelper {
 
   static Future<Response> get({
     required String url,
-
-    Map<String, dynamic>? queryParameters,  Map<String, String>? data,
+    Map<String, dynamic>? queryParameters,
   }) async {
     return await dio.get(url, queryParameters: queryParameters);
   }
