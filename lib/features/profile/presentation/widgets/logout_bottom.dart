@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:nti_ecommerce_team4/core/theme/app_theme.dart';
 
+// ignore: must_be_immutable
 class LogoutButton extends StatelessWidget {
-  const LogoutButton({super.key});
-
+  LogoutButton({super.key, required this.onPressed});
+  void Function()? onPressed;
   @override
   Widget build(BuildContext context) {
     return ElevatedButton.icon(
@@ -11,7 +12,7 @@ class LogoutButton extends StatelessWidget {
         minimumSize: Size(200, 48),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       ),
-      onPressed: () {},
+      onPressed: onPressed,
       icon: Icon(Icons.logout, color: AppColors.error),
       label: Text(
         "Logout",

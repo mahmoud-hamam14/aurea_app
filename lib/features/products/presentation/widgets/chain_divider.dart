@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
+import '../../../../core/theme/theme_extensions.dart';
 import '../screens/product_details_screen.dart';
 import 'chain_painter.dart';
 

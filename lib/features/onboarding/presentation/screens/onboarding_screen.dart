@@ -1,5 +1,6 @@
+
 import 'package:flutter/material.dart';
-import 'package:nti_ecommerce_team4/features/auth/presentation/screens/login_screen.dart';
+import 'package:nti_ecommerce_team4/core/routes/app_routes.dart';
 
 import '../widgets/onboarding_page.dart';
 
@@ -27,7 +28,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
     return Scaffold(
       body: PageView(
         controller: _pageController,
@@ -83,20 +83,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             imageUrl:
                 'assets/images/dd776c2dee1ba8531d330bb78377822cdce767c6.png',
             onNext: () {
-              // //! navigate to login
-
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => const LoginScreen()),
-              );
+              Navigator.pushReplacementNamed(context, AppRoutes.login);
             },
             onSkip: () {
-              // //! navigate to login
-
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => const LoginScreen()),
-              );
+              Navigator.pushReplacementNamed(context, AppRoutes.login);
             },
           ),
         ],
@@ -104,3 +94,4 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     );
   }
 }
+

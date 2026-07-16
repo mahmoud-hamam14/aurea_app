@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nti_ecommerce_team4/features/products/presentation/widgets/section_label.dart';
+import '../../../../core/theme/theme_extensions.dart';
 
-import '../screens/product_details_screen.dart';
 
 class QuantityStepper extends StatelessWidget {
   final int value;
