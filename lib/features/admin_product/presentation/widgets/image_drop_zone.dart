@@ -47,7 +47,9 @@ class _ImageDropzoneState extends State<ImageDropzone> {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final textPrimary = isDark ? AppColors.darkTextPrimary : AppColors.lightTextPrimary;
+    final textPrimary = isDark
+        ? AppColors.darkTextPrimary
+        : AppColors.lightTextPrimary;
 
     return Stack(
       children: [
@@ -98,7 +100,9 @@ class _ImageDropzoneState extends State<ImageDropzone> {
                             'High-resolution studio photography recommended',
                             textAlign: TextAlign.center,
                             style: AppTextStyles.bodySmall.copyWith(
-                              color: isDark ? AppColors.darkTextSecondary : AppColors.lightTextSecondary,
+                              color: isDark
+                                  ? AppColors.darkTextSecondary
+                                  : AppColors.lightTextSecondary,
                               fontWeight: FontWeight.w400,
                             ),
                           ),
@@ -127,7 +131,11 @@ class _ImageDropzoneState extends State<ImageDropzone> {
                       color: Colors.redAccent,
                       shape: BoxShape.circle,
                     ),
-                    child: const Icon(Icons.close, size: 16, color: Colors.white),
+                    child: const Icon(
+                      Icons.close,
+                      size: 16,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               ],
