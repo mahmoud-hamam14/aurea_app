@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:nti_ecommerce_team4/features/cart/data/date_source/cart_get_data.dart';
+import 'package:nti_ecommerce_team4/features/cart/presentation/cubits/add_to_cart_cubit.dart';
+import 'package:nti_ecommerce_team4/features/categories/presentation/cubits/categories_cubit.dart';
+import 'package:nti_ecommerce_team4/features/home/presentation/cubits/offers_cubit/offers_cubit.dart';
+import 'package:nti_ecommerce_team4/features/home/presentation/cubits/products_cubit/products_cubit.dart';
 import 'package:nti_ecommerce_team4/features/home/presentation/widgets/all_product_gridview.dart';
 import 'package:nti_ecommerce_team4/features/home/presentation/widgets/custom_drawer.dart';
 import 'package:nti_ecommerce_team4/features/home/presentation/widgets/explore_listview.dart';
 import 'package:nti_ecommerce_team4/features/home/presentation/widgets/offer_section.dart';
+
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -12,9 +19,16 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final GlobalKey collectionsKey = GlobalKey();
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return MultiBlocProvider(
+   providers: [
+    BlocProvider(create: (context) => OffersCubit()..getOffers()),
+    BlocProvider(create: (context) => ProductsCubit()..getProducts()),
+     BlocProvider(create: (context) => AddToCartCubit(CartRemoteDataSource())),
+  ],
+  child: Scaffold(
       drawer: const DevDrawer(),
 
       appBar: AppBar(
@@ -82,18 +96,29 @@ class _HomeScreenState extends State<HomeScreen> {
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              spacing: 40,
               children: [
                 ClipRRect(
                   borderRadius: BorderRadius.circular(20),
-                  child: OfferSection(),
+                  child: BlocProvider(
+                    create: (context) => OffersCubit()..getOffers(),
+                    child: OfferSection(
+                      onShopNow: () {
+                        if (collectionsKey.currentContext != null) {
+                          Scrollable.ensureVisible(
+                            collectionsKey.currentContext!,
+                            duration: const Duration(milliseconds: 600),
+                            curve: Curves.easeInOut,
+                          );
+                        }
+                      },
+                    ),
+                  ),
                 ),
-
+                const SizedBox(height: 25),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  spacing: 16,
                   children: [
-                    Text(
+                    const Text(
                       'Explore',
                       style: TextStyle(
                         fontSize: 24,
@@ -102,16 +127,18 @@ class _HomeScreenState extends State<HomeScreen> {
                         fontFamily: 'PlayfairDisplay',
                       ),
                     ),
-
-                    SizedBox(height: 120, child: ExploreListView()),
+                    const SizedBox(height: 16),
+                    BlocProvider(
+                      create: (context) => CategoriesCubit()..getCategories(),
+                      child: const SizedBox(height: 120, child: ExploreListView()),
+                    ),
                   ],
                 ),
-
+                const SizedBox(height: 25),
                 Column(
-                  spacing: 24,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    const Text(
                       'All Products',
                       style: TextStyle(
                         fontSize: 24,
@@ -120,8 +147,12 @@ class _HomeScreenState extends State<HomeScreen> {
                         fontFamily: 'PlayfairDisplay',
                       ),
                     ),
-
-                    AllProductGridView(),
+                    const SizedBox(height: 24),
+                    BlocProvider(
+                      create: (context) => ProductsCubit()..getProducts(),
+                      key: collectionsKey,
+                      child: const AllProductGridView(),
+                    ),
                   ],
                 ),
               ],
@@ -129,6 +160,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ),
-    );
+    ),
+);
   }
 }

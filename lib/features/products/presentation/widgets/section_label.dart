@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
 
-import '../screens/product_details_screen.dart';
+import '../../../../core/theme/theme_extensions.dart';
 
 class SectionLabel extends StatelessWidget {
   final IconData icon;

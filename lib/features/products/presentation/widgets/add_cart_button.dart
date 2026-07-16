@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_theme.dart';
+import '../../../../core/theme/theme_extensions.dart';
 import '../screens/product_details_screen.dart';
 
 class AddToCartButton extends StatefulWidget {

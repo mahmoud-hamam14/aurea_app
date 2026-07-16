@@ -1,7 +1,14 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:nti_ecommerce_team4/features/cart/presentation/cubits/add_to_cart_cubit.dart';
+import 'package:nti_ecommerce_team4/features/cart/presentation/cubits/add_to_cart_state.dart';
+import 'package:nti_ecommerce_team4/features/products/data/date_source/product_details_remote_data_source.dart';
+import 'package:nti_ecommerce_team4/features/products/presentation/cubits/product_details_cubit.dart';
+import '../../../../core/routes/app_routes.dart';
 import '../../../../core/theme/app_theme.dart';
+import '../../../../core/theme/theme_extensions.dart';
+import '../../../cart/data/date_source/cart_get_data.dart';
 import '../widgets/add_cart_button.dart';
 import '../widgets/buy_now_button.dart';
 import '../widgets/chain_divider.dart';
@@ -13,90 +20,18 @@ import '../widgets/rating_row.dart';
 import '../widgets/related_rail.dart';
 import '../widgets/section_label.dart';
 import '../widgets/specs_acordion.dart';
+import '../widgets/start_rating.dart';
 import '../widgets/title_row.dart';
 
-extension AureaThemeX on BuildContext {
-  bool get isDark => Theme.of(this).brightness == Brightness.dark;
-
-  Color get surfaceAlt =>
-      isDark ? AppColors.darkSurfaceAlt : AppColors.lightSurfaceAlt;
-
-  Color get textMuted =>
-      isDark ? AppColors.darkTextMuted : AppColors.lightTextMuted;
-
-  Color get borderColor => Theme.of(this).colorScheme.outline;
-
-  Color get textPrimary => Theme.of(this).colorScheme.onSurface;
-
-  Color get textSecondary =>
-      Theme.of(this).textTheme.bodyMedium?.color ??
-      AppColors.lightTextSecondary;
-
-  Color get cardColor => Theme.of(this).colorScheme.surface;
-
-  Color get gold => AppColors.gold;
-
-  Color get errorColor => Theme.of(this).colorScheme.error;
-
-  /// Text that sits on top of a solid gold fill (badges, the cart button).
-  Color get onGold => AppColors.gold;
-
-  Color get goldDeep {
-    final hsl = HSLColor.fromColor(AppColors.gold);
-    return hsl.withLightness((hsl.lightness - 0.14).clamp(0.0, 1.0)).toColor();
-  }
-
-  Color get goldPale {
-    final hsl = HSLColor.fromColor(AppColors.gold);
-    return hsl.withLightness((hsl.lightness + 0.28).clamp(0.0, 1.0)).toColor();
-  }
-
-  Color get success => AppColors.success;
-
-  Color get successBg => AppColors.success.withOpacity(isDark ? 0.18 : 0.12);
-}
-
-const heroImages = [
-  'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?q=80&w=900&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1617038260897-41a1f14a8ca0?q=80&w=900&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1611591437281-460bfbe1220a?q=80&w=900&auto=format&fit=crop',
-];
-
-class RelatedItem {
-  final String name;
-  final String price;
-  final String image;
-
-  const RelatedItem(this.name, this.price, this.image);
-}
-
-const relatedItems = [
-  RelatedItem(
-    'Baguette Ring',
-    '\$1,250',
-    'https://images.unsplash.com/photo-1605100804763-247f67b3557e?q=80&w=500&auto=format&fit=crop',
-  ),
-  RelatedItem(
-    'Teardrop Studs',
-    '\$2,100',
-    'https://images.unsplash.com/photo-1620656798579-1984d9e87df7?q=80&w=500&auto=format&fit=crop',
-  ),
-  RelatedItem(
-    'Halo Bracelet',
-    '\$3,050',
-    'https://images.unsplash.com/photo-1611591437281-460bfbe1220a?q=80&w=500&auto=format&fit=crop',
-  ),
-];
-
 class ProductDetailsScreen extends StatefulWidget {
-  const ProductDetailsScreen({super.key});
+  final String productId;
+  const ProductDetailsScreen({super.key, required this.productId});
 
   @override
   State<ProductDetailsScreen> createState() => _ProductDetailsScreenState();
 }
 
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
-  int bagCount = 0;
   String? toastMessage;
   Timer? _toastTimer;
   int qty = 1;
@@ -109,179 +44,350 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     });
   }
 
-  void addToBag(int n, String msg) {
-    setState(() => bagCount += n);
-    showToast(msg);
-  }
-
-  void removeOneFromBag() {
-    setState(() => bagCount = (bagCount - 1).clamp(0, 999));
-  }
-
-  @override
-  void dispose() {
-    _toastTimer?.cancel();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 420),
-          child: Stack(
-            children: [
-              Container(
-                margin: const EdgeInsets.symmetric(
-                  vertical: 24,
-                  horizontal: 12,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) =>
+              ProductDetailsCubit(ProductDetailsRemoteDataSource())
+                ..getProductDetails(widget.productId),
+        ),
+        BlocProvider(
+          create: (context) => AddToCartCubit(CartRemoteDataSource()),
+        ),
+      ],
+      child: Scaffold(
+        body: BlocListener<AddToCartCubit, AddToCartState>(
+          listener: (context, state) {
+            if (state is AddToCartSuccess) {
+              if (state.buttonId == 'buyNow') {
+                Navigator.pushNamed(context, AppRoutes.cart);
+              } else {
+                showToast(state.message);
+              }
+            } else if (state is CartError) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(state.errorMessage),
+                  backgroundColor: Colors.black87,
+                  behavior: SnackBarBehavior.floating,
                 ),
-                decoration: BoxDecoration(
-                  color: context.cardColor,
-                  borderRadius: BorderRadius.circular(34),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(
-                        context.isDark ? 0.55 : 0.18,
-                      ),
-                      blurRadius: 45,
-                      offset: const Offset(0, 20),
-                    ),
-                  ],
-                ),
-                clipBehavior: Clip.antiAlias,
-                child: SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      HeroCarousel(
-                        bagCount: bagCount,
-                        onBack: () {
-                          Navigator.pop(context);
-                        },
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(20, 20, 20, 8),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const TitleRow(),
-                            const SizedBox(height: 10),
-                            const RatingRow(),
-                            const SizedBox(height: 16),
-                            const PriceRow(),
-                            const ChainDivider(),
-                            const SectionLabel(
-                              icon: Icons.notes_rounded,
-                              label: 'Description',
-                            ),
-                            const SizedBox(height: 10),
-                            const ExpandableDescription(),
-                            const SizedBox(height: 20),
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: BuyNowButton(
-                                    onTap: () =>
-                                        showToast('Proceeding to checkout…'),
+              );
+            }
+          },
+          child: BlocBuilder<ProductDetailsCubit, ProductDetailsState>(
+            builder: (context, state) {
+              if (state is ProductDetailsLoading) {
+                return const Center(child: CircularProgressIndicator());
+              } else if (state is ProductDetailsError) {
+                return Center(child: Text(state.errorMessage));
+              } else if (state is ProductDetailsSuccess) {
+                final product = state.product;
+                final reviews = state.reviews;
+                final relatedProducts = state.relatedProducts;
+
+                final List<String> gallery = [product.coverPictureUrl];
+                if (product.productPictures.isNotEmpty) {
+                  gallery.addAll(product.productPictures);
+                }
+
+                return LayoutBuilder(
+                  builder: (context, constraints) {
+                    final bool isWide = constraints.maxWidth > 800;
+
+                    return Center(
+                      child: Container(
+                        constraints: BoxConstraints(
+                          maxWidth: isWide ? 1150 : 500,
+                        ),
+                        margin: EdgeInsets.symmetric(
+                          vertical: isWide ? 40 : 0,
+                          horizontal: isWide ? 40 : 0,
+                        ),
+                        decoration: BoxDecoration(
+                          color: context.cardColor,
+                          borderRadius: BorderRadius.circular(isWide ? 34 : 0),
+                          boxShadow: isWide
+                              ? [
+                                  BoxShadow(
+                                    color: Colors.black.withValues(alpha: 0.08),
+                                    blurRadius: 30,
+                                    offset: const Offset(0, 10),
                                   ),
-                                ),
-                                const SizedBox(width: 10),
-                                Expanded(
-                                  child: AddToCartButton(
-                                    onAdded: () => addToBag(
-                                      qty,
-                                      'Added $qty item${qty > 1 ? 's' : ''} to cart',
+                                ]
+                              : null,
+                        ),
+                        clipBehavior: Clip.antiAlias,
+                        child: Stack(
+                          children: [
+                            if (isWide)
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Expanded(
+                                    flex: 5,
+                                    child: HeroCarousel(
+                                      bagCount: 0,
+                                      images: gallery,
+                                      onBack: () => Navigator.pop(context),
+                                      onAdd: () {
+                                        context.read<AddToCartCubit>().addToCart(
+                                          qty, productId: product.id, buttonId: 'addToCart',
+                                        );
+                                      },
                                     ),
                                   ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 22),
-                            const SpecsAccordion(),
-                            const SizedBox(height: 22),
-                            QuantityStepper(
-                              value: qty,
-                              onChanged: (v) => setState(() => qty = v),
-                            ),
-                            const SizedBox(height: 26),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                const SectionLabel(
-                                  icon: Icons.favorite_border_rounded,
-                                  label: 'Complete the Set',
-                                ),
-                                Text(
-                                  'View All →',
-                                  style: Theme.of(context).textTheme.bodySmall
-                                      ?.copyWith(
-                                        color: context.goldDeep,
-                                        fontWeight: FontWeight.w700,
-                                        fontSize: 12.5,
+                                  Expanded(
+                                    flex: 6,
+                                    child: SingleChildScrollView(
+                                      padding: const EdgeInsets.all(40),
+                                      child: _buildProductInfo(
+                                        product,
+                                        reviews,
+                                        relatedProducts,
                                       ),
+                                    ),
+                                  ),
+                                ],
+                              )
+                            else
+                              SingleChildScrollView(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    HeroCarousel(
+                                      bagCount: 0,
+                                      images: gallery,
+                                      onBack: () => Navigator.pop(context),
+                                      onAdd: () {
+                                        context.read<AddToCartCubit>().addToCart(
+                                          qty, productId: product.id, buttonId: 'addToCart',
+                                        );
+                                      },
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(20),
+                                      child: _buildProductInfo(
+                                        product,
+                                        reviews,
+                                        relatedProducts,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
-                            const SizedBox(height: 12),
+                              ),
+                            _buildToastOverlay(),
                           ],
                         ),
                       ),
-                      RelatedRail(
-                        onQuickAdd: (name) => addToBag(1, '$name added'),
-                        onQuickRemove: removeOneFromBag,
+                    );
+                  },
+                );
+              }
+              return const SizedBox.shrink();
+            },
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildProductInfo(product, reviews, relatedProducts) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        TitleRow(name: product.name, arabicName: product.arabicName),
+        const SizedBox(height: 12),
+        RatingRow(
+          rating: product.rating.toDouble(),
+          reviewsCount: product.reviewsCount,
+        ),
+        const SizedBox(height: 18),
+        PriceRow(
+          price: product.price.toDouble(),
+          discountPercentage: product.discountPercentage,
+        ),
+        const ChainDivider(),
+        const SectionLabel(icon: Icons.notes_rounded, label: 'Description'),
+        const SizedBox(height: 12),
+        ExpandableDescription(
+          description: product.description,
+          arabicDescription: product.arabicDescription,
+        ),
+        const SizedBox(height: 30),
+
+        Builder(
+          builder: (blocContext) {
+            return Row(
+              children: [
+                Expanded(
+                  child: BlocBuilder<AddToCartCubit, AddToCartState>(
+                    builder: (context, cartState) {
+                      if (cartState is AddToCartLoading &&
+                          cartState.buttonId == 'buyNow') {
+                        return const Center(
+                          child: SizedBox(
+                            height: 24,
+                            width: 24,
+                            child: CircularProgressIndicator(strokeWidth: 2),
+                          ),
+                        );
+                      }
+                      return BuyNowButton(
+                        onTap: () {
+                          blocContext.read<AddToCartCubit>().addToCart(
+                            qty, buttonId: 'buyNow', productId: product.id,
+                          );
+                        },
+                      );
+                    },
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: BlocBuilder<AddToCartCubit, AddToCartState>(
+                    builder: (context, cartState) {
+                      if (cartState is AddToCartLoading &&
+                          cartState.buttonId == 'addToCart') {
+                        return const Center(
+                          child: SizedBox(
+                            height: 24,
+                            width: 24,
+                            child: CircularProgressIndicator(strokeWidth: 2),
+                          ),
+                        );
+                      }
+                      return AddToCartButton(
+                        onAdded: () {
+                          blocContext.read<AddToCartCubit>().addToCart(
+                            qty, productId: product.id, buttonId: 'addToCart',
+                          );
+                        },
+                      );
+                    },
+                  ),
+                ),
+              ],
+            );
+          },
+        ),
+
+        const SizedBox(height: 32),
+        SpecsAccordion(product: product),
+        const SizedBox(height: 28),
+        QuantityStepper(
+          value: qty,
+          onChanged: (v) {
+            if (v <= product.stock) {
+              setState(() => qty = v);
+            } else {
+              showToast('Only ${product.stock} items in stock');
+            }
+          },
+        ),
+        const SizedBox(height: 32),
+        if (relatedProducts.isNotEmpty) ...[
+          const SectionLabel(icon: Icons.auto_awesome_rounded, label: 'Related Products'),
+          const SizedBox(height: 16),
+          RelatedRail(
+            relatedProducts: relatedProducts,
+            onQuickAdd: (name) => showToast('Added $name to cart'),
+            onQuickRemove: () {},
+          ),
+          const SizedBox(height: 32),
+        ],
+        if (reviews.isNotEmpty) ...[
+          const SectionLabel(
+            icon: Icons.reviews_outlined,
+            label: 'Customer Reviews',
+          ),
+          const SizedBox(height: 20),
+          ...reviews
+              .take(3)
+              .map(
+                (review) => Padding(
+                  padding: const EdgeInsets.only(bottom: 20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Text(
+                            review.userName,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w700,
+                              fontSize: 14,
+                            ),
+                          ),
+                          const Spacer(),
+                          StarRating(
+                            rating: review.rating.toDouble(),
+                            size: 13,
+                          ),
+                        ],
                       ),
-                      const SizedBox(height: 8),
+                      const SizedBox(height: 6),
+                      Text(
+                        review.comment,
+                        style: TextStyle(
+                          color: context.textSecondary,
+                          fontSize: 13.5,
+                          height: 1.5,
+                        ),
+                      ),
                     ],
                   ),
                 ),
               ),
-              // Toast overlay
-              Positioned(
-                left: 0,
-                right: 0,
-                bottom: 34,
-                child: Center(
-                  child: AnimatedSlide(
-                    duration: const Duration(milliseconds: 260),
-                    curve: Curves.easeOutBack,
-                    offset: toastMessage == null
-                        ? const Offset(0, 0.4)
-                        : Offset.zero,
-                    child: AnimatedOpacity(
-                      duration: const Duration(milliseconds: 220),
-                      opacity: toastMessage == null ? 0 : 1,
-                      child: IgnorePointer(
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 18,
-                            vertical: 10,
-                          ),
-                          decoration: BoxDecoration(
-                            color: context.isDark
-                                ? AppColors.darkSurfaceAlt
-                                : AppColors.lightTextPrimary,
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                          child: Text(
-                            toastMessage ?? '',
-                            style: Theme.of(context).textTheme.bodySmall
-                                ?.copyWith(
-                                  color: context.isDark
-                                      ? AppColors.darkTextPrimary
-                                      : Colors.white,
-                                  fontSize: 12.5,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                          ),
-                        ),
-                      ),
+        ],
+        const SizedBox(height: 24),
+      ],
+    );
+  }
+
+  Widget _buildToastOverlay() {
+    if (toastMessage == null) return const SizedBox.shrink();
+    return Positioned(
+      left: 20,
+      right: 20,
+      bottom: 40,
+      child: Center(
+        child: AnimatedSlide(
+          duration: const Duration(milliseconds: 260),
+          curve: Curves.easeOutBack,
+          offset: toastMessage == null ? const Offset(0, 0.4) : Offset.zero,
+          child: AnimatedOpacity(
+            duration: const Duration(milliseconds: 220),
+            opacity: toastMessage == null ? 0 : 1,
+            child: IgnorePointer(
+              child: Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 22,
+                  vertical: 12,
+                ),
+                decoration: BoxDecoration(
+                  color: context.isDark
+                      ? AppColors.darkSurfaceAlt
+                      : Colors.black,
+                  borderRadius: BorderRadius.circular(30),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.1),
+                      blurRadius: 10,
                     ),
+                  ],
+                ),
+                child: Text(
+                  toastMessage!,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 13,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
               ),
-            ],
+            ),
           ),
         ),
       ),
