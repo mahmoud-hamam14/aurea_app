@@ -95,7 +95,7 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
                               prefixIcon: Icons.email,
                               validator: (email) {
                                 return Validator.validateEmail(email!);
-                              },
+                              }, suffixIcon: Icons.email,
                             ),
 
                             const Gap(25),

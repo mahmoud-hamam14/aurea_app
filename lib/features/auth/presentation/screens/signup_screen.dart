@@ -135,7 +135,7 @@ class _SignupScreenBodyState extends State<SignupScreenBody> {
                                             return Validator.validateUserName(
                                               firstName!,
                                             );
-                                          },
+                                          }, suffixIcon: Icons.person,
                                         ),
                                       ),
                                       const Gap(16),
@@ -147,7 +147,7 @@ class _SignupScreenBodyState extends State<SignupScreenBody> {
                                             return Validator.validateUserName(
                                               lastName!,
                                             );
-                                          },
+                                          }, suffixIcon: Icons.person,
                                         ),
                                       ),
                                     ],
@@ -158,7 +158,7 @@ class _SignupScreenBodyState extends State<SignupScreenBody> {
                                     labelText: "Email",
                                     validator: (email) {
                                       return Validator.validateEmail(email!);
-                                    },
+                                    }, suffixIcon: Icons.email,
                                   ),
 
                                   CustomTextFormField(

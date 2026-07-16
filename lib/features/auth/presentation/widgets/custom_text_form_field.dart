@@ -7,7 +7,7 @@ class CustomTextFormField extends StatefulWidget {
     this.controller,
     this.prefixIcon,
     this.validator,
-    this.isPassword = false,
+    this.isPassword = false, required IconData suffixIcon,
   });
 
   final String labelText;

@@ -117,7 +117,6 @@ class ProfileScreen extends StatelessWidget {
                       ],
                     ),
                     const Gap(30),
-                    const LogoutButton(),
                     const Gap(50),
                   ],
                 ),

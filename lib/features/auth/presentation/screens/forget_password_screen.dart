@@ -57,7 +57,7 @@ class ForgetPasswordScreen extends StatelessWidget {
                     controller: emailController,
                     validator: (email) {
                       return Validator.validateEmail(email!);
-                    },
+                    }, suffixIcon: Icons.email,
                   ),
                   const Gap(40),
                   BlocConsumer<AuthCubit, AuthState>(
