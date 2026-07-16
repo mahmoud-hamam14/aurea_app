@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nti_ecommerce_team4/features/products/data/models/product_model.dart';
-import '../screens/product_details_screen.dart';
+import '../../../../core/theme/theme_extensions.dart';
 
 class SpecsGrid extends StatelessWidget {
   final ProductItem product;

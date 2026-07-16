@@ -13,6 +13,8 @@ import 'package:nti_ecommerce_team4/features/auth/presentation/widgets/auth_head
 import 'package:nti_ecommerce_team4/features/auth/presentation/widgets/custom_button.dart';
 import '../widgets/otp_input_section.dart';
 
+import 'package:nti_ecommerce_team4/core/routes/app_routes.dart';
+
 class VerificationOtpScreen extends StatefulWidget {
   const VerificationOtpScreen({super.key, required this.email});
   final String email;
@@ -62,25 +64,18 @@ class _VerificationOtpScreenState extends State<VerificationOtpScreen> {
                       ),
                     );
                   } else if (state is OTPSuccessState) {
-                    Navigator.pushReplacement(
+                    Navigator.pushReplacementNamed(
                       context,
-                      MaterialPageRoute(
-                        builder: (context) => BlocProvider(
-                          create: (context) =>
-                              AuthCubit(AuthRepo(AuthRemoteDataSource())),
-
-                          child: CreateNewPasswordScreen(
-                            email: widget.email,
-                            otp: otp!,
-                          ),
-                        ),
-                      ),
+                      AppRoutes.createNewPassword,
+                      arguments: {
+                        'email': widget.email,
+                        'otp': otp!,
+                      },
                     );
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         content: Text(
                           state.msg.message,
-                          // "OTP is valid."
                         ),
                         backgroundColor: Colors.green,
                       ),
@@ -89,7 +84,7 @@ class _VerificationOtpScreenState extends State<VerificationOtpScreen> {
                 },
                 builder: (context, state) {
                   if (state is AuthLoadingState) {
-                    return Center(child: CircularProgressIndicator());
+                    return const Center(child: CircularProgressIndicator());
                   } else {
                     return CustomButton(
                       buttonText: 'Verify',
@@ -112,3 +107,4 @@ class _VerificationOtpScreenState extends State<VerificationOtpScreen> {
     );
   }
 }
+

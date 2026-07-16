@@ -14,6 +14,8 @@ import 'package:nti_ecommerce_team4/features/auth/presentation/widgets/auth_appb
 import 'package:nti_ecommerce_team4/features/auth/presentation/widgets/custom_button.dart';
 import 'package:nti_ecommerce_team4/features/auth/presentation/widgets/custom_text_form_field.dart';
 
+import 'package:nti_ecommerce_team4/core/routes/app_routes.dart';
+
 class ForgetPasswordScreen extends StatelessWidget {
   const ForgetPasswordScreen({super.key});
 
@@ -23,7 +25,7 @@ class ForgetPasswordScreen extends StatelessWidget {
     final GlobalKey<FormState> myKey = GlobalKey();
     //final theme = Theme.of(context);
     return Scaffold(
-      appBar: AuthAppbar(),
+      appBar: const AuthAppbar(),
       body: SafeArea(
         child: Center(
           child: Padding(
@@ -40,17 +42,16 @@ class ForgetPasswordScreen extends StatelessWidget {
                       fontFamily: 'PlayfairDisplay',
                     ),
                   ),
-                  Gap(12),
+                  const Gap(12),
 
                   Text(
                     'Please enter your email address to receive a verification code.',
                     textAlign: TextAlign.center,
                     style: AppTextStyles.bodyMedium.copyWith(
-                      // color: AppColors.lightTextSecondary,
                       fontFamily: 'PlayfairDisplay',
                     ),
                   ),
-                  Gap(40),
+                  const Gap(40),
                   CustomTextFormField(
                     labelText: "Email Address",
                     controller: emailController,
@@ -58,7 +59,7 @@ class ForgetPasswordScreen extends StatelessWidget {
                       return Validator.validateEmail(email!);
                     },
                   ),
-                  Gap(40),
+                  const Gap(40),
                   BlocConsumer<AuthCubit, AuthState>(
                     listener: (context, state) {
                       if (state is AuthErrorState) {
@@ -69,23 +70,15 @@ class ForgetPasswordScreen extends StatelessWidget {
                           ),
                         );
                       } else if (state is ForgetSuccessState) {
-                        Navigator.pushReplacement(
+                        Navigator.pushReplacementNamed(
                           context,
-                          MaterialPageRoute(
-                            builder: (context) => BlocProvider(
-                              create: (context) =>
-                                  AuthCubit(AuthRepo(AuthRemoteDataSource())),
-                              child: VerificationOtpScreen(
-                                email: emailController.text,
-                              ),
-                            ),
-                          ),
+                          AppRoutes.verificationOTP,
+                          arguments: emailController.text,
                         );
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             content: Text(
                               state.msg.message,
-                              //"If the email is registered, you will receive an OTP to reset your password.",
                             ),
                             backgroundColor: Colors.green,
                           ),
@@ -94,7 +87,7 @@ class ForgetPasswordScreen extends StatelessWidget {
                     },
                     builder: (context, state) {
                       if (state is AuthLoadingState) {
-                        return Center(child: CircularProgressIndicator());
+                        return const Center(child: CircularProgressIndicator());
                       } else {
                         return CustomButton(
                           buttonText: "Next",
@@ -120,3 +113,4 @@ class ForgetPasswordScreen extends StatelessWidget {
     );
   }
 }
+

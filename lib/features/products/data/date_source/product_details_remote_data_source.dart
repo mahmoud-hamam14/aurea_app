@@ -34,4 +34,18 @@ class ProductDetailsRemoteDataSource {
       rethrow;
     }
   }
+
+  Future<List<ProductItem>> getRelatedProducts() async {
+    try {
+      final response = await DioHelper.get(
+        url: "products",
+        queryParameters: {"pageSize": 10, "pageNumber": 1},
+      );
+      final List data = response.data['items'] as List;
+      return data.map((json) => ProductItem.fromJson(json)).toList();
+    } catch (e) {
+      log("Error fetching related products: $e");
+      return [];
+    }
+  }
 }

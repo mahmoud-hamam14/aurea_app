@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nti_ecommerce_team4/features/products/presentation/widgets/sparkle_favorite_button.dart';
 
+import '../../../../core/theme/theme_extensions.dart';
 import '../screens/product_details_screen.dart';
 
 class TitleRow extends StatelessWidget {

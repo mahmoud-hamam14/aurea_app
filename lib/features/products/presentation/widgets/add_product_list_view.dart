@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../screens/product_details_screen.dart';
+import 'package:nti_ecommerce_team4/core/routes/app_routes.dart';
 
 class AddProductListview extends StatelessWidget {
   const AddProductListview({super.key});
@@ -15,9 +15,10 @@ class AddProductListview extends StatelessWidget {
           final theme = Theme.of(context);
           return InkWell(
             onTap: () {
-              Navigator.push(
+              Navigator.pushNamed(
                 context,
-                MaterialPageRoute(builder: (context) => ProductDetailsScreen(productId: 'product_id',)),
+                AppRoutes.productDetails,
+                arguments: 'product_id',
               );
             },
             child: Card(

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nti_ecommerce_team4/features/products/presentation/widgets/start_rating.dart';
 
-import '../screens/product_details_screen.dart';
+import '../../../../core/theme/theme_extensions.dart';
 
 class RatingRow extends StatelessWidget {
   final double rating;

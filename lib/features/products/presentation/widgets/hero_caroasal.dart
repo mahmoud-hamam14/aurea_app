@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import '../screens/product_details_screen.dart';
+import '../../../../core/theme/theme_extensions.dart';
 import 'glass_icon_button.dart';
 
 class HeroCarousel extends StatefulWidget {

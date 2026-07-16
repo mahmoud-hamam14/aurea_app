@@ -4,8 +4,8 @@ import 'package:nti_ecommerce_team4/core/theme/app_theme.dart';
 import 'package:nti_ecommerce_team4/features/categories/presentation/cubits/categories_cubit.dart';
 import 'package:nti_ecommerce_team4/features/categories/presentation/widgets/collections_gridview.dart';
 import 'package:nti_ecommerce_team4/features/categories/presentation/widgets/textfield.dart';
-import 'package:nti_ecommerce_team4/features/home/presentation/widgets/drawer.dart';
 
+import '../../../home/presentation/widgets/custom_drawer.dart';
 class CategorieScreen extends StatefulWidget {
   const CategorieScreen({super.key});
 

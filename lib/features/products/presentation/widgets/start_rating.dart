@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../core/theme/theme_extensions.dart';
 import '../screens/product_details_screen.dart';
 import 'fraction_clipper.dart';
 

@@ -65,8 +65,6 @@ class _AddProductPageState extends State<AddProductPage> {
       color: color.text,
       description: descEn.text,
       descriptionArabic: descAr.text,
-      // Note: In a real app, you would upload the File first and get a URL.
-      // For now, we use a placeholder or the API might handle local paths in debug.
       coverPictureUrl: "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908",
     );
     
@@ -100,82 +98,123 @@ class _AddProductPageState extends State<AddProductPage> {
             children: [
               AddProductAppBar(onClose: () => Navigator.maybePop(context)),
               Expanded(
-                child: SingleChildScrollView(
-                  padding: const EdgeInsets.fromLTRB(16, 16, 16, 28),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SectionCard(
-                        title: 'Product Image', 
-                        child: ImageDropzone(
-                          onImagePicked: (file) {
-                            setState(() {
-                              _pickedImage = file;
-                            });
-                          },
-                        )
-                      ),
-                      const SizedBox(height: 16),
-                      SectionCard(
-                        title: 'Basic Information',
-                        child: Column(
-                          children: [
-                            AureaTextField(label: 'Product Name', hint: 'e.g. Aurelia...', controller: nameEn),
-                            const SizedBox(height: 14),
-                            AureaTextField(label: 'Product Name (Arabic)', hint: 'اسم المنتج', controller: nameAr, rtl: true),
-                            const SizedBox(height: 14),
-                            AureaTextField(label: 'Price (SAR)', hint: '0.00', controller: price, keyboardType: TextInputType.number, suffix: 'SAR'),
-                            const SizedBox(height: 14),
-                            AureaTextField(label: 'Stock', hint: '1', controller: stock, keyboardType: TextInputType.number),
-                            const SizedBox(height: 14),
-                            AureaTextField(label: 'Color', hint: 'e.g. 18K Yellow Gold', controller: color),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-                      SectionCard(
-                        title: 'Product Narrative',
-                        child: Column(
-                          children: [
-                            AureaTextArea(label: 'Description', hint: 'Describe the craftsmanship...', controller: descEn),
-                            const SizedBox(height: 14),
-                            AureaTextArea(label: 'Description (Arabic)', hint: 'وصف المنتج...', controller: descAr, rtl: true),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(height: 24),
-                      SizedBox(
-                        width: double.infinity,
-                        height: 52,
-                        child: ElevatedButton(
-                          onPressed: _isSaving ? null : _onSavePressed,
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColors.gold,
-                            disabledBackgroundColor: AppColors.gold.withOpacity(0.5),
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-                          ),
-                          child: _isSaving 
-                            ? const SizedBox(
-                                height: 24,
-                                width: 24,
-                                child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2),
-                              )
-                            : Text(
-                                'Save Product', 
-                                style: AppTextStyles.buttonText.copyWith(
-                                  color: isDark ? AppColors.darkBackground : AppColors.white
+                child: LayoutBuilder(
+                  builder: (context, constraints) {
+                    final bool isWide = constraints.maxWidth > 900;
+                    
+                    if (isWide) {
+                      return Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            flex: 4,
+                            child: SingleChildScrollView(
+                              padding: const EdgeInsets.all(24),
+                              child: SectionCard(
+                                title: 'Product Image', 
+                                child: ImageDropzone(
+                                  onImagePicked: (file) {
+                                    setState(() => _pickedImage = file);
+                                  },
                                 )
                               ),
+                            ),
+                          ),
+                          Expanded(
+                            flex: 6,
+                            child: SingleChildScrollView(
+                              padding: const EdgeInsets.all(24),
+                              child: _buildForm(isDark),
+                            ),
+                          ),
+                        ],
+                      );
+                    } else {
+                      return SingleChildScrollView(
+                        padding: const EdgeInsets.fromLTRB(16, 16, 16, 28),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SectionCard(
+                              title: 'Product Image', 
+                              child: ImageDropzone(
+                                onImagePicked: (file) {
+                                  setState(() => _pickedImage = file);
+                                },
+                              )
+                            ),
+                            const SizedBox(height: 16),
+                            _buildForm(isDark),
+                          ],
                         ),
-                      ),
-                    ],
-                  ),
+                      );
+                    }
+                  },
                 ),
               ),
             ],
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildForm(bool isDark) {
+    return Column(
+      children: [
+        SectionCard(
+          title: 'Basic Information',
+          child: Column(
+            children: [
+              AureaTextField(label: 'Product Name', hint: 'e.g. Aurelia...', controller: nameEn),
+              const SizedBox(height: 14),
+              AureaTextField(label: 'Product Name (Arabic)', hint: 'اسم المنتج', controller: nameAr, rtl: true),
+              const SizedBox(height: 14),
+              AureaTextField(label: 'Price (SAR)', hint: '0.00', controller: price, keyboardType: TextInputType.number, suffix: 'SAR'),
+              const SizedBox(height: 14),
+              AureaTextField(label: 'Stock', hint: '1', controller: stock, keyboardType: TextInputType.number),
+              const SizedBox(height: 14),
+              AureaTextField(label: 'Color', hint: 'e.g. 18K Yellow Gold', controller: color),
+            ],
+          ),
+        ),
+        const SizedBox(height: 16),
+        SectionCard(
+          title: 'Product Narrative',
+          child: Column(
+            children: [
+              AureaTextArea(label: 'Description', hint: 'Describe the craftsmanship...', controller: descEn),
+              const SizedBox(height: 14),
+              AureaTextArea(label: 'Description (Arabic)', hint: 'وصف المنتج...', controller: descAr, rtl: true),
+            ],
+          ),
+        ),
+        const SizedBox(height: 24),
+        SizedBox(
+          width: double.infinity,
+          height: 52,
+          child: ElevatedButton(
+            onPressed: _isSaving ? null : _onSavePressed,
+            style: ElevatedButton.styleFrom(
+              backgroundColor: AppColors.gold,
+              disabledBackgroundColor: AppColors.gold.withOpacity(0.5),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+            ),
+            child: _isSaving 
+              ? const SizedBox(
+                  height: 24,
+                  width: 24,
+                  child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2),
+                )
+              : Text(
+                  'Save Product', 
+                  style: AppTextStyles.buttonText.copyWith(
+                    color: isDark ? AppColors.darkBackground : AppColors.white
+                  )
+                ),
+          ),
+        ),
+      ],
     );
   }
 }

@@ -14,6 +14,8 @@ import 'package:nti_ecommerce_team4/features/auth/presentation/widgets/custom_bu
 import 'package:nti_ecommerce_team4/features/auth/presentation/widgets/custom_text_form_field.dart';
 import 'package:nti_ecommerce_team4/features/auth/presentation/widgets/password_conditions.dart';
 
+import 'package:nti_ecommerce_team4/core/routes/app_routes.dart';
+
 class CreateNewPasswordScreen extends StatelessWidget {
   const CreateNewPasswordScreen({
     super.key,
@@ -29,7 +31,7 @@ class CreateNewPasswordScreen extends StatelessWidget {
 
     final GlobalKey<FormState> myKey = GlobalKey();
     return Scaffold(
-      appBar: AuthAppbar(),
+      appBar: const AuthAppbar(),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Center(
@@ -47,7 +49,7 @@ class CreateNewPasswordScreen extends StatelessWidget {
                         fontFamily: 'PlayfairDisplay',
                       ),
                     ),
-                    Gap(12),
+                    const Gap(12),
                     Text(
                       '''Create a new secure password for
                 your account.''',
@@ -55,7 +57,7 @@ class CreateNewPasswordScreen extends StatelessWidget {
                         fontFamily: 'PlayfairDisplay',
                       ),
                     ),
-                    Gap(40),
+                    const Gap(40),
                     CustomTextFormField(
                       labelText: "New Password",
                       suffixIcon: Icons.visibility,
@@ -64,7 +66,7 @@ class CreateNewPasswordScreen extends StatelessWidget {
                         return Validator.validatePassword(pass!);
                       },
                     ),
-                    Gap(20),
+                    const Gap(20),
                     CustomTextFormField(
                       labelText: "Confirm Password",
                       suffixIcon: Icons.visibility,
@@ -73,11 +75,11 @@ class CreateNewPasswordScreen extends StatelessWidget {
                         return Validator.validatePassword(pass!);
                       },
                     ),
-                    Gap(32),
-                    PasswordConditions(text: "At least 8 characters long"),
-                    Gap(5),
-                    PasswordConditions(text: "Contains a symbol or number"),
-                    Gap(32),
+                    const Gap(32),
+                    const PasswordConditions(text: "At least 8 characters long"),
+                    const Gap(5),
+                    const PasswordConditions(text: "Contains a symbol or number"),
+                    const Gap(32),
                     BlocConsumer<AuthCubit, AuthState>(
                       listener: (context, state) {
                         if (state is AuthErrorState) {
@@ -88,21 +90,11 @@ class CreateNewPasswordScreen extends StatelessWidget {
                             ),
                           );
                         } else if (state is NewPassSuccessState) {
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => BlocProvider(
-                                create: (context) =>
-                                    AuthCubit(AuthRepo(AuthRemoteDataSource())),
-                                child: LoginScreen(),
-                              ),
-                            ),
-                          );
+                          Navigator.pushReplacementNamed(context, AppRoutes.login);
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
                               content: Text(
                                 state.msg.message,
-                                // " Password has been reset successfully."
                               ),
                               backgroundColor: Colors.green,
                             ),
@@ -111,7 +103,7 @@ class CreateNewPasswordScreen extends StatelessWidget {
                       },
                       builder: (context, state) {
                         if (state is AuthLoadingState) {
-                          return Center(child: CircularProgressIndicator());
+                          return const Center(child: CircularProgressIndicator());
                         } else {
                           return CustomButton(
                             buttonText: "Update Password",
@@ -126,7 +118,7 @@ class CreateNewPasswordScreen extends StatelessWidget {
                                   );
                                 } else {
                                   ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
+                                    const SnackBar(
                                       content: Text("Password didn't match"),
                                       backgroundColor: Colors.red,
                                     ),
@@ -134,7 +126,7 @@ class CreateNewPasswordScreen extends StatelessWidget {
                                 }
                               } else {
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
+                                  const SnackBar(
                                     content: Text("Invalid Password"),
                                     backgroundColor: Colors.red,
                                   ),
@@ -155,3 +147,4 @@ class CreateNewPasswordScreen extends StatelessWidget {
     );
   }
 }
+

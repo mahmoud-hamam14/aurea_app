@@ -1,8 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:nti_ecommerce_team4/features/products/data/models/product_model.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:nti_ecommerce_team4/features/products/presentation/widgets/related_card.dart';
-
-import '../screens/product_details_screen.dart';
+import 'related_card.dart';
 
 class RelatedRail extends StatelessWidget {
   final List<ProductItem> relatedProducts;
@@ -18,22 +16,28 @@ class RelatedRail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 190,
-      child: ListView.separated(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        scrollDirection: Axis.horizontal,
-        itemCount: relatedProducts.length,
-        separatorBuilder: (_, _) => const SizedBox(width: 12),
-        itemBuilder: (context, i) {
-          final item = relatedProducts[i];
-          return RelatedCard(
-            item: item,
-            onQuickAdd: onQuickAdd,
-            onQuickRemove: onQuickRemove,
-          );
-        },
-      ),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final double railHeight = constraints.maxWidth > 600 ? 220 : 200;
+
+        return SizedBox(
+          height: railHeight,
+          child: ListView.separated(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            scrollDirection: Axis.horizontal,
+            itemCount: relatedProducts.length,
+            separatorBuilder: (_, _) => const SizedBox(width: 14),
+            itemBuilder: (context, i) {
+              final item = relatedProducts[i];
+              return RelatedCard(
+                item: item,
+                onQuickAdd: onQuickAdd,
+                onQuickRemove: onQuickRemove,
+              );
+            },
+          ),
+        );
+      },
     );
   }
 }

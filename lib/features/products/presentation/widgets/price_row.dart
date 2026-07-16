@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import '../../../../core/theme/theme_extensions.dart';
 
-import '../screens/product_details_screen.dart';
 
 class PriceRow extends StatelessWidget {
   final double price;

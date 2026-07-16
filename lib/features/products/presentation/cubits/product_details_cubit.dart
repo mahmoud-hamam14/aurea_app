@@ -25,10 +25,21 @@ class ProductDetailsCubit extends Cubit<ProductDetailsState> {
           print('Error fetching reviews: $e');
         }}
 
+      List<ProductItem> relatedProducts = [];
+      try {
+        relatedProducts = await productDetailsRemoteDataSource.getRelatedProducts();
+        // Filter out current product
+        relatedProducts.removeWhere((p) => p.id == productId);
+      } catch (e) {
+        if (kDebugMode) {
+          print('Error fetching related products: $e');
+        }
+      }
+
       emit(ProductDetailsSuccess(
         product: product,
         reviews: reviews,
-        relatedProducts: [],
+        relatedProducts: relatedProducts,
       ));
     } catch (e) {
       emit(ProductDetailsError(errorMessage: e.toString()));

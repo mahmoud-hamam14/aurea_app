@@ -8,6 +8,8 @@ import 'package:nti_ecommerce_team4/features/admin_product/data/date_source/prod
 
 import 'add_product_screen.dart';
 
+import 'package:nti_ecommerce_team4/core/routes/app_routes.dart';
+
 class AdminProductManagement extends StatefulWidget {
   const AdminProductManagement({super.key});
 
@@ -53,14 +55,10 @@ class _AdminProductManagementState extends State<AdminProductManagement> {
       child: Scaffold(
         floatingActionButton: FloatingActionButton(
           onPressed: () async {
-            await Navigator.push(
+            await Navigator.pushNamed(
               context,
-              MaterialPageRoute(
-                builder: (context) => BlocProvider.value(
-                  value: _productCubit,
-                  child: const AddProductPage(),
-                ),
-              ),
+              AppRoutes.addProduct,
+              arguments: _productCubit,
             );
           },
           shape: const CircleBorder(),
@@ -86,14 +84,10 @@ class _AdminProductManagementState extends State<AdminProductManagement> {
           actions: [
             IconButton(
               onPressed: () {
-                Navigator.push(
+                Navigator.pushNamed(
                   context,
-                  MaterialPageRoute(
-                    builder: (context) => BlocProvider.value(
-                      value: _productCubit,
-                      child: const SearchPage(),
-                    ),
-                  ),
+                  AppRoutes.search,
+                  arguments: _productCubit,
                 );
               },
               icon: const Icon(Icons.search, size: 24),

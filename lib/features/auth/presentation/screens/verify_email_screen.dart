@@ -13,6 +13,8 @@ import 'package:nti_ecommerce_team4/features/auth/presentation/widgets/auth_head
 import 'package:nti_ecommerce_team4/features/auth/presentation/widgets/custom_button.dart';
 import 'package:nti_ecommerce_team4/features/auth/presentation/widgets/otp_input_section.dart';
 
+import 'package:nti_ecommerce_team4/core/routes/app_routes.dart';
+
 class VerifyEmail extends StatefulWidget {
   const VerifyEmail({super.key, required this.userEmail});
 
@@ -26,7 +28,7 @@ class _VerifyEmailState extends State<VerifyEmail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AuthAppbar(),
+      appBar: const AuthAppbar(),
       body: BlocProvider(
         create: (context) => AuthCubit(AuthRepo(AuthRemoteDataSource())),
         child: VerifyEmailBody(userEmail: widget.userEmail),
@@ -55,12 +57,9 @@ class _VerifyEmailBodyState extends State<VerifyEmailBody> {
         child: BlocConsumer<AuthCubit, AuthState>(
           listener: (context, state) {
             if (state is AuthSuccessState) {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => const LoginScreen()),
-              );
+              Navigator.pushReplacementNamed(context, AppRoutes.login);
               ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
+                const SnackBar(
                   content: Text('Signup Successfully'),
                   backgroundColor: Colors.green,
                 ),
@@ -104,8 +103,6 @@ class _VerifyEmailBodyState extends State<VerifyEmailBody> {
                 CustomButton(
                   buttonText: 'Verify',
                   onButtonPressed: () {
-                    // API
-
                     context.read<AuthCubit>().verifyEmail(
                       otp: otpCode,
                       email: widget.userEmail,
@@ -122,3 +119,4 @@ class _VerifyEmailBodyState extends State<VerifyEmailBody> {
     );
   }
 }
+

@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nti_ecommerce_team4/features/cart/presentation/cubits/add_to_cart_cubit.dart';
 import 'package:nti_ecommerce_team4/features/cart/presentation/cubits/add_to_cart_state.dart';
-import 'package:nti_ecommerce_team4/features/cart/presentation/screens/cart_screen.dart';
 import 'package:nti_ecommerce_team4/features/products/data/date_source/product_details_remote_data_source.dart';
 import 'package:nti_ecommerce_team4/features/products/presentation/cubits/product_details_cubit.dart';
+import '../../../../core/routes/app_routes.dart';
 import '../../../../core/theme/app_theme.dart';
+import '../../../../core/theme/theme_extensions.dart';
 import '../../../cart/data/date_source/cart_get_data.dart';
 import '../widgets/add_cart_button.dart';
 import '../widgets/buy_now_button.dart';
@@ -16,51 +17,11 @@ import '../widgets/hero_caroasal.dart';
 import '../widgets/price_row.dart';
 import '../widgets/quantity_stipper.dart';
 import '../widgets/rating_row.dart';
+import '../widgets/related_rail.dart';
 import '../widgets/section_label.dart';
 import '../widgets/specs_acordion.dart';
 import '../widgets/start_rating.dart';
 import '../widgets/title_row.dart';
-
-extension AureaThemeX on BuildContext {
-  bool get isDark => Theme.of(this).brightness == Brightness.dark;
-
-  Color get surfaceAlt =>
-      isDark ? AppColors.darkSurfaceAlt : AppColors.lightSurfaceAlt;
-
-  Color get textMuted =>
-      isDark ? AppColors.darkTextMuted : AppColors.lightTextMuted;
-
-  Color get borderColor => Theme.of(this).colorScheme.outline;
-
-  Color get textPrimary => Theme.of(this).colorScheme.onSurface;
-
-  Color get textSecondary =>
-      Theme.of(this).textTheme.bodyMedium?.color ??
-      AppColors.lightTextSecondary;
-
-  Color get cardColor => Theme.of(this).colorScheme.surface;
-
-  Color get gold => AppColors.gold;
-
-  Color get errorColor => Theme.of(this).colorScheme.error;
-
-  Color get onGold => AppColors.gold;
-
-  Color get goldDeep {
-    final hsl = HSLColor.fromColor(AppColors.gold);
-    return hsl.withLightness((hsl.lightness - 0.14).clamp(0.0, 1.0)).toColor();
-  }
-
-  Color get goldPale {
-    final hsl = HSLColor.fromColor(AppColors.gold);
-    return hsl.withLightness((hsl.lightness + 0.28).clamp(0.0, 1.0)).toColor();
-  }
-
-  Color get success => AppColors.success;
-
-  Color get successBg =>
-      AppColors.success.withValues(alpha: isDark ? 0.18 : 0.12);
-}
 
 class ProductDetailsScreen extends StatefulWidget {
   final String productId;
@@ -101,10 +62,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           listener: (context, state) {
             if (state is AddToCartSuccess) {
               if (state.buttonId == 'buyNow') {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const CartScreen()),
-                );
+                Navigator.pushNamed(context, AppRoutes.cart);
               } else {
                 showToast(state.message);
               }
@@ -127,6 +85,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               } else if (state is ProductDetailsSuccess) {
                 final product = state.product;
                 final reviews = state.reviews;
+                final relatedProducts = state.relatedProducts;
 
                 final List<String> gallery = [product.coverPictureUrl];
                 if (product.productPictures.isNotEmpty) {
@@ -172,6 +131,11 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                       bagCount: 0,
                                       images: gallery,
                                       onBack: () => Navigator.pop(context),
+                                      onAdd: () {
+                                        context.read<AddToCartCubit>().addToCart(
+                                          qty, productId: product.id, buttonId: 'addToCart',
+                                        );
+                                      },
                                     ),
                                   ),
                                   Expanded(
@@ -181,6 +145,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                       child: _buildProductInfo(
                                         product,
                                         reviews,
+                                        relatedProducts,
                                       ),
                                     ),
                                   ),
@@ -195,12 +160,18 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                       bagCount: 0,
                                       images: gallery,
                                       onBack: () => Navigator.pop(context),
+                                      onAdd: () {
+                                        context.read<AddToCartCubit>().addToCart(
+                                          qty, productId: product.id, buttonId: 'addToCart',
+                                        );
+                                      },
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.all(20),
                                       child: _buildProductInfo(
                                         product,
                                         reviews,
+                                        relatedProducts,
                                       ),
                                     ),
                                   ],
@@ -222,7 +193,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     );
   }
 
-  Widget _buildProductInfo(product, reviews) {
+  Widget _buildProductInfo(product, reviews, relatedProducts) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -290,10 +261,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                       return AddToCartButton(
                         onAdded: () {
                           blocContext.read<AddToCartCubit>().addToCart(
-
-
-
-                            buttonId: 'addToCart', productId: product.id,  qty,
+                            qty, productId: product.id, buttonId: 'addToCart',
                           );
                         },
                       );
@@ -318,7 +286,17 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             }
           },
         ),
-        const SizedBox(height: 40),
+        const SizedBox(height: 32),
+        if (relatedProducts.isNotEmpty) ...[
+          const SectionLabel(icon: Icons.auto_awesome_rounded, label: 'Related Products'),
+          const SizedBox(height: 16),
+          RelatedRail(
+            relatedProducts: relatedProducts,
+            onQuickAdd: (name) => showToast('Added $name to cart'),
+            onQuickRemove: () {},
+          ),
+          const SizedBox(height: 32),
+        ],
         if (reviews.isNotEmpty) ...[
           const SectionLabel(
             icon: Icons.reviews_outlined,

@@ -10,6 +10,7 @@ import 'package:nti_ecommerce_team4/features/home/presentation/widgets/custom_dr
 import 'package:nti_ecommerce_team4/features/home/presentation/widgets/explore_listview.dart';
 import 'package:nti_ecommerce_team4/features/home/presentation/widgets/offer_section.dart';
 
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -21,8 +22,12 @@ class _HomeScreenState extends State<HomeScreen> {
   final GlobalKey collectionsKey = GlobalKey();
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-  create: (context) => AddToCartCubit(CartRemoteDataSource()),
+    return MultiBlocProvider(
+   providers: [
+    BlocProvider(create: (context) => OffersCubit()..getOffers()),
+    BlocProvider(create: (context) => ProductsCubit()..getProducts()),
+     BlocProvider(create: (context) => AddToCartCubit(CartRemoteDataSource())),
+  ],
   child: Scaffold(
       drawer: const DevDrawer(),
 

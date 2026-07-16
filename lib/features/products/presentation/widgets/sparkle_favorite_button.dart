@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:nti_ecommerce_team4/features/products/presentation/widgets/sparkle_painter.dart';
 
 import '../../../../core/theme/app_theme.dart';
-import '../screens/product_details_screen.dart';
+import '../../../../core/theme/theme_extensions.dart';
 
 class SparkleFavoriteButton extends StatefulWidget {
   const SparkleFavoriteButton({super.key});
