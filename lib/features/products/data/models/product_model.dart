@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 class ProductListResponse {
   final List<ProductItem> items;
