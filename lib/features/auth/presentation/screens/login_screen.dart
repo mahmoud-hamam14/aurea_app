@@ -6,7 +6,6 @@ import 'package:nti_ecommerce_team4/features/auth/data/auth_repo/auth_repo.dart'
 import 'package:nti_ecommerce_team4/features/auth/data/date_source/auth_remote_data_source.dart';
 import 'package:nti_ecommerce_team4/features/auth/presentation/cubits/auth_cubit.dart';
 import 'package:nti_ecommerce_team4/features/auth/presentation/cubits/auth_state.dart';
-import 'package:nti_ecommerce_team4/main_screen.dart';
 import '../widgets/auth_divider.dart';
 import '../widgets/auth_header.dart';
 import 'package:gap/gap.dart';
@@ -14,8 +13,7 @@ import '../widgets/auth_redirect_text.dart';
 import '../widgets/custom_button.dart';
 import '../widgets/custom_text_form_field.dart';
 import '../widgets/social_auth_section.dart';
-import 'forget_password_screen.dart';
-import 'signup_screen.dart';
+
 
 import 'package:nti_ecommerce_team4/core/routes/app_routes.dart';
 
@@ -119,7 +117,13 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
                                 onPressed: () {
                                   Navigator.pushNamed(context, AppRoutes.forgetPassword);
                                 },
-                                child: const Text('Forget Password?'),
+                                child: Text(
+                                  'Forget Password?',
+                                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                                    fontWeight: FontWeight.w600,
+                                    color: Theme.of(context).primaryColor,
+                                  ),
+                                ),
                               ),
                             ),
 

@@ -1,9 +1,9 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nti_ecommerce_team4/core/network/dio_helper.dart';
 import 'package:nti_ecommerce_team4/core/theme/theme_provider.dart';
 import 'package:nti_ecommerce_team4/core/theme/app_theme.dart';
-import 'package:nti_ecommerce_team4/features/splash/presentation/screens/splash_screen.dart';
 import 'package:provider/provider.dart';
 
 import 'package:nti_ecommerce_team4/core/routes/app_router.dart';
@@ -29,7 +29,8 @@ class AureaApp extends StatelessWidget {
     final themeProvider = context.watch<ThemeProvider>();
 
     return ScreenUtilInit(
-      designSize: const Size(375, 812), // Standard iPhone size
+      // Use a larger design size on Web/Desktop to prevent massive scaling
+      designSize: kIsWeb ? const Size(1440, 1024) : const Size(360, 690),
       minTextAdapt: true,
       splitScreenMode: true,
       builder: (context, child) {
@@ -41,9 +42,8 @@ class AureaApp extends StatelessWidget {
           onGenerateRoute: AppRouter.generateRoute,
           initialRoute: AppRoutes.splash,
         );
-      }
-
-        );
-
+      },
+    );
   }
 }
+

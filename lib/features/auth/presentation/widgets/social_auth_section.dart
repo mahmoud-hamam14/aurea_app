@@ -7,27 +7,47 @@ class SocialAuthSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Expanded(
-          child: SocialButton(
-            onPressed: () {},
-            iconPath: 'assets/icons/google.svg',
-            title: 'Google',
-          ),
-        ),
-
-        Gap(20),
-
-        Expanded(
-          child: SocialButton(
-            onPressed: () {},
-            iconPath: 'assets/icons/apple.svg',
-            title: 'Apple',
-          ),
-        ),
-      ],
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        // If width is too small, stack buttons vertically
+        if (constraints.maxWidth < 300) {
+          return Column(
+            children: [
+              SocialButton(
+                onPressed: () {},
+                iconPath: 'assets/icons/google.svg',
+                title: 'Google',
+              ),
+              const Gap(12),
+              SocialButton(
+                onPressed: () {},
+                iconPath: 'assets/icons/apple.svg',
+                title: 'Apple',
+              ),
+            ],
+          );
+        }
+        
+        return Row(
+          children: [
+            Expanded(
+              child: SocialButton(
+                onPressed: () {},
+                iconPath: 'assets/icons/google.svg',
+                title: 'Google',
+              ),
+            ),
+            const Gap(16),
+            Expanded(
+              child: SocialButton(
+                onPressed: () {},
+                iconPath: 'assets/icons/apple.svg',
+                title: 'Apple',
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }

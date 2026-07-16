@@ -125,32 +125,65 @@ class _SignupScreenBodyState extends State<SignupScreenBody> {
                                   ),
                                   const Gap(15),
 
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                        child: CustomTextFormField(
-                                          controller: firstNameContoller,
-                                          labelText: "First Name",
-                                          validator: (firstName) {
-                                            return Validator.validateUserName(
-                                              firstName!,
-                                            );
-                                          }, suffixIcon: Icons.person,
-                                        ),
-                                      ),
-                                      const Gap(16),
-                                      Expanded(
-                                        child: CustomTextFormField(
-                                          controller: lastNameContoller,
-                                          labelText: "Last Name",
-                                          validator: (lastName) {
-                                            return Validator.validateUserName(
-                                              lastName!,
-                                            );
-                                          }, suffixIcon: Icons.person,
-                                        ),
-                                      ),
-                                    ],
+                                  LayoutBuilder(
+                                    builder: (context, constraints) {
+                                      if (constraints.maxWidth > 400) {
+                                        return Row(
+                                          children: [
+                                            Expanded(
+                                              child: CustomTextFormField(
+                                                controller: firstNameContoller,
+                                                labelText: "First Name",
+                                                suffixIcon: Icons.person,
+                                                validator: (firstName) {
+                                                  return Validator.validateUserName(
+                                                    firstName!,
+                                                  );
+                                                },
+                                              ),
+                                            ),
+                                            const Gap(16),
+                                            Expanded(
+                                              child: CustomTextFormField(
+                                                controller: lastNameContoller,
+                                                labelText: "Last Name",
+                                                suffixIcon: Icons.person,
+                                                validator: (lastName) {
+                                                  return Validator.validateUserName(
+                                                    lastName!,
+                                                  );
+                                                },
+                                              ),
+                                            ),
+                                          ],
+                                        );
+                                      }
+                                      return Column(
+                                        children: [
+                                          CustomTextFormField(
+                                            controller: firstNameContoller,
+                                            labelText: "First Name",
+                                            suffixIcon: Icons.person,
+                                            validator: (firstName) {
+                                              return Validator.validateUserName(
+                                                firstName!,
+                                              );
+                                            },
+                                          ),
+                                          const Gap(16),
+                                          CustomTextFormField(
+                                            controller: lastNameContoller,
+                                            labelText: "Last Name",
+                                            suffixIcon: Icons.person,
+                                            validator: (lastName) {
+                                              return Validator.validateUserName(
+                                                lastName!,
+                                              );
+                                            },
+                                          ),
+                                        ],
+                                      );
+                                    },
                                   ),
 
                                   CustomTextFormField(

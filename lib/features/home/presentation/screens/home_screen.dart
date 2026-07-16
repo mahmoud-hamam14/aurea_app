@@ -10,7 +10,6 @@ import 'package:nti_ecommerce_team4/features/home/presentation/widgets/custom_dr
 import 'package:nti_ecommerce_team4/features/home/presentation/widgets/explore_listview.dart';
 import 'package:nti_ecommerce_team4/features/home/presentation/widgets/offer_section.dart';
 
-
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -20,147 +19,140 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final GlobalKey collectionsKey = GlobalKey();
+
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
-   providers: [
-    BlocProvider(create: (context) => OffersCubit()..getOffers()),
-    BlocProvider(create: (context) => ProductsCubit()..getProducts()),
-     BlocProvider(create: (context) => AddToCartCubit(CartRemoteDataSource())),
-  ],
-  child: Scaffold(
-      drawer: const DevDrawer(),
-
-      appBar: AppBar(
-        iconTheme: IconThemeData(
-          color: const Color.fromARGB(255, 158, 125, 16),
-        ),
-
-        // surfaceTintColor: Colors.white,
-        // elevation: 1,
-        title: Text(
-          "AUREA",
-          style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-            color: const Color.fromARGB(255, 158, 125, 16),
-            fontFamily: 'PlayfairDisplay',
+      providers: [
+        BlocProvider(create: (context) => OffersCubit()..getOffers()),
+        BlocProvider(create: (context) => ProductsCubit()..getProducts()),
+        BlocProvider(create: (context) => AddToCartCubit(CartRemoteDataSource())),
+      ],
+      child: Scaffold(
+        drawer: const DevDrawer(),
+        appBar: AppBar(
+          iconTheme: const IconThemeData(
+            color: Color.fromARGB(255, 158, 125, 16),
           ),
-        ),
-        centerTitle: true,
-
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.search, size: 28),
-          ),
-
-          Stack(
-            clipBehavior: Clip.none,
-            children: [
-              IconButton(
-                onPressed: () {},
-                icon: const Icon(Icons.shopping_bag_outlined, size: 28),
-              ),
-
-              Positioned(
-                right: 6,
-                top: 8,
-                child: Container(
-                  width: 14,
-                  height: 14,
-                  decoration: const BoxDecoration(
-                    color: Color(0xFFD4AF37),
-                    shape: BoxShape.circle,
-                  ),
-                  child: Center(
-                    child: Text(
-                      "2",
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: Colors.black,
-                        fontSize: 9,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                  ),
+          title: Text(
+            "AUREA",
+            style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                  color: const Color.fromARGB(255, 158, 125, 16),
+                  fontFamily: 'PlayfairDisplay',
                 ),
-              ),
-            ],
           ),
-
-          const SizedBox(width: 8),
-        ],
-      ),
-
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+          centerTitle: true,
+          actions: [
+            IconButton(
+              onPressed: () {},
+              icon: const Icon(Icons.search, size: 28),
+            ),
+            Stack(
+              clipBehavior: Clip.none,
               children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
-                  child: BlocProvider(
-                    create: (context) => OffersCubit()..getOffers(),
-                    child: OfferSection(
-                      onShopNow: () {
-                        if (collectionsKey.currentContext != null) {
-                          Scrollable.ensureVisible(
-                            collectionsKey.currentContext!,
-                            duration: const Duration(milliseconds: 600),
-                            curve: Curves.easeInOut,
-                          );
-                        }
-                      },
+                IconButton(
+                  onPressed: () {},
+                  icon: const Icon(Icons.shopping_bag_outlined, size: 28),
+                ),
+                Positioned(
+                  right: 6,
+                  top: 8,
+                  child: Container(
+                    width: 14,
+                    height: 14,
+                    decoration: const BoxDecoration(
+                      color: Color(0xFFD4AF37),
+                      shape: BoxShape.circle,
+                    ),
+                    child: Center(
+                      child: Text(
+                        "2",
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                              color: Colors.black,
+                              fontSize: 9,
+                              fontWeight: FontWeight.w700,
+                            ),
+                      ),
                     ),
                   ),
-                ),
-                const SizedBox(height: 25),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'Explore',
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.w500,
-                        letterSpacing: 0,
-                        fontFamily: 'PlayfairDisplay',
-                      ),
-                    ),
-                    const SizedBox(height: 16),
-                    BlocProvider(
-                      create: (context) => CategoriesCubit()..getCategories(),
-                      child: const SizedBox(height: 120, child: ExploreListView()),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 25),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'All Products',
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.w500,
-                        letterSpacing: 0,
-                        fontFamily: 'PlayfairDisplay',
-                      ),
-                    ),
-                    const SizedBox(height: 24),
-                    BlocProvider(
-                      create: (context) => ProductsCubit()..getProducts(),
-                      key: collectionsKey,
-                      child: const AllProductGridView(),
-                    ),
-                  ],
                 ),
               ],
             ),
-          ),
+            const SizedBox(width: 8),
+          ],
+        ),
+        body: SafeArea(
+          child: LayoutBuilder(builder: (context, constraints) {
+            final bool isWide = constraints.maxWidth > 900;
+            return Center(
+              child: Container(
+                constraints: BoxConstraints(maxWidth: isWide ? 1200 : double.infinity),
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(height: 10),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(20),
+                        child: OfferSection(
+                          onShopNow: () {
+                            if (collectionsKey.currentContext != null) {
+                              Scrollable.ensureVisible(
+                                collectionsKey.currentContext!,
+                                duration: const Duration(milliseconds: 600),
+                                curve: Curves.easeInOut,
+                              );
+                            }
+                          },
+                        ),
+                      ),
+                      const SizedBox(height: 25),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            'Explore',
+                            style: TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.w500,
+                              letterSpacing: 0,
+                              fontFamily: 'PlayfairDisplay',
+                            ),
+                          ),
+                          const SizedBox(height: 16),
+                          BlocProvider(
+                            create: (context) => CategoriesCubit()..getCategories(),
+                            child: const SizedBox(height: 130, child: ExploreListView()),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 25),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            'All Products',
+                            style: TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.w500,
+                              letterSpacing: 0,
+                              fontFamily: 'PlayfairDisplay',
+                            ),
+                          ),
+                          const SizedBox(height: 24),
+                          AllProductGridView(key: collectionsKey),
+                        ],
+                      ),
+                      const SizedBox(height: 40),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          }),
         ),
       ),
-    ),
-);
+    );
   }
 }

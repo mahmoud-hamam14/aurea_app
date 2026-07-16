@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:nti_ecommerce_team4/core/theme/themes.dart';
 import 'package:nti_ecommerce_team4/features/categories/presentation/cubits/categories_cubit.dart';
 import 'package:nti_ecommerce_team4/features/categories/presentation/cubits/categories_state.dart';
 
@@ -12,27 +11,28 @@ class ExploreListView extends StatelessWidget {
     return BlocBuilder<CategoriesCubit, CategoriesState>(
       builder: (context, state) {
         if (state is CategoriesLoadingState) {
-          return Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator());
         } else if (state is CategoriesFailureState) {
-          return Center(child: Text("Something went wrong"));
+          return const Center(child: Text("Something went wrong"));
         } else if (state is CategoriesSuccessState) {
           return ListView.builder(
             itemCount: state.categories.length,
             scrollDirection: Axis.horizontal,
+            physics: const BouncingScrollPhysics(),
             itemBuilder: (context, index) {
               final category = state.categories[index];
               return Padding(
                 padding: const EdgeInsets.only(right: 24),
                 child: InkWell(
+                  onTap: () {},
                   child: Column(
-                    spacing: 12,
                     children: [
                       Container(
-                        padding: EdgeInsets.all(2),
+                        padding: const EdgeInsets.all(2),
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           border: Border.all(
-                            color: AppColors.darkText,
+                            color: Theme.of(context).colorScheme.onSurface,
                             width: 2,
                           ),
                         ),
@@ -43,7 +43,7 @@ class ExploreListView extends StatelessWidget {
                                   width: 70,
                                   height: 70,
                                   fit: BoxFit.cover,
-                                  errorBuilder: (_, _, _) {
+                                  errorBuilder: (_, __, ___) {
                                     return Image.asset(
                                       "assets/images/beso.jpg",
                                       width: 70,
@@ -60,14 +60,12 @@ class ExploreListView extends StatelessWidget {
                                 ),
                         ),
                       ),
-
+                      const SizedBox(height: 8),
                       Text(
                         category.name,
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w500,
-                          fontFamily: 'Inter',
-                        ),
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                              fontWeight: FontWeight.w600,
+                            ),
                       ),
                     ],
                   ),
@@ -76,7 +74,7 @@ class ExploreListView extends StatelessWidget {
             },
           );
         } else {
-          return SizedBox.shrink();
+          return const SizedBox.shrink();
         }
       },
     );

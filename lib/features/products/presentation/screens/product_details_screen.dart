@@ -94,12 +94,12 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
 
                 return LayoutBuilder(
                   builder: (context, constraints) {
-                    final bool isWide = constraints.maxWidth > 800;
+                    final bool isWide = constraints.maxWidth > 900;
 
                     return Center(
                       child: Container(
                         constraints: BoxConstraints(
-                          maxWidth: isWide ? 1150 : 500,
+                          maxWidth: isWide ? 1150 : double.infinity,
                         ),
                         margin: EdgeInsets.symmetric(
                           vertical: isWide ? 40 : 0,
@@ -287,7 +287,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           },
         ),
         const SizedBox(height: 32),
-        if (relatedProducts.isNotEmpty) ...[
+        if (relatedProducts != null && relatedProducts.isNotEmpty) ...[
           const SectionLabel(icon: Icons.auto_awesome_rounded, label: 'Related Products'),
           const SizedBox(height: 16),
           RelatedRail(

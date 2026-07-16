@@ -53,29 +53,18 @@ class _CartScreenState extends State<CartScreen> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Icon(
-                        Icons.cloud_off_rounded,
-                        size: 64,
-                        color: Colors.grey,
-                      ),
+                      const Icon(Icons.cloud_off_rounded, size: 64, color: Colors.grey),
                       const SizedBox(height: 16),
-                      Text(
-                        "Could not connect to cart API",
-                        style: Theme.of(context).textTheme.titleMedium,
-                      ),
+                      Text("Could not connect to cart API", style: Theme.of(context).textTheme.titleMedium),
                       const SizedBox(height: 8),
                       Text(
                         state.errorMessage,
                         textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          color: Colors.red[400],
-                        ),
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.red[400]),
                       ),
                       const SizedBox(height: 24),
                       ElevatedButton.icon(
-                        onPressed: () {
-                          context.read<CartCubit>().getCart();
-                        },
+                        onPressed: () => context.read<CartCubit>().getCart(),
                         icon: const Icon(Icons.refresh),
                         label: const Text("Retry Connection"),
                       ),
@@ -95,25 +84,15 @@ class _CartScreenState extends State<CartScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Icon(
-                      Icons.shopping_bag_outlined,
-                      size: 72,
-                      color: Colors.grey,
-                    ),
+                    const Icon(Icons.shopping_bag_outlined, size: 72, color: Colors.grey),
                     const SizedBox(height: 16),
                     const Text(
                       "YOUR SHOPPING BAG IS EMPTY",
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w500,
-                        letterSpacing: 1.0,
-                      ),
+                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500, letterSpacing: 1.0),
                     ),
                     const SizedBox(height: 24),
                     ElevatedButton(
-                      onPressed: () {
-                        context.read<CartCubit>().getCart();
-                      },
+                      onPressed: () => context.read<CartCubit>().getCart(),
                       child: const Text("Refresh Bag"),
                     ),
                   ],
@@ -121,48 +100,66 @@ class _CartScreenState extends State<CartScreen> {
               );
             }
 
-            return ListView(
-              padding: const EdgeInsets.all(16),
-              children: [
-                const Column(
-                  children: [
-                    Text(
-                      "YOUR SHOPPING BAG",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    SizedBox(height: 8),
-                  ],
+            return LayoutBuilder(builder: (context, constraints) {
+              final bool isWide = constraints.maxWidth > 900;
+              return Center(
+                child: Container(
+                  constraints: BoxConstraints(maxWidth: isWide ? 1200 : double.infinity),
+                  child: isWide
+                      ? Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Expanded(
+                              flex: 2,
+                              child: ListView(
+                                padding: const EdgeInsets.all(24),
+                                children: _buildCartBody(context, items),
+                              ),
+                            ),
+                            const VerticalDivider(width: 1),
+                            Expanded(
+                              flex: 1,
+                              child: SingleChildScrollView(
+                                padding: const EdgeInsets.all(32),
+                                child: const OrderSummary(),
+                              ),
+                            ),
+                          ],
+                        )
+                      : ListView(
+                          padding: const EdgeInsets.all(16),
+                          children: [
+                            ..._buildCartBody(context, items),
+                            const SizedBox(height: 20),
+                            const OrderSummary(),
+                            const SizedBox(height: 16),
+                          ],
+                        ),
                 ),
-                const SizedBox(height: 16),
-                ...items.map((item) {
-                  return ProductItem(
-                    key: ValueKey(item.itemId),
-
-                    title: item.productName,
-
-                    subtitle: "Quantity: ${item.quantity}",
-
-                    price: "€${item.finalPricePerUnit.toStringAsFixed(2)}",
-
-                    imageUrl: item.productCoverUrl,
-
-                    onDelete: () {
-                      context.read<CartCubit>().deleteCartItem(item.itemId);
-                    },
-                  );
-                }),
-                const SizedBox(height: 20),
-                const OrderSummary(),
-                const SizedBox(height: 16),
-              ],
-            );
+              );
+            });
           },
         ),
       ),
     );
+  }
+
+  List<Widget> _buildCartBody(BuildContext context, List<CartItemModel> items) {
+    return [
+      const Text(
+        "YOUR SHOPPING BAG",
+        textAlign: TextAlign.center,
+        style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+      ),
+      const SizedBox(height: 16),
+      ...items.map((item) => ProductItem(
+            key: ValueKey(item.itemId),
+            title: item.productName,
+            subtitle: "Quantity: ${item.quantity}",
+            price: "€${item.finalPricePerUnit.toStringAsFixed(2)}",
+            imageUrl: item.productCoverUrl,
+            onDelete: () => context.read<CartCubit>().deleteCartItem(item.itemId),
+          )),
+    ];
   }
 }
