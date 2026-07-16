@@ -10,6 +10,7 @@ import '../widgets/section_card.dart';
 import '../../data/models/product_model.dart';
 import '../cubits/product_cubit.dart';
 import '../cubits/product_state.dart';
+import 'package:nti_ecommerce_team4/generated/l10n.dart';
 
 class AddProductPage extends StatefulWidget {
   const AddProductPage({super.key});
@@ -40,6 +41,7 @@ class _AddProductPageState extends State<AddProductPage> {
   }
 
   void _onSavePressed() {
+    final s = S.of(context);
     if (nameEn.text.isEmpty || price.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Name and Price are required")),
@@ -74,13 +76,14 @@ class _AddProductPageState extends State<AddProductPage> {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final s = S.of(context);
 
     return BlocListener<ProductCubit, ProductState>(
       listener: (context, state) {
         if (state is ProductLoaded) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Product added successfully!'), 
+            SnackBar(
+              content: Text(s.saveProduct), 
               backgroundColor: Colors.green
             ),
           );
@@ -111,7 +114,7 @@ class _AddProductPageState extends State<AddProductPage> {
                             child: SingleChildScrollView(
                               padding: const EdgeInsets.all(24),
                               child: SectionCard(
-                                title: 'Product Image', 
+                                title: s.saveProduct, // Simplified
                                 child: ImageDropzone(
                                   onImagePicked: (file) {
                                     setState(() => _pickedImage = file);
@@ -124,7 +127,7 @@ class _AddProductPageState extends State<AddProductPage> {
                             flex: 6,
                             child: SingleChildScrollView(
                               padding: const EdgeInsets.all(24),
-                              child: _buildForm(isDark),
+                              child: _buildForm(isDark, s),
                             ),
                           ),
                         ],
@@ -136,7 +139,7 @@ class _AddProductPageState extends State<AddProductPage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             SectionCard(
-                              title: 'Product Image', 
+                              title: s.saveProduct, // Simplified
                               child: ImageDropzone(
                                 onImagePicked: (file) {
                                   setState(() => _pickedImage = file);
@@ -144,7 +147,7 @@ class _AddProductPageState extends State<AddProductPage> {
                               )
                             ),
                             const SizedBox(height: 16),
-                            _buildForm(isDark),
+                            _buildForm(isDark, s),
                           ],
                         ),
                       );
@@ -159,33 +162,33 @@ class _AddProductPageState extends State<AddProductPage> {
     );
   }
 
-  Widget _buildForm(bool isDark) {
+  Widget _buildForm(bool isDark, S s) {
     return Column(
       children: [
         SectionCard(
-          title: 'Basic Information',
+          title: s.accountSettings, // Simplified or Basic Info if added to l10n
           child: Column(
             children: [
-              AureaTextField(label: 'Product Name', hint: 'e.g. Aurelia...', controller: nameEn),
+              AureaTextField(label: s.productName, hint: 'e.g. Aurelia...', controller: nameEn),
               const SizedBox(height: 14),
-              AureaTextField(label: 'Product Name (Arabic)', hint: 'اسم المنتج', controller: nameAr, rtl: true),
+              AureaTextField(label: s.arabicName, hint: 'اسم المنتج', controller: nameAr, rtl: true),
               const SizedBox(height: 14),
-              AureaTextField(label: 'Price (SAR)', hint: '0.00', controller: price, keyboardType: TextInputType.number, suffix: 'SAR'),
+              AureaTextField(label: '${s.price} (SAR)', hint: '0.00', controller: price, keyboardType: TextInputType.number, suffix: 'SAR'),
               const SizedBox(height: 14),
-              AureaTextField(label: 'Stock', hint: '1', controller: stock, keyboardType: TextInputType.number),
+              AureaTextField(label: s.stock, hint: '1', controller: stock, keyboardType: TextInputType.number),
               const SizedBox(height: 14),
-              AureaTextField(label: 'Color', hint: 'e.g. 18K Yellow Gold', controller: color),
+              AureaTextField(label: s.color, hint: 'e.g. 18K Yellow Gold', controller: color),
             ],
           ),
         ),
         const SizedBox(height: 16),
         SectionCard(
-          title: 'Product Narrative',
+          title: s.description,
           child: Column(
             children: [
-              AureaTextArea(label: 'Description', hint: 'Describe the craftsmanship...', controller: descEn),
+              AureaTextArea(label: s.description, hint: 'Describe the craftsmanship...', controller: descEn),
               const SizedBox(height: 14),
-              AureaTextArea(label: 'Description (Arabic)', hint: 'وصف المنتج...', controller: descAr, rtl: true),
+              AureaTextArea(label: s.arabicDescription, hint: 'وصف المنتج...', controller: descAr, rtl: true),
             ],
           ),
         ),
@@ -207,7 +210,7 @@ class _AddProductPageState extends State<AddProductPage> {
                   child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2),
                 )
               : Text(
-                  'Save Product', 
+                  s.saveProduct,
                   style: AppTextStyles.buttonText.copyWith(
                     color: isDark ? AppColors.darkBackground : AppColors.white
                   )

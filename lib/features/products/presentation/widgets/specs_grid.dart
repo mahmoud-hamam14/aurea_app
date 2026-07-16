@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nti_ecommerce_team4/features/products/data/models/product_model.dart';
+import 'package:nti_ecommerce_team4/generated/l10n.dart';
 import '../../../../core/theme/theme_extensions.dart';
 
 class SpecsGrid extends StatelessWidget {
@@ -8,6 +9,8 @@ class SpecsGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final s = S.of(context);
+    
     Widget item(String k, String v, {bool accent = false}) => Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -32,20 +35,21 @@ class SpecsGrid extends StatelessWidget {
             ],
           ),
         );
+        
     return Column(
       children: [
         Row(
           children: [
-            item('Material', product.color.isEmpty ? 'Solid Gold' : product.color),
-            item('Weight', '${product.weight}g'),
+            item(s.material, product.color.isEmpty ? 'Solid Gold' : product.color),
+            item(s.weight, '${product.weight}g'),
           ],
         ),
         const SizedBox(height: 16),
         Row(
           children: [
             item(
-              'Availability',
-              product.stock > 0 ? 'In Stock' : 'Out of Stock',
+              s.availability,
+              product.stock > 0 ? s.inStock : s.outOfStock,
               accent: product.stock > 0,
             ),
             item('SKU', product.productCode),

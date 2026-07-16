@@ -5,6 +5,7 @@ import 'package:nti_ecommerce_team4/features/cart/presentation/cubits/add_to_car
 import 'package:nti_ecommerce_team4/features/cart/presentation/cubits/add_to_cart_state.dart';
 import 'package:nti_ecommerce_team4/features/products/data/date_source/product_details_remote_data_source.dart';
 import 'package:nti_ecommerce_team4/features/products/presentation/cubits/product_details_cubit.dart';
+import 'package:nti_ecommerce_team4/generated/l10n.dart';
 import '../../../../core/routes/app_routes.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/theme/theme_extensions.dart';
@@ -60,11 +61,12 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
       child: Scaffold(
         body: BlocListener<AddToCartCubit, AddToCartState>(
           listener: (context, state) {
+            final s = S.of(context);
             if (state is AddToCartSuccess) {
               if (state.buttonId == 'buyNow') {
                 Navigator.pushNamed(context, AppRoutes.cart);
               } else {
-                showToast(state.message);
+                showToast(s.addedToCart(state.message));
               }
             } else if (state is CartError) {
               ScaffoldMessenger.of(context).showSnackBar(
@@ -194,6 +196,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   }
 
   Widget _buildProductInfo(product, reviews, relatedProducts) {
+    final s = S.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -209,7 +212,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           discountPercentage: product.discountPercentage,
         ),
         const ChainDivider(),
-        const SectionLabel(icon: Icons.notes_rounded, label: 'Description'),
+        SectionLabel(icon: Icons.notes_rounded, label: s.description),
         const SizedBox(height: 12),
         ExpandableDescription(
           description: product.description,
@@ -282,25 +285,25 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             if (v <= product.stock) {
               setState(() => qty = v);
             } else {
-              showToast('Only ${product.stock} items in stock');
+              showToast(s.itemsInStock(product.stock));
             }
           },
         ),
         const SizedBox(height: 32),
         if (relatedProducts != null && relatedProducts.isNotEmpty) ...[
-          const SectionLabel(icon: Icons.auto_awesome_rounded, label: 'Related Products'),
+          SectionLabel(icon: Icons.auto_awesome_rounded, label: s.relatedProducts),
           const SizedBox(height: 16),
           RelatedRail(
             relatedProducts: relatedProducts,
-            onQuickAdd: (name) => showToast('Added $name to cart'),
+            onQuickAdd: (name) => showToast(s.addedToCart(name)),
             onQuickRemove: () {},
           ),
           const SizedBox(height: 32),
         ],
         if (reviews.isNotEmpty) ...[
-          const SectionLabel(
+          SectionLabel(
             icon: Icons.reviews_outlined,
-            label: 'Customer Reviews',
+            label: s.customerReviews,
           ),
           const SizedBox(height: 20),
           ...reviews

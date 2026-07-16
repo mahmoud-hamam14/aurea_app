@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:nti_ecommerce_team4/features/profile/presentation/screens/about_us_screen.dart';
-import 'package:nti_ecommerce_team4/features/profile/presentation/screens/privacy_policy_screen.dart';
 import 'package:nti_ecommerce_team4/features/profile/presentation/widgets/custom_widgets.dart';
 import 'package:nti_ecommerce_team4/features/profile/presentation/widgets/dark_mode_toggle.dart';
 import 'package:nti_ecommerce_team4/features/profile/presentation/widgets/logout_bottom.dart';
 import 'package:nti_ecommerce_team4/features/profile/presentation/widgets/profile_header.dart';
-
+import 'package:nti_ecommerce_team4/generated/l10n.dart';
 import 'package:nti_ecommerce_team4/core/routes/app_routes.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -14,13 +12,14 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final s = S.of(context);
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
         elevation: 0,
         scrolledUnderElevation: 0,
         title: Text(
-          "Profile",
+          s.profile,
           style: Theme.of(context)
               .textTheme
               .headlineMedium
@@ -50,24 +49,24 @@ class ProfileScreen extends StatelessWidget {
                     const ProfileHeader(),
                     const Gap(20),
                     SectionCard(
-                      title: "ACCOUNT SETTINGS",
-                      children: const [
-                        CustomListTile(icon: Icons.person, title: "Edit Profile"),
-                        Divider(
+                      title: s.accountSettings,
+                      children: [
+                        CustomListTile(icon: Icons.person, title: s.editProfile),
+                        const Divider(
                           height: 1,
                           endIndent: 20,
                           indent: 20,
                           color: Colors.grey,
                         ),
-                        CustomListTile(icon: Icons.lock, title: "Change Password"),
-                        Divider(
+                        CustomListTile(icon: Icons.lock, title: s.changePassword),
+                        const Divider(
                           height: 1,
                           endIndent: 20,
                           indent: 20,
                           color: Colors.grey,
                         ),
-                        DarkModeToggle(),
-                        Divider(
+                        const DarkModeToggle(),
+                        const Divider(
                           height: 1,
                           endIndent: 20,
                           indent: 20,
@@ -75,23 +74,23 @@ class ProfileScreen extends StatelessWidget {
                         ),
                         CustomListTile(
                           icon: Icons.language,
-                          title: "Language",
-                          subtitle: "English (US)",
+                          title: s.language,
+                          subtitle: Localizations.localeOf(context).languageCode == 'en' ? "English" : "العربية",
                         ),
                       ],
                     ),
                     const Gap(20),
                     SectionCard(
-                      title: "SUPPORT & LEGAL",
+                      title: s.supportLegal,
                       children: [
                         CustomListTile(
                           onTap: () {
                             Navigator.pushNamed(context, AppRoutes.privacyPolicy);
                           },
                           icon: Icons.privacy_tip,
-                          title: "Privacy Policy",
+                          title: s.privacyPolicy,
                         ),
-                        Divider(
+                        const Divider(
                           height: 1,
                           endIndent: 20,
                           indent: 20,
@@ -102,9 +101,9 @@ class ProfileScreen extends StatelessWidget {
                             Navigator.pushNamed(context, AppRoutes.aboutUs);
                           },
                           icon: Icons.info,
-                          title: "About Us",
+                          title: s.aboutUs,
                         ),
-                        Divider(
+                        const Divider(
                           height: 1,
                           endIndent: 20,
                           indent: 20,
@@ -112,11 +111,15 @@ class ProfileScreen extends StatelessWidget {
                         ),
                         CustomListTile(
                           icon: Icons.contact_mail,
-                          title: "Contact Us",
+                          title: s.contactUs,
                         ),
                       ],
                     ),
                     const Gap(30),
+                    LogoutButton(onPressed: ()
+                    {
+                      Navigator.pushNamed(context, AppRoutes.login);
+                    },),
                     const Gap(50),
                   ],
                 ),
@@ -128,4 +131,3 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 }
-

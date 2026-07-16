@@ -5,8 +5,7 @@ import 'package:nti_ecommerce_team4/features/admin_product/presentation/widgets/
 import 'package:nti_ecommerce_team4/features/admin_product/presentation/cubits/product_cubit.dart';
 import 'package:nti_ecommerce_team4/features/admin_product/data/date_source/product_service.dart';
 import 'package:nti_ecommerce_team4/core/routes/app_routes.dart';
-
-import 'add_product_screen.dart';
+import 'package:nti_ecommerce_team4/generated/l10n.dart';
 
 class AdminProductManagement extends StatefulWidget {
   const AdminProductManagement({super.key});
@@ -42,6 +41,7 @@ class _AdminProductManagementState extends State<AdminProductManagement> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final s = S.of(context);
 
     return BlocProvider.value(
       value: _productCubit,
@@ -62,7 +62,7 @@ class _AdminProductManagementState extends State<AdminProductManagement> {
             icon: const Icon(Icons.arrow_back_ios, size: 20),
           ),
           title: Text(
-            'Admin Panel',
+            s.adminPanel,
             style: AppTextStyles.heading2.copyWith(
               color: theme.colorScheme.onSurface,
               fontFamily: 'PlayfairDisplay',
@@ -86,7 +86,7 @@ class _AdminProductManagementState extends State<AdminProductManagement> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "INVENTORY",
+                    s.inventory,
                     style: theme.textTheme.bodyLarge?.copyWith(
                       fontWeight: FontWeight.w700,
                       letterSpacing: 1.5,
@@ -94,7 +94,7 @@ class _AdminProductManagementState extends State<AdminProductManagement> {
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    "$itemCount Items",
+                    "$itemCount ${s.allProducts}",
                     style: AppTextStyles.bodyLarge.copyWith(
                       color: theme.colorScheme.onSurface,
                       fontWeight: FontWeight.w600,

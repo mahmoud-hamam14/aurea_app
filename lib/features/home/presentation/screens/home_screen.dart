@@ -9,6 +9,7 @@ import 'package:nti_ecommerce_team4/features/home/presentation/widgets/all_produ
 import 'package:nti_ecommerce_team4/features/home/presentation/widgets/custom_drawer.dart';
 import 'package:nti_ecommerce_team4/features/home/presentation/widgets/explore_listview.dart';
 import 'package:nti_ecommerce_team4/features/home/presentation/widgets/offer_section.dart';
+import 'package:nti_ecommerce_team4/generated/l10n.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -22,6 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final s = S.of(context);
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => OffersCubit()..getOffers()),
@@ -35,7 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
             color: Color.fromARGB(255, 158, 125, 16),
           ),
           title: Text(
-            "AUREA",
+            s.appTitle,
             style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                   color: const Color.fromARGB(255, 158, 125, 16),
                   fontFamily: 'PlayfairDisplay',
@@ -111,9 +113,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text(
-                            'Explore',
-                            style: TextStyle(
+                          Text(
+                            s.explore,
+                            style: const TextStyle(
                               fontSize: 24,
                               fontWeight: FontWeight.w500,
                               letterSpacing: 0,
@@ -123,7 +125,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           const SizedBox(height: 16),
                           BlocProvider(
                             create: (context) => CategoriesCubit()..getCategories(),
-                            child: const SizedBox(height: 130, child: ExploreListView()),
+                            child: const SizedBox(height: 120, child: ExploreListView()),
                           ),
                         ],
                       ),
@@ -131,9 +133,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text(
-                            'All Products',
-                            style: TextStyle(
+                          Text(
+                            s.allProducts,
+                            style: const TextStyle(
                               fontSize: 24,
                               fontWeight: FontWeight.w500,
                               letterSpacing: 0,

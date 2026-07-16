@@ -5,6 +5,7 @@ import 'package:nti_ecommerce_team4/features/cart/presentation/cubits/cart_cubit
 import 'package:nti_ecommerce_team4/features/cart/presentation/cubits/cart_state.dart';
 import 'package:nti_ecommerce_team4/features/cart/presentation/widgets/order_summary.dart';
 import 'package:nti_ecommerce_team4/features/cart/presentation/widgets/product_itme.dart';
+import 'package:nti_ecommerce_team4/generated/l10n.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({super.key});
@@ -16,13 +17,14 @@ class CartScreen extends StatefulWidget {
 class _CartScreenState extends State<CartScreen> {
   @override
   Widget build(BuildContext context) {
+    final s = S.of(context);
     return BlocProvider(
       create: (context) => CartCubit()..getCart(),
       child: Scaffold(
         appBar: AppBar(
-          title: const Text(
-            "AUREA",
-            style: TextStyle(
+          title: Text(
+            s.appTitle,
+            style: const TextStyle(
               fontSize: 26,
               fontWeight: FontWeight.w600,
               fontFamily: "playfairdisplay",
@@ -86,14 +88,14 @@ class _CartScreenState extends State<CartScreen> {
                   children: [
                     const Icon(Icons.shopping_bag_outlined, size: 72, color: Colors.grey),
                     const SizedBox(height: 16),
-                    const Text(
-                      "YOUR SHOPPING BAG IS EMPTY",
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500, letterSpacing: 1.0),
+                    Text(
+                      s.emptyBag,
+                      style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500, letterSpacing: 1.0),
                     ),
                     const SizedBox(height: 24),
                     ElevatedButton(
                       onPressed: () => context.read<CartCubit>().getCart(),
-                      child: const Text("Refresh Bag"),
+                      child: Text(s.refreshBag),
                     ),
                   ],
                 ),
@@ -107,34 +109,34 @@ class _CartScreenState extends State<CartScreen> {
                   constraints: BoxConstraints(maxWidth: isWide ? 1200 : double.infinity),
                   child: isWide
                       ? Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Expanded(
-                              flex: 2,
-                              child: ListView(
-                                padding: const EdgeInsets.all(24),
-                                children: _buildCartBody(context, items),
-                              ),
-                            ),
-                            const VerticalDivider(width: 1),
-                            Expanded(
-                              flex: 1,
-                              child: SingleChildScrollView(
-                                padding: const EdgeInsets.all(32),
-                                child: const OrderSummary(),
-                              ),
-                            ),
-                          ],
-                        )
-                      : ListView(
-                          padding: const EdgeInsets.all(16),
-                          children: [
-                            ..._buildCartBody(context, items),
-                            const SizedBox(height: 20),
-                            const OrderSummary(),
-                            const SizedBox(height: 16),
-                          ],
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        flex: 2,
+                        child: ListView(
+                          padding: const EdgeInsets.all(24),
+                          children: _buildCartBody(context, items),
                         ),
+                      ),
+                      const VerticalDivider(width: 1),
+                      Expanded(
+                        flex: 1,
+                        child: const SingleChildScrollView(
+                          padding: EdgeInsets.all(32),
+                          child: OrderSummary(),
+                        ),
+                      ),
+                    ],
+                  )
+                      : ListView(
+                    padding: const EdgeInsets.all(16),
+                    children: [
+                      ..._buildCartBody(context, items),
+                      const SizedBox(height: 20),
+                      const OrderSummary(),
+                      const SizedBox(height: 16),
+                    ],
+                  ),
                 ),
               );
             });
@@ -145,21 +147,22 @@ class _CartScreenState extends State<CartScreen> {
   }
 
   List<Widget> _buildCartBody(BuildContext context, List<CartItemModel> items) {
+    final s = S.of(context);
     return [
-      const Text(
-        "YOUR SHOPPING BAG",
+      Text(
+        s.yourShoppingBag,
         textAlign: TextAlign.center,
-        style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+        style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
       ),
       const SizedBox(height: 16),
       ...items.map((item) => ProductItem(
-            key: ValueKey(item.itemId),
-            title: item.productName,
-            subtitle: "Quantity: ${item.quantity}",
-            price: "€${item.finalPricePerUnit.toStringAsFixed(2)}",
-            imageUrl: item.productCoverUrl,
-            onDelete: () => context.read<CartCubit>().deleteCartItem(item.itemId),
-          )),
+        key: ValueKey(item.itemId),
+        title: item.productName,
+        subtitle: "${s.quantity}: ${item.quantity}",
+        price: "€${item.finalPricePerUnit.toStringAsFixed(2)}",
+        imageUrl: item.productCoverUrl,
+        onDelete: () => context.read<CartCubit>().deleteCartItem(item.itemId),
+      )),
     ];
   }
 }

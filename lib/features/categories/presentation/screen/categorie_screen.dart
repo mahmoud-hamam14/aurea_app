@@ -5,6 +5,7 @@ import 'package:nti_ecommerce_team4/features/categories/presentation/cubits/cate
 import 'package:nti_ecommerce_team4/features/categories/presentation/widgets/collections_gridview.dart';
 import 'package:nti_ecommerce_team4/features/categories/presentation/widgets/textfield.dart';
 import 'package:nti_ecommerce_team4/features/home/presentation/widgets/custom_drawer.dart';
+import 'package:nti_ecommerce_team4/generated/l10n.dart';
 
 class CategorieScreen extends StatefulWidget {
   const CategorieScreen({super.key});
@@ -16,6 +17,7 @@ class CategorieScreen extends StatefulWidget {
 class _CategorieScreenState extends State<CategorieScreen> {
   @override
   Widget build(BuildContext context) {
+    final s = S.of(context);
     return Scaffold(
       drawer: const DevDrawer(),
       appBar: AppBar(
@@ -23,7 +25,7 @@ class _CategorieScreenState extends State<CategorieScreen> {
           color: Color.fromARGB(255, 158, 125, 16),
         ),
         title: Text(
-          "AUREA",
+          s.appTitle,
           style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                 color: const Color.fromARGB(255, 158, 125, 16),
                 fontFamily: 'PlayfairDisplay',
@@ -48,16 +50,16 @@ class _CategorieScreenState extends State<CategorieScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(height: 8),
-                const Text(
-                  'Collections',
-                  style: TextStyle(
+                Text(
+                  s.collections,
+                  style: const TextStyle(
                     fontFamily: 'PlayfairDisplay',
                     fontWeight: FontWeight.w600,
                     fontSize: 28,
                   ),
                 ),
                 const SizedBox(height: 15),
-                const Textfield(icon: Icons.search, hint: 'Search our archives...'),
+                Textfield(icon: Icons.search, hint: s.searchArchives),
                 const SizedBox(height: 20),
                 Expanded(
                   child: BlocProvider(

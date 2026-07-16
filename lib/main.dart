@@ -1,9 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nti_ecommerce_team4/core/network/dio_helper.dart';
 import 'package:nti_ecommerce_team4/core/theme/theme_provider.dart';
 import 'package:nti_ecommerce_team4/core/theme/app_theme.dart';
+import 'package:nti_ecommerce_team4/generated/l10n.dart';
 import 'package:provider/provider.dart';
 
 import 'package:nti_ecommerce_team4/core/routes/app_router.dart';
@@ -29,7 +31,6 @@ class AureaApp extends StatelessWidget {
     final themeProvider = context.watch<ThemeProvider>();
 
     return ScreenUtilInit(
-      // Use a larger design size on Web/Desktop to prevent massive scaling
       designSize: kIsWeb ? const Size(1440, 1024) : const Size(360, 690),
       minTextAdapt: true,
       splitScreenMode: true,
@@ -39,6 +40,14 @@ class AureaApp extends StatelessWidget {
           theme: AppTheme.light,
           darkTheme: AppTheme.dark,
           themeMode: themeProvider.themeMode,
+          locale: themeProvider.locale,
+          localizationsDelegates: const [
+            S.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: S.delegate.supportedLocales,
           onGenerateRoute: AppRouter.generateRoute,
           initialRoute: AppRoutes.splash,
         );
@@ -46,4 +55,3 @@ class AureaApp extends StatelessWidget {
     );
   }
 }
-

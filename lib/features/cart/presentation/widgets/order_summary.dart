@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:nti_ecommerce_team4/core/theme/app_theme.dart';
+import 'package:nti_ecommerce_team4/generated/l10n.dart';
 
 class OrderSummary extends StatelessWidget {
   const OrderSummary({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final s = S.of(context);
     return Card(
       margin: const EdgeInsets.symmetric(vertical: 10),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -15,44 +17,37 @@ class OrderSummary extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              "Order Summaryyyy",
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            Text(
+              s.orderSummary,
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
-
             const SizedBox(height: 8),
             const Divider(),
-
-            const Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [Text("Subtotal"), Text("€7,400")],
+              children: [Text(s.subtotal), const Text("€7,400")],
             ),
-
             const SizedBox(height: 6),
-
-            const Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [Text("Shipping"), Text("FREE")],
+              children: [Text(s.shipping), Text(s.free)],
             ),
-
             const SizedBox(height: 6),
             const Divider(),
-
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
               decoration: BoxDecoration(
-                // color: Colors.amber.shade100,
                 borderRadius: BorderRadius.circular(8),
               ),
-              child: const Row(
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "Seasonal Offer (-10%)",
-                    style: TextStyle(fontWeight: FontWeight.w500),
+                    "${s.seasonalOffer} (-10%)",
+                    style: const TextStyle(fontWeight: FontWeight.w500),
                   ),
-                  Text(
+                  const Text(
                     "-€740",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
@@ -62,15 +57,13 @@ class OrderSummary extends StatelessWidget {
                 ],
               ),
             ),
-
             const SizedBox(height: 6),
             const Divider(),
-
-            const Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text("Total", style: TextStyle(fontWeight: FontWeight.bold)),
-                Text(
+                Text(s.total, style: const TextStyle(fontWeight: FontWeight.bold)),
+                const Text(
                   "€6,660",
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
@@ -79,9 +72,7 @@ class OrderSummary extends StatelessWidget {
                 ),
               ],
             ),
-
             const SizedBox(height: 16),
-
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.gold,
@@ -90,24 +81,16 @@ class OrderSummary extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8),
                 ),
               ),
-              onPressed: ()
-              {
-              },
-
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "PROCEED TO CHECKOUT",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                      color: Theme.of(context).brightness == Brightness.light
-                          ? Colors.black
-                          : Colors.white,
-                    ),
-                  ),
-                ],
+              onPressed: () {},
+              child: Text(
+                s.proceedToCheckout,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                  color: Theme.of(context).brightness == Brightness.light
+                      ? Colors.black
+                      : Colors.white,
+                ),
               ),
             ),
           ],

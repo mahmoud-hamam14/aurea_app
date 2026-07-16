@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'package:gap/gap.dart';
 import 'package:nti_ecommerce_team4/core/theme/app_theme.dart';
 import 'package:nti_ecommerce_team4/core/utils/validators.dart';
@@ -12,6 +11,7 @@ import 'package:nti_ecommerce_team4/features/auth/presentation/widgets/auth_divi
 import 'package:nti_ecommerce_team4/features/auth/presentation/widgets/custom_button.dart';
 import 'package:nti_ecommerce_team4/features/auth/presentation/widgets/custom_text_form_field.dart';
 import 'package:nti_ecommerce_team4/features/auth/presentation/widgets/social_button.dart';
+import 'package:nti_ecommerce_team4/generated/l10n.dart';
 
 import 'package:nti_ecommerce_team4/core/routes/app_routes.dart';
 
@@ -46,6 +46,7 @@ class _SignupScreenBodyState extends State<SignupScreenBody> {
 
   @override
   Widget build(BuildContext context) {
+    final s = S.of(context);
     return Center(
       child: SingleChildScrollView(
         child: SafeArea(
@@ -111,14 +112,15 @@ class _SignupScreenBodyState extends State<SignupScreenBody> {
                                 children: [
                                   const Gap(8),
                                   Text(
-                                    "Create Account",
+                                    s.createAccount,
                                     style: AppTextStyles.heading1.copyWith(
                                       color: AppColors.lightTextMuted,
                                       fontFamily: 'PlayfairDisplay',
                                     ),
                                   ),
                                   Text(
-                                    "Join the world of exquisite craftsmanship",
+                                    s.joinSubtitle,
+                                    textAlign: TextAlign.center,
                                     style: AppTextStyles.bodyLarge.copyWith(
                                       color: AppColors.lightTextSecondary,
                                     ),
@@ -133,7 +135,7 @@ class _SignupScreenBodyState extends State<SignupScreenBody> {
                                             Expanded(
                                               child: CustomTextFormField(
                                                 controller: firstNameContoller,
-                                                labelText: "First Name",
+                                                labelText: s.firstName,
                                                 suffixIcon: Icons.person,
                                                 validator: (firstName) {
                                                   return Validator.validateUserName(
@@ -146,7 +148,7 @@ class _SignupScreenBodyState extends State<SignupScreenBody> {
                                             Expanded(
                                               child: CustomTextFormField(
                                                 controller: lastNameContoller,
-                                                labelText: "Last Name",
+                                                labelText: s.lastName,
                                                 suffixIcon: Icons.person,
                                                 validator: (lastName) {
                                                   return Validator.validateUserName(
@@ -162,7 +164,7 @@ class _SignupScreenBodyState extends State<SignupScreenBody> {
                                         children: [
                                           CustomTextFormField(
                                             controller: firstNameContoller,
-                                            labelText: "First Name",
+                                            labelText: s.firstName,
                                             suffixIcon: Icons.person,
                                             validator: (firstName) {
                                               return Validator.validateUserName(
@@ -173,7 +175,7 @@ class _SignupScreenBodyState extends State<SignupScreenBody> {
                                           const Gap(16),
                                           CustomTextFormField(
                                             controller: lastNameContoller,
-                                            labelText: "Last Name",
+                                            labelText: s.lastName,
                                             suffixIcon: Icons.person,
                                             validator: (lastName) {
                                               return Validator.validateUserName(
@@ -188,15 +190,16 @@ class _SignupScreenBodyState extends State<SignupScreenBody> {
 
                                   CustomTextFormField(
                                     controller: emailContoller,
-                                    labelText: "Email",
+                                    labelText: s.email,
                                     validator: (email) {
                                       return Validator.validateEmail(email!);
-                                    }, suffixIcon: Icons.email,
+                                    },
+                                    suffixIcon: Icons.email,
                                   ),
 
                                   CustomTextFormField(
                                     controller: passContoller,
-                                    labelText: "Password",
+                                    labelText: s.password,
                                     suffixIcon: Icons.visibility,
                                     validator: (password) {
                                       return Validator.validatePassword(password!);
@@ -204,7 +207,7 @@ class _SignupScreenBodyState extends State<SignupScreenBody> {
                                   ),
 
                                   CustomTextFormField(
-                                    labelText: "Confirm Password",
+                                    labelText: s.confirmPassword,
                                     suffixIcon: Icons.visibility,
                                     validator: (password) {
                                       return Validator.validatePassword(password!);
@@ -212,7 +215,7 @@ class _SignupScreenBodyState extends State<SignupScreenBody> {
                                   ),
 
                                   CustomButton(
-                                    buttonText: 'Create Account',
+                                    buttonText: s.createAccount,
                                     onButtonPressed: () {
                                       if (myKey.currentState!.validate()) {
                                         context.read<AuthCubit>().register(
@@ -228,7 +231,7 @@ class _SignupScreenBodyState extends State<SignupScreenBody> {
                                   ),
                                   const Gap(8),
 
-                                  const AuthDivider(dividerText: 'OR SIGN UP WITH'),
+                                  AuthDivider(dividerText: s.orSignUpWith),
 
                                   const Gap(15),
 
@@ -267,4 +270,3 @@ class _SignupScreenBodyState extends State<SignupScreenBody> {
     );
   }
 }
-
