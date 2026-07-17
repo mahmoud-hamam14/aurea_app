@@ -10,7 +10,7 @@ import 'package:nti_ecommerce_team4/features/auth/presentation/widgets/custom_bu
 import 'package:nti_ecommerce_team4/features/auth/presentation/widgets/custom_text_form_field.dart';
 import 'package:nti_ecommerce_team4/core/routes/app_routes.dart';
 
-import '../../../../core/utils/app_text_styles.dart';
+import '../../../../core/theme/app_text_styles.dart';
 
 class ForgetPasswordScreen extends StatelessWidget {
   const ForgetPasswordScreen({super.key});

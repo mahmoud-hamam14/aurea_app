@@ -6,7 +6,7 @@ import 'package:nti_ecommerce_team4/features/admin_product/presentation/cubits/p
 import 'package:nti_ecommerce_team4/features/admin_product/data/date_source/product_service.dart';
 import 'package:nti_ecommerce_team4/core/routes/app_routes.dart';
 import 'package:nti_ecommerce_team4/generated/l10n.dart';
-import '../../../../core/utils/app_text_styles.dart';
+import '../../../../core/theme/app_text_styles.dart';
 
 class AdminProductManagement extends StatefulWidget {
   const AdminProductManagement({super.key});

@@ -130,7 +130,7 @@ class _CartScreenState extends State<CartScreen> {
                         flex: 2,
                         child: ListView(
                           padding: const EdgeInsets.all(24),
-                          children: buildCartBody(context, items),
+                          children: _buildCartBody(context, items),
                         ),
                       ),
                       const VerticalDivider(width: 1),
@@ -150,7 +150,7 @@ class _CartScreenState extends State<CartScreen> {
                       : ListView(
                     padding: const EdgeInsets.all(16),
                     children: [
-                      ...buildCartBody(context, items),
+                      ..._buildCartBody(context, items),
                       const SizedBox(height: 20),
                       OrderSummary(
                         subtotal: subtotal,
@@ -169,7 +169,7 @@ class _CartScreenState extends State<CartScreen> {
     );
   }
 
-  List<Widget> buildCartBody(BuildContext context, List<CartItemModel> items) {
+  List<Widget> _buildCartBody(BuildContext context, List<CartItemModel> items) {
     final s = S.of(context);
     return [
       Text(
@@ -181,9 +181,16 @@ class _CartScreenState extends State<CartScreen> {
       ...items.map((item) => ProductItem(
         key: ValueKey(item.itemId),
         title: item.productName,
-        subtitle: "${s.quantity}: ${item.quantity}",
-        price: "€${item.finalPricePerUnit.toStringAsFixed(2)}",
+        subtitle: "SAR ${item.finalPricePerUnit.toStringAsFixed(2)} / unit",
+        price: "SAR ${item.totalPrice.toStringAsFixed(2)}",
         imageUrl: item.productCoverUrl,
+        quantity: item.quantity,
+        onAdd: () {
+          context.read<CartCubit>().updateQuantity(item.itemId, item.quantity + 1);
+        },
+        onRemove: () {
+          context.read<CartCubit>().updateQuantity(item.itemId, item.quantity - 1);
+        },
         onDelete: () => context.read<CartCubit>().deleteCartItem(item.itemId),
       )),
     ];

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:nti_ecommerce_team4/features/onboarding/presentation/widgets/skip_button.dart';
 
 import '../../../../core/theme/app_theme.dart';
-import '../../../../core/utils/app_colors.dart';
+import '../../../../core/theme/app_colors.dart';
 
 class BrandNameAndSkipButton extends StatelessWidget {
   const BrandNameAndSkipButton({super.key,required this.onSkip});

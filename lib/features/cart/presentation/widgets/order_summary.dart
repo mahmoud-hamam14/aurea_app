@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nti_ecommerce_team4/core/routes/app_routes.dart';
 import 'package:nti_ecommerce_team4/generated/l10n.dart';
-import '../../../../core/utils/app_colors.dart';
+import '../../../../core/theme/app_colors.dart';
 
 class OrderSummary extends StatelessWidget {
   final double subtotal;

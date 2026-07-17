@@ -3,7 +3,7 @@ import 'package:nti_ecommerce_team4/features/products/presentation/widgets/spark
 
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/theme/theme_extensions.dart';
-import '../../../../core/utils/app_colors.dart';
+import '../../../../core/theme/app_colors.dart';
 
 class SparkleFavoriteButton extends StatefulWidget {
   final double size;

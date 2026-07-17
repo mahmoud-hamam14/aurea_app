@@ -14,8 +14,8 @@ import 'package:nti_ecommerce_team4/generated/l10n.dart';
 
 import 'package:nti_ecommerce_team4/core/routes/app_routes.dart';
 
-import '../../../../core/utils/app_colors.dart';
-import '../../../../core/utils/app_text_styles.dart';
+import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_text_styles.dart';
 import '../widgets/auth_redirect_text.dart';
 
 class SignupScreen extends StatelessWidget {

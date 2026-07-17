@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:nti_ecommerce_team4/core/utils/app_colors.dart';
+import 'package:nti_ecommerce_team4/core/theme/app_colors.dart';
 
 class AureaLogo extends StatelessWidget {
   final double size;

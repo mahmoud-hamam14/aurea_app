@@ -22,7 +22,7 @@ import '../widgets/section_label.dart';
 import '../widgets/specs_acordion.dart';
 import '../widgets/start_rating.dart';
 import '../widgets/title_row.dart';
-import '../../../../core/utils/app_colors.dart';
+import '../../../../core/theme/app_colors.dart';
 
 
 class ProductDetailsScreen extends StatefulWidget {

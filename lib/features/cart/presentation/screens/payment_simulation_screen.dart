@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:nti_ecommerce_team4/generated/l10n.dart';
 
-import '../../../../core/utils/app_colors.dart';
+import '../../../../core/theme/app_colors.dart';
 
 class PaymentSimulationScreen extends StatefulWidget {
   const PaymentSimulationScreen({super.key});

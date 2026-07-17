@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../../core/utils/app_colors.dart';
+import '../../../../core/theme/app_colors.dart';
 
 class NextButton extends StatelessWidget {
   const NextButton({super.key, required this.onNext});

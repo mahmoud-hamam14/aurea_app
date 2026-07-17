@@ -6,7 +6,7 @@ import 'package:nti_ecommerce_team4/features/auth/data/date_source/auth_remote_d
 import 'package:nti_ecommerce_team4/features/auth/presentation/cubits/auth_cubit.dart';
 import 'package:nti_ecommerce_team4/features/auth/presentation/cubits/auth_state.dart';
 import 'package:nti_ecommerce_team4/generated/l10n.dart';
-import '../../../../core/utils/app_colors.dart';
+import '../../../../core/theme/app_colors.dart';
 import '../widgets/auth_divider.dart';
 import '../widgets/auth_header.dart';
 import 'package:gap/gap.dart';
