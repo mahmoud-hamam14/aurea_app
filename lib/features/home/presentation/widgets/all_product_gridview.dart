@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:nti_ecommerce_team4/core/theme/app_theme.dart';
 import 'package:nti_ecommerce_team4/features/cart/presentation/cubits/add_to_cart_cubit.dart';
 import 'package:nti_ecommerce_team4/features/cart/presentation/cubits/add_to_cart_state.dart';
 import 'package:nti_ecommerce_team4/features/home/presentation/cubits/products_cubit/products_cubit.dart';
@@ -9,7 +8,6 @@ import 'package:nti_ecommerce_team4/features/products/presentation/widgets/spark
 
 import 'package:nti_ecommerce_team4/core/routes/app_routes.dart';
 
-import '../../../products/presentation/screens/product_details_screen.dart';
 
 class AllProductGridView extends StatelessWidget {
   const AllProductGridView({super.key});
