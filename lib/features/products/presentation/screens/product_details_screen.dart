@@ -7,7 +7,6 @@ import 'package:nti_ecommerce_team4/features/products/data/date_source/product_d
 import 'package:nti_ecommerce_team4/features/products/presentation/cubits/product_details_cubit.dart';
 import 'package:nti_ecommerce_team4/generated/l10n.dart';
 import '../../../../core/routes/app_routes.dart';
-import '../../../../core/theme/app_theme.dart';
 import '../../../../core/theme/theme_extensions.dart';
 import '../../../cart/data/date_source/cart_get_data.dart';
 import '../widgets/add_cart_button.dart';

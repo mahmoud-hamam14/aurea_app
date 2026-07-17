@@ -23,7 +23,7 @@ class _SplashScreenState extends State<SplashScreen>
 
     Future.delayed(const Duration(seconds: 4), () {
       if (mounted) {
-        Navigator.of(context).pushReplacementNamed(AppRoutes.onboarding);
+        Navigator.pushReplacementNamed(context, AppRoutes.onboarding);
       }
     });
   }
@@ -91,7 +91,9 @@ class _SplashScreenState extends State<SplashScreen>
                               shape: BoxShape.circle,
                               gradient: RadialGradient(
                                 colors: [
-                                  const Color(0xFFD4AF37).withValues(alpha: 0.3),
+                                  const Color(
+                                    0xFFD4AF37,
+                                  ).withValues(alpha: 0.3),
                                   const Color(0xFFD4AF37).withValues(alpha: 0),
                                 ],
                               ),
@@ -105,7 +107,9 @@ class _SplashScreenState extends State<SplashScreen>
                               color: Colors.white,
                               boxShadow: [
                                 BoxShadow(
-                                  color: const Color(0xFFD4AF37).withValues(alpha: 0.2),
+                                  color: const Color(
+                                    0xFFD4AF37,
+                                  ).withValues(alpha: 0.2),
                                   blurRadius: 20,
                                   spreadRadius: 5,
                                 ),
@@ -156,14 +160,19 @@ class _SplashScreenState extends State<SplashScreen>
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: List.generate(3, (index) {
                               final delay = index * 0.15;
-                              final position = (_animationController.value - delay) % 1.0;
+                              final position =
+                                  (_animationController.value - delay) % 1.0;
                               return Container(
-                                margin: const EdgeInsets.symmetric(horizontal: 6),
+                                margin: const EdgeInsets.symmetric(
+                                  horizontal: 6,
+                                ),
                                 width: 8,
                                 height: 8,
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
-                                  color: const Color(0xFFD4AF37).withValues(alpha: (position * 2 - 1).abs()),
+                                  color: const Color(
+                                    0xFFD4AF37,
+                                  ).withValues(alpha: (position * 2 - 1).abs()),
                                 ),
                               );
                             }),

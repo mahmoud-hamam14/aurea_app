@@ -1,52 +1,50 @@
 # AUREA - Luxury Jewelry & Accessories E-commerce 💎
 
-AUREA is a high-end, responsive Flutter e-commerce application designed for a premium shopping experience. It features an elegant UI, real-time API integration, and full support for multiple languages and themes.
+AUREA is a high-end, fully responsive Flutter e-commerce application designed for a premium shopping experience. It features an elegant UI, real-time API integration, full localization support, and an advanced administrative dashboard.
 
 ---
 
 ## 🚀 Key Features
 
-### 🛍️ Shopping Experience
-*   **Dynamic Home Screen**: Features luxury offer carousels, categorized explore sections, and a responsive product grid.
-*   **Detailed Product Pages**: Interactive image carousels, expandable dual-language descriptions, technical specifications, and customer reviews.
-*   **Smart Cart System**: Real-time "Add to Cart" and "Buy Now" functionality with stock availability protection and order summary.
+### 🛍️ Premium Shopping Experience
+*   **Dynamic Home Screen**: Features luxury offer carousels, categorized explore sections, and a responsive product grid that adapts to any screen size.
+*   **Detailed Product Pages**: Interactive multi-image carousels, expandable dual-language descriptions, technical specifications, and customer reviews.
+*   **Smart Cart System**: Real-time "Add to Cart" and "Buy Now" functionality with automatic price calculations, quantity management, and stock protection.
 *   **Related Products**: Intelligent cross-selling suggestions based on the current product view.
+*   **Payment Simulation**: Secure checkout mockup with animated processing and success feedback.
 
-### 🔐 Authentication & Security
-*   **Full Auth Flow**: Secure Login, Signup, and Email Verification.
-*   **Secure Password Reset**: Multi-step recovery process using OTP (One-Time Password) and secure new password creation.
-*   **Token Management**: Persistent authentication state using encrypted local storage.
-*   **Form Validation**: Robust input validation for all user entries.
+### 🔐 Advanced Authentication
+*   **Full Auth Flow**: Secure Login, Signup, and Email Verification processes.
+*   **Password Recovery**: Multi-step recovery using OTP (One-Time Password) and secure password reset.
+*   **Persistent Auth**: Session management using secure token storage and automated API interceptors.
 
-### 🛠️ Admin Dashboard
-*   **Inventory Control**: Dedicated panel for admins to manage the store's inventory.
-*   **Product Operations**: Seamlessly add new products (with gallery image picking), search through inventory, and perform deletions with confirmation.
+### 🛠️ Admin Dashboard (Inventory Management)
+*   **Full CRUD Operations**: Admins can add new products with gallery image integration, search the entire inventory, and delete items with safety confirmations.
+*   **Dynamic Sync**: Immediate UI updates across the app when products are added or removed via the shared state management.
 
-### 🎨 Premium UI/UX
-*   **Fully Responsive**: Adapts seamlessly to Mobile, Tablet, and Web screens using `LayoutBuilder` and `ScreenUtil`.
-*   **Dual Theme Support**: Elegant Light and Dark modes with persistent user preference using `Provider`.
-*   **Localization**: Complete support for **Arabic (RTL)** and **English (LTR)** using `Intl`.
+### 🎨 State-of-the-Art UI/UX
+*   **Full Responsiveness**: Adaptive layouts for **Mobile, Tablet, and Web** using `LayoutBuilder`, `MediaQuery`, and `ScreenUtil`.
+*   **Scaleable Typography**: Text and UI elements scale perfectly across devices using `.sp`, `.h`, and `.r` units.
+*   **Dual Theme Support**: Persisted Light and Dark modes with an elegant, jewelry-inspired color palette.
+*   **Full Localization**: Complete **Arabic (RTL)** and **English (LTR)** support with persistent user language preference.
 *   **Interactive Animations**: Custom "Sparkle" favorite buttons, smooth transitions, and glassmorphism effects.
 
 ---
 
 ## 🛠️ Technical Stack
 
-### Core
+### Architecture & State Management
 *   **Framework**: [Flutter](https://flutter.dev/) (Dart)
-*   **Architecture**: Clean Architecture / Feature-driven Modular Structure.
-*   **State Management**: [Flutter BloC / Cubit](https://pub.dev/packages/flutter_bloc) for efficient state handling.
+*   **State Management**: [Flutter BloC / Cubit](https://pub.dev/packages/flutter_bloc) for modular and predictable state.
+*   **Navigation**: Centralized **`onGenerateRoute`** architecture for clean and scaleable routing.
 
-### Networking & Storage
-*   **Networking**: [Dio](https://pub.dev/packages/dio) with custom Interceptors for Auth/Logging.
-*   **Service Locator**: [Get_it](https://pub.dev/packages/get_it) for dependency injection.
-*   **Local Storage**: [SharedPreferences](https://pub.dev/packages/shared_preferences) for app settings and caching.
+### Networking & Data
+*   **API Client**: [Dio](https://pub.dev/packages/dio) with custom Interceptors for automated header management and logging.
+*   **Data Modeling**: Advanced JSON mapping with null-safety and support for dynamic API field names (e.g., dual-language fields).
 
-### UI & Utilities
-*   **Responsive UI**: [Flutter ScreenUtil](https://pub.dev/packages/flutter_screenutil) & [MediaQuery].
-*   **Localization**: [Intl](https://pub.dev/packages/intl) with ARB files for easy translation.
-*   **Image Handling**: [Image Picker](https://pub.dev/packages/image_picker) & [Cached Network Image](https://pub.dev/packages/cached_network_image).
-*   **Animation**: Custom Painters for sparkle and design effects.
+### Storage & Media
+*   **Local Storage**: [SharedPreferences](https://pub.dev/packages/shared_preferences) for theme, locale, and token persistence.
+*   **Image Handling**: [Image Picker](https://pub.dev/packages/image_picker) for admin uploads and [Cached Network Image](https://pub.dev/packages/cached_network_image) for optimized loading.
 
 ---
 
@@ -54,17 +52,17 @@ AUREA is a high-end, responsive Flutter e-commerce application designed for a pr
 
 ```text
 lib/
-├── core/               # Theme, Routes, Network, Utilities, Validators
-├── features/           # Modular feature-based structure
-│   ├── auth/           # Authentication logic, OTP & UI
-│   ├── home/           # Dashboard, Offers & Explore sections
-│   ├── products/       # Details, Listing, Reviews & Related rail
-│   ├── cart/           # Shopping Bag logic, POST items & Summary
-│   ├── admin_product/  # Inventory Management & Search
-│   ├── splash/         # Animated entrance screen
-│   └── onboarding/     # Product introduction carousel
-├── generated/          # Localization generated files
-└── main.dart           # Entry point & App configuration
+├── core/               # Centralized routing, theme extensions, network logic & validators
+├── features/           # Feature-first modular architecture
+│   ├── auth/           # Login, Signup, OTP & Password recovery
+│   ├── home/           # Responsive dashboard, Offers & Category explore
+│   ├── products/       # Details, Specifications, Reviews & Related products
+│   ├── cart/           # Shopping bag, Quantity logic & Payment simulation
+│   ├── admin_product/  # Full inventory management & Search
+│   ├── splash/         # Animated entrance
+│   └── onboarding/     # Product introduction flow
+├── generated/          # Auto-generated localization assets
+└── main.dart           # Global initialization & ScreenUtil setup
 ```
 
 ---
@@ -92,12 +90,12 @@ lib/
 
 ## 🤝 Contributors
 
-*   **Mahmoud Hamam**
+*   **Mohamed Hamam**
 *   **Momen Mohamed**
 *   **Huda Yasser**
 *   **Hagar Tamer**
 *   **Ahmed Radwan**
-*   **Ahmed Magdy**
+*   **Mahmoud Magdy**
 
 *Team 4 - NTI Final Project*
 
