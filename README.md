@@ -91,7 +91,15 @@ lib/
 ---
 
 ## 🤝 Contributors
-*   **Team 4** - NTI Final Project
+
+*   **Mohamed Hamam**
+*   **Momen Mohamed**
+*   **Huda Yasser**
+*   **Hager Tamer**
+*   **Ahmed Radwan**
+*   **Ahmed Magdy**
+
+*Team 4 - NTI Final Project*
 
 ---
 *Developed with ❤️ by the AUREA Team*
