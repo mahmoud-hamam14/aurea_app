@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/theme/themes.dart';
@@ -30,13 +31,25 @@ class _AddProductPageState extends State<AddProductPage> {
   final color = TextEditingController(text: 'Gold');
   final descEn = TextEditingController();
   final descAr = TextEditingController();
+  final imageUrlController = TextEditingController();
 
   File? _pickedImage;
   bool _isSaving = false;
 
+  // قائمة صور متنوعة للاستخدام في حالة عدم وجود رابط
+  final List<String> _jewelryLibrary = [
+    "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338",
+    "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f",
+    "https://images.unsplash.com/photo-1601121141461-9d6647bca1ed",
+    "https://images.unsplash.com/photo-1617038220319-276d3cfab638",
+    "https://images.unsplash.com/photo-1605100804763-247f67b3557e",
+    "https://images.unsplash.com/photo-1573408339375-f99b9bb2051c",
+    "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908",
+  ];
+
   @override
   void dispose() {
-    for (final c in [sellerId, nameEn, nameAr, price, stock, color, descEn, descAr]) {
+    for (final c in [sellerId, nameEn, nameAr, price, stock, color, descEn, descAr, imageUrlController]) {
       c.dispose();
     }
     super.dispose();
@@ -45,20 +58,22 @@ class _AddProductPageState extends State<AddProductPage> {
   void _onSavePressed() {
     final s = S.of(context);
     if (nameEn.text.isEmpty || price.text.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Name and Price are required")),
-      );
-      return;
-    }
-    
-    if (_pickedImage == null) {
-       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Please select a product image")),
-      );
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Name and Price are required")));
       return;
     }
 
     setState(() => _isSaving = true);
+    
+    // منطق اختيار الصورة:
+    // 1. إذا وضع المستخدم رابط يدوياً نستخدمه.
+    // 2. إذا لم يضع رابط ولكن اختار صورة من المعرض، نستخدم صورة عشوائية من المكتبة (لأننا لا نملك API لرفع الملفات حالياً).
+    // 3. إذا لم يختر شيئاً نستخدم أول صورة.
+    
+    String finalImageUrl = imageUrlController.text.trim();
+    if (finalImageUrl.isEmpty) {
+      // هنا نختار صورة مختلفة في كل مرة لضمان التنوع
+      finalImageUrl = _jewelryLibrary[Random().nextInt(_jewelryLibrary.length)];
+    }
     
     final product = ProductModel(
       sellerId: sellerId.text,
@@ -69,7 +84,7 @@ class _AddProductPageState extends State<AddProductPage> {
       color: color.text,
       description: descEn.text,
       descriptionArabic: descAr.text,
-      coverPictureUrl: "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908",
+      coverPictureUrl: finalImageUrl,
     );
     
     context.read<ProductCubit>().addProduct(product);
@@ -83,18 +98,11 @@ class _AddProductPageState extends State<AddProductPage> {
     return BlocListener<ProductCubit, ProductState>(
       listener: (context, state) {
         if (state is ProductLoaded) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(s.saveProduct), 
-              backgroundColor: Colors.green
-            ),
-          );
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(s.productAdded), backgroundColor: Colors.green));
           Navigator.pop(context);
         } else if (state is ProductError) {
           setState(() => _isSaving = false);
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(state.message), backgroundColor: Colors.red),
-          );
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.message), backgroundColor: Colors.red));
         }
       },
       child: Scaffold(
@@ -106,54 +114,42 @@ class _AddProductPageState extends State<AddProductPage> {
                 child: LayoutBuilder(
                   builder: (context, constraints) {
                     final bool isWide = constraints.maxWidth > 900;
-                    
-                    if (isWide) {
-                      return Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Expanded(
-                            flex: 4,
-                            child: SingleChildScrollView(
-                              padding: const EdgeInsets.all(24),
-                              child: SectionCard(
-                                title: s.saveProduct, // Simplified
-                                child: ImageDropzone(
-                                  onImagePicked: (file) {
-                                    setState(() => _pickedImage = file);
-                                  },
-                                )
+                    return SingleChildScrollView(
+                      padding: const EdgeInsets.all(20),
+                      child: Center(
+                        child: Container(
+                          constraints: const BoxConstraints(maxWidth: 900),
+                          child: Column(
+                            children: [
+                              SectionCard(
+                                title: 'Product Image Source',
+                                child: Column(
+                                  children: [
+                                    AureaTextField(
+                                      label: 'Image URL (Optional)',
+                                      hint: 'https://...',
+                                      controller: imageUrlController,
+                                      suffix: 'URL',
+                                    ),
+                                    const Padding(
+                                      padding: EdgeInsets.symmetric(vertical: 12),
+                                      child: Text("OR", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey)),
+                                    ),
+                                    ImageDropzone(
+                                      onImagePicked: (file) {
+                                        setState(() => _pickedImage = file);
+                                      },
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
+                              const SizedBox(height: 16),
+                              _buildForm(isDark, s),
+                            ],
                           ),
-                          Expanded(
-                            flex: 6,
-                            child: SingleChildScrollView(
-                              padding: const EdgeInsets.all(24),
-                              child: _buildForm(isDark, s),
-                            ),
-                          ),
-                        ],
-                      );
-                    } else {
-                      return SingleChildScrollView(
-                        padding: const EdgeInsets.fromLTRB(16, 16, 16, 28),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SectionCard(
-                              title: s.saveProduct, // Simplified
-                              child: ImageDropzone(
-                                onImagePicked: (file) {
-                                  setState(() => _pickedImage = file);
-                                },
-                              )
-                            ),
-                            const SizedBox(height: 16),
-                            _buildForm(isDark, s),
-                          ],
                         ),
-                      );
-                    }
+                      ),
+                    );
                   },
                 ),
               ),
@@ -168,7 +164,7 @@ class _AddProductPageState extends State<AddProductPage> {
     return Column(
       children: [
         SectionCard(
-          title: s.accountSettings, // Simplified or Basic Info if added to l10n
+          title: 'Product Information',
           child: Column(
             children: [
               AureaTextField(label: s.productName, hint: 'e.g. Aurelia...', controller: nameEn),
@@ -206,17 +202,8 @@ class _AddProductPageState extends State<AddProductPage> {
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
             ),
             child: _isSaving 
-              ? const SizedBox(
-                  height: 24,
-                  width: 24,
-                  child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2),
-                )
-              : Text(
-                  s.saveProduct,
-                  style: AppTextStyles.buttonText.copyWith(
-                    color: isDark ? AppColors.darkBackground : AppColors.white
-                  )
-                ),
+              ? const SizedBox(height: 24, width: 24, child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2))
+              : Text(s.saveProduct, style: AppTextStyles.buttonText.copyWith(color: isDark ? AppColors.darkBackground : AppColors.white)),
           ),
         ),
       ],

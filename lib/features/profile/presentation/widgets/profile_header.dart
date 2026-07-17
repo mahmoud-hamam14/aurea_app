@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../../../core/theme/theme_extensions.dart';
 
-class ProfileHeader extends StatefulWidget {
+class ProfileHeader extends StatelessWidget {
   const ProfileHeader({super.key});
 
-  @override
-  State<ProfileHeader> createState() => _ProfileHeaderState();
-}
-
-class _ProfileHeaderState extends State<ProfileHeader> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -16,35 +13,43 @@ class _ProfileHeaderState extends State<ProfileHeader> {
           alignment: Alignment.bottomRight,
           children: [
             Container(
-              padding: const EdgeInsets.all(3),
-              decoration: BoxDecoration(
+              padding: EdgeInsets.all(3.r),
+              decoration: const BoxDecoration(
                 color: Colors.white,
                 shape: BoxShape.circle,
               ),
-              child: const CircleAvatar(
-                radius: 50,
-                backgroundImage: AssetImage("assets/images/user5.jpg"),
+              child: CircleAvatar(
+                radius: 50.r,
+                backgroundImage: const AssetImage("assets/images/user5.jpg"),
               ),
             ),
             CircleAvatar(
-              radius: 15,
-              backgroundColor: const Color(0xFFD4AF37),
-              child: const Icon(
+              radius: 16.r,
+              backgroundColor: context.gold,
+              child: Icon(
                 Icons.edit,
-                size: 15,
-                color: Color(0xFF554300),
+                size: 16.sp,
+                color: Colors.white,
               ),
             ),
           ],
         ),
-        const SizedBox(height: 10),
-        const Text(
+        SizedBox(height: 12.h),
+        Text(
           "Aurelian Vance",
-          style: TextStyle(fontSize: 28, fontWeight: FontWeight.w600),
+          style: TextStyle(
+            fontSize: 24.sp,
+            fontWeight: FontWeight.w700,
+            fontFamily: 'PlayfairDisplay',
+          ),
         ),
+        SizedBox(height: 4.h),
         Text(
           "aurelian.vance@aurea.com",
-          style: TextStyle(color: Colors.grey[700]),
+          style: TextStyle(
+            color: Colors.grey,
+            fontSize: 14.sp,
+          ),
         ),
       ],
     );

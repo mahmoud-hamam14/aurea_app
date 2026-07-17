@@ -39,7 +39,6 @@ class _CartScreenState extends State<CartScreen> {
               child: Icon(Icons.shopping_bag),
             ),
           ],
-          // Using Builder to get the correct context for Scaffold.of(context)
           leading: Builder(
             builder: (context) {
               return IconButton(
@@ -131,7 +130,7 @@ class _CartScreenState extends State<CartScreen> {
                         flex: 2,
                         child: ListView(
                           padding: const EdgeInsets.all(24),
-                          children: _buildCartBody(context, items),
+                          children: buildCartBody(context, items),
                         ),
                       ),
                       const VerticalDivider(width: 1),
@@ -151,7 +150,7 @@ class _CartScreenState extends State<CartScreen> {
                       : ListView(
                     padding: const EdgeInsets.all(16),
                     children: [
-                      ..._buildCartBody(context, items),
+                      ...buildCartBody(context, items),
                       const SizedBox(height: 20),
                       OrderSummary(
                         subtotal: subtotal,
@@ -170,7 +169,7 @@ class _CartScreenState extends State<CartScreen> {
     );
   }
 
-  List<Widget> _buildCartBody(BuildContext context, List<CartItemModel> items) {
+  List<Widget> buildCartBody(BuildContext context, List<CartItemModel> items) {
     final s = S.of(context);
     return [
       Text(

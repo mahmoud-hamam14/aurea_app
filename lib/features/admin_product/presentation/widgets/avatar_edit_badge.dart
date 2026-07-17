@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../../../../core/theme/app_theme.dart';
 import '../../../../core/utils/app_colors.dart';
 
 class AvatarEditBadge extends StatelessWidget {
