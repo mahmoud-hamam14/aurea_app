@@ -24,7 +24,7 @@ extension AureaThemeX on BuildContext {
 
   Color get errorColor => Theme.of(this).colorScheme.error;
 
-  Color get onGold => AppColors.gold;
+  Color get onGold => isDark ? AppColors.darkBackground : AppColors.lightTextPrimary;
 
   Color get goldDeep {
     final hsl = HSLColor.fromColor(AppColors.gold);

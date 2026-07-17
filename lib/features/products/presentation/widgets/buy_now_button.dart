@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/theme/theme_extensions.dart';
-import '../screens/product_details_screen.dart';
+import '../../../../generated/l10n.dart';
 
 class BuyNowButton extends StatelessWidget {
   final VoidCallback onTap;
@@ -11,12 +11,14 @@ class BuyNowButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final s = S.of(context);
     final bg = context.isDark
         ? AppColors.darkSurfaceAlt
         : AppColors.lightTextPrimary;
     final fg = context.isDark ? AppColors.darkTextPrimary : AppColors.white;
+    
     return SizedBox(
-      height: 50,
+      height: 52.h,
       child: ElevatedButton(
         onPressed: onTap,
         style: ElevatedButton.styleFrom(
@@ -24,12 +26,15 @@ class BuyNowButton extends StatelessWidget {
           foregroundColor: fg,
           elevation: 0,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(14),
+            borderRadius: BorderRadius.circular(14.r),
           ),
         ),
         child: Text(
-          'Buy Now',
-          style: AppTextStyles.buttonText.copyWith(fontSize: 14.5),
+          s.buyNow,
+          style: AppTextStyles.buttonText.copyWith(
+            fontSize: 14.5.sp,
+            color: fg,
+          ),
         ),
       ),
     );

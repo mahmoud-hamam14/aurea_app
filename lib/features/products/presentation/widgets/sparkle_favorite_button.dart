@@ -5,7 +5,8 @@ import '../../../../core/theme/app_theme.dart';
 import '../../../../core/theme/theme_extensions.dart';
 
 class SparkleFavoriteButton extends StatefulWidget {
-  const SparkleFavoriteButton({super.key});
+  final double size;
+  const SparkleFavoriteButton({super.key, this.size = 42});
 
   @override
   State<SparkleFavoriteButton> createState() => _SparkleFavoriteButtonState();
@@ -42,11 +43,13 @@ class _SparkleFavoriteButtonState extends State<SparkleFavoriteButton>
   Widget build(BuildContext context) {
     final sparkColor = context.gold;
     final heartColor = AppColors.error;
+    final outerSize = widget.size * 1.4; // Sparkle area
+    
     return GestureDetector(
       onTap: _toggle,
       child: SizedBox(
-        width: 60,
-        height: 60,
+        width: outerSize,
+        height: outerSize,
         child: Stack(
           alignment: Alignment.center,
           clipBehavior: Clip.none,
@@ -54,7 +57,7 @@ class _SparkleFavoriteButtonState extends State<SparkleFavoriteButton>
             AnimatedBuilder(
               animation: _controller,
               builder: (context, _) => CustomPaint(
-                size: const Size(60, 60),
+                size: Size(outerSize, outerSize),
                 painter: SparklePainter(
                   progress: _controller.value,
                   color: sparkColor,
@@ -62,17 +65,24 @@ class _SparkleFavoriteButtonState extends State<SparkleFavoriteButton>
               ),
             ),
             Container(
-              width: 42,
-              height: 42,
+              width: widget.size,
+              height: widget.size,
               decoration: BoxDecoration(
-                color: context.surfaceAlt,
+                color: Colors.white.withValues(alpha: 0.8),
                 shape: BoxShape.circle,
-                border: Border.all(color: context.borderColor),
+                border: Border.all(color: context.borderColor.withValues(alpha: 0.1)),
+                boxShadow: [
+                   BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.05),
+                    blurRadius: 4,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
               ),
               child: Icon(
                 active ? Icons.favorite_rounded : Icons.favorite_border_rounded,
-                color: active ? heartColor : context.textSecondary,
-                size: 20,
+                color: active ? heartColor : AppColors.darkBackground,
+                size: widget.size * 0.48,
               ),
             ),
           ],

@@ -5,6 +5,7 @@ import 'package:nti_ecommerce_team4/features/cart/presentation/cubits/add_to_car
 import 'package:nti_ecommerce_team4/features/cart/presentation/cubits/add_to_cart_state.dart';
 import 'package:nti_ecommerce_team4/features/home/presentation/cubits/products_cubit/products_cubit.dart';
 import 'package:nti_ecommerce_team4/features/home/presentation/cubits/products_cubit/products_states.dart';
+import 'package:nti_ecommerce_team4/features/products/presentation/widgets/sparkle_favorite_button.dart';
 
 import 'package:nti_ecommerce_team4/core/routes/app_routes.dart';
 
@@ -97,24 +98,9 @@ class AllProductGridView extends StatelessWidget {
                                     ),
                                   ),
                                   Positioned(
-                                    top: 8,
-                                    right: 8,
-                                    child: Container(
-                                      width: 35,
-                                      height: 35,
-                                      decoration: BoxDecoration(
-                                        color: Colors.white.withValues(alpha: 0.8),
-                                        borderRadius: BorderRadius.circular(30),
-                                      ),
-                                      child: IconButton(
-                                        onPressed: () {},
-                                        icon: const Icon(
-                                          Icons.favorite_border,
-                                          color: AppColors.darkBackground,
-                                          size: 18,
-                                        ),
-                                      ),
-                                    ),
+                                    top: 4,
+                                    right: 4,
+                                    child: SparkleFavoriteButton(size: 32),
                                   ),
                                 ],
                               ),
@@ -181,4 +167,3 @@ class AllProductGridView extends StatelessWidget {
     );
   }
 }
-

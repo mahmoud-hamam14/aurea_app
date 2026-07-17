@@ -1,9 +1,8 @@
-
 import 'package:flutter/material.dart';
-
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/theme/theme_extensions.dart';
-import '../screens/product_details_screen.dart';
+import '../../../../generated/l10n.dart';
 
 class AddToCartButton extends StatefulWidget {
   final VoidCallback onAdded;
@@ -28,8 +27,9 @@ class _AddToCartButtonState extends State<AddToCartButton> {
 
   @override
   Widget build(BuildContext context) {
+    final s = S.of(context);
     return SizedBox(
-      height: 50,
+      height: 52.h,
       child: ElevatedButton(
         onPressed: _tap,
         style: ElevatedButton.styleFrom(
@@ -37,7 +37,7 @@ class _AddToCartButtonState extends State<AddToCartButton> {
           foregroundColor: added ? AppColors.white : context.onGold,
           elevation: 0,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(14),
+            borderRadius: BorderRadius.circular(14.r),
           ),
         ),
         child: Row(
@@ -48,15 +48,19 @@ class _AddToCartButtonState extends State<AddToCartButton> {
               child: Icon(
                 added ? Icons.check_rounded : Icons.shopping_bag_outlined,
                 key: ValueKey(added),
-                size: 17,
+                size: 18.sp,
               ),
             ),
             const SizedBox(width: 8),
-            Text(
-              added ? 'Added' : 'Add to Cart',
-              style: AppTextStyles.buttonText.copyWith(
-                color: AppColors.white,
-                fontSize: 14.5,
+            Flexible(
+              child: Text(
+                added ? "Added" : s.addToCart,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: AppTextStyles.buttonText.copyWith(
+                  color: added ? AppColors.white : context.onGold,
+                  fontSize: 14.5.sp,
+                ),
               ),
             ),
           ],
@@ -65,4 +69,3 @@ class _AddToCartButtonState extends State<AddToCartButton> {
     );
   }
 }
-
