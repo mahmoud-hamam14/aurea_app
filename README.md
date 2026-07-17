@@ -92,10 +92,10 @@ lib/
 
 ## 🤝 Contributors
 
-*   **Mohamed Hamam**
+*   **Mahmoud Hamam**
 *   **Momen Mohamed**
 *   **Huda Yasser**
-*   **Hager Tamer**
+*   **Hagar Tamer**
 *   **Ahmed Radwan**
 *   **Ahmed Magdy**
 
