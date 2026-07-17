@@ -16,4 +16,5 @@ class AppRoutes {
   static const String createNewPassword = '/createNewPassword';
   static const String productListing = '/productListing';
   static const String cart = '/cart';
+  static const String paymentSimulation = '/paymentSimulation';
 }

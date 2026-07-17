@@ -23,6 +23,8 @@ import '../widgets/section_label.dart';
 import '../widgets/specs_acordion.dart';
 import '../widgets/start_rating.dart';
 import '../widgets/title_row.dart';
+import '../../../../core/utils/app_colors.dart';
+
 
 class ProductDetailsScreen extends StatefulWidget {
   final String productId;
@@ -43,6 +45,11 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     _toastTimer = Timer(const Duration(milliseconds: 1800), () {
       if (mounted) setState(() => toastMessage = null);
     });
+  }
+  @override
+  void dispose() {
+    _toastTimer?.cancel();
+    super.dispose();
   }
 
   @override

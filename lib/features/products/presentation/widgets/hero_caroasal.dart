@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import '../../../../core/routes/app_routes.dart';
 import '../../../../core/theme/theme_extensions.dart';
 import 'glass_icon_button.dart';
 
@@ -136,7 +137,12 @@ class _HeroCarouselState extends State<HeroCarousel> {
     return Stack(
       clipBehavior: Clip.none,
       children: [
-        GlassIconButton(icon: Icons.shopping_bag_outlined, onTap: () {}),
+        GlassIconButton(
+          icon: Icons.shopping_bag_outlined,
+          onTap: () {
+            Navigator.pushNamed(context, AppRoutes.cart);
+          },
+        ),
         if (widget.bagCount > 0)
           Positioned(
             top: -4,

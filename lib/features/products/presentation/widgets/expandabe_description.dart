@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../../../../core/theme/theme_extensions.dart';
-import '../screens/product_details_screen.dart';
 
 class ExpandableDescription extends StatefulWidget {
   final String description;
@@ -58,7 +57,7 @@ class _ExpandableDescriptionState extends State<ExpandableDescription> {
                     width: double.infinity,
                     child: Text(
                       widget.arabicDescription.isEmpty 
-                          ? "لا يوجد وصف باللغة العربية" // Placeholder for debugging
+                          ? "لا يوجد وصف باللغة العربية"
                           : widget.arabicDescription,
                       style: bodyStyleAr,
                     ),

@@ -5,6 +5,7 @@ import 'package:nti_ecommerce_team4/features/cart/presentation/cubits/cart_cubit
 import 'package:nti_ecommerce_team4/features/cart/presentation/cubits/cart_state.dart';
 import 'package:nti_ecommerce_team4/features/cart/presentation/widgets/order_summary.dart';
 import 'package:nti_ecommerce_team4/features/cart/presentation/widgets/product_itme.dart';
+import 'package:nti_ecommerce_team4/features/home/presentation/widgets/custom_drawer.dart';
 import 'package:nti_ecommerce_team4/generated/l10n.dart';
 
 class CartScreen extends StatefulWidget {
@@ -21,6 +22,7 @@ class _CartScreenState extends State<CartScreen> {
     return BlocProvider(
       create: (context) => CartCubit()..getCart(),
       child: Scaffold(
+        drawer: const DevDrawer(),
         appBar: AppBar(
           title: Text(
             s.appTitle,
@@ -37,9 +39,16 @@ class _CartScreenState extends State<CartScreen> {
               child: Icon(Icons.shopping_bag),
             ),
           ],
-          leading: const Padding(
-            padding: EdgeInsets.only(left: 12),
-            child: Icon(Icons.menu),
+          // Using Builder to get the correct context for Scaffold.of(context)
+          leading: Builder(
+            builder: (context) {
+              return IconButton(
+                icon: const Icon(Icons.menu),
+                onPressed: () {
+                  Scaffold.of(context).openDrawer();
+                },
+              );
+            }
           ),
         ),
         body: BlocBuilder<CartCubit, CartState>(
@@ -57,12 +66,12 @@ class _CartScreenState extends State<CartScreen> {
                     children: [
                       const Icon(Icons.cloud_off_rounded, size: 64, color: Colors.grey),
                       const SizedBox(height: 16),
-                      Text("Could not connect to cart API", style: Theme.of(context).textTheme.titleMedium),
+                      const Text("Connection Error"),
                       const SizedBox(height: 8),
                       Text(
                         state.errorMessage,
                         textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.red[400]),
+                        style: const TextStyle(color: Colors.red),
                       ),
                       const SizedBox(height: 24),
                       ElevatedButton.icon(
@@ -77,8 +86,15 @@ class _CartScreenState extends State<CartScreen> {
             }
 
             List<CartItemModel> items = [];
+            double subtotal = 0;
+            double discount = 0;
+            double total = 0;
+
             if (state is CartSuccessState) {
               items = state.items;
+              subtotal = state.subtotal;
+              discount = state.discount;
+              total = state.total;
             }
 
             if (items.isEmpty) {
@@ -121,9 +137,13 @@ class _CartScreenState extends State<CartScreen> {
                       const VerticalDivider(width: 1),
                       Expanded(
                         flex: 1,
-                        child: const SingleChildScrollView(
-                          padding: EdgeInsets.all(32),
-                          child: OrderSummary(),
+                        child: SingleChildScrollView(
+                          padding: const EdgeInsets.all(32),
+                          child: OrderSummary(
+                            subtotal: subtotal,
+                            discount: discount,
+                            total: total,
+                          ),
                         ),
                       ),
                     ],
@@ -133,7 +153,11 @@ class _CartScreenState extends State<CartScreen> {
                     children: [
                       ..._buildCartBody(context, items),
                       const SizedBox(height: 20),
-                      const OrderSummary(),
+                      OrderSummary(
+                        subtotal: subtotal,
+                        discount: discount,
+                        total: total,
+                      ),
                       const SizedBox(height: 16),
                     ],
                   ),

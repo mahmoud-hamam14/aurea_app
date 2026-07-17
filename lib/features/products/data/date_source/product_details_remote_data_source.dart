@@ -5,22 +5,22 @@ import '../models/product_model.dart';
 import '../models/review_model.dart';
 
 class ProductDetailsRemoteDataSource {
-  // Required task: get product by id
+
   Future<ProductItem> getProductDetails(String productId) async {
     try {
       final response = await DioHelper.dio.get(
         "products/$productId",
         options: Options(contentType: null),
       );
-      log("Product details response: ${response.data}");
+     // log("Product details response: ${response.data}");
       return ProductItem.fromJson(response.data);
     } catch (e) {
-      log("Error fetching product details: $e");
+     // log("Error fetching product details: $e");
       rethrow;
     }
   }
 
-  // Required task: get reviews
+
   Future<ReviewResponse> getReviews(String productId) async {
     try {
       final response = await DioHelper.dio.get(

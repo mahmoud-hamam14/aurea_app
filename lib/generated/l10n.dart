@@ -120,6 +120,16 @@ class S {
     return Intl.message('Sign Up', name: 'signup', desc: '', args: []);
   }
 
+  /// `Already have an account?`
+  String get alreadyHaveAccount {
+    return Intl.message(
+      'Already have an account?',
+      name: 'alreadyHaveAccount',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Create Account`
   String get createAccount {
     return Intl.message(

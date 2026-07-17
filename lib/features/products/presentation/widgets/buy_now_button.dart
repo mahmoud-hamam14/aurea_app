@@ -3,6 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/theme/theme_extensions.dart';
 import '../../../../generated/l10n.dart';
+import '../../../../core/utils/app_text_styles.dart';
+import '../../../../core/utils/app_colors.dart';
 
 class BuyNowButton extends StatelessWidget {
   final VoidCallback onTap;
@@ -11,7 +13,7 @@ class BuyNowButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final s = S.of(context);
+    final s = S.of(context);  //localizations
     final bg = context.isDark
         ? AppColors.darkSurfaceAlt
         : AppColors.lightTextPrimary;

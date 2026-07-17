@@ -5,7 +5,7 @@ import 'package:nti_ecommerce_team4/features/admin_product/data/models/product_m
 class ProductService {
   Future<List<ProductModel>> getProducts() async {
     try {
-      // Removing pagination params to match Home screen request and ensure same data
+
       final response = await DioHelper.get(url: "products");
       
       if (response.data != null && response.data['items'] != null) {
@@ -14,7 +14,7 @@ class ProductService {
       }
       return [];
     } catch (e) {
-      log("Error fetching products in Admin: $e");
+     // log("Error fetching products in Admin: $e");
       return [];
     }
   }
@@ -25,7 +25,7 @@ class ProductService {
       final response = await DioHelper.post(url: "products", data: data);
       return response.statusCode == 200 || response.statusCode == 201;
     } catch (e) {
-      log("Error adding product: $e");
+     // log("Error adding product: $e");
       return false;
     }
   }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
-import 'package:nti_ecommerce_team4/core/theme/app_theme.dart';
 import 'package:nti_ecommerce_team4/core/utils/validators.dart';
 import 'package:nti_ecommerce_team4/features/auth/data/auth_repo/auth_repo.dart';
 import 'package:nti_ecommerce_team4/features/auth/data/date_source/auth_remote_data_source.dart';
@@ -14,6 +13,10 @@ import 'package:nti_ecommerce_team4/features/auth/presentation/widgets/social_bu
 import 'package:nti_ecommerce_team4/generated/l10n.dart';
 
 import 'package:nti_ecommerce_team4/core/routes/app_routes.dart';
+
+import '../../../../core/utils/app_colors.dart';
+import '../../../../core/utils/app_text_styles.dart';
+import '../widgets/auth_redirect_text.dart';
 
 class SignupScreen extends StatelessWidget {
   const SignupScreen({super.key});
@@ -252,7 +255,15 @@ class _SignupScreenBodyState extends State<SignupScreenBody> {
                                       ),
                                     ],
                                   ),
-                                  const Gap(8),
+                                  const Gap(20),
+                                  AuthRedirectText(
+                                    question: s.alreadyHaveAccount,
+                                    actionText: s.login,
+                                    onPressed: () {
+                                      Navigator.pushNamed(context, AppRoutes.login);
+                                    },
+                                  ),
+                                  const Gap(15),
                                 ],
                               ),
                             ),

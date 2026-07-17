@@ -8,8 +8,16 @@ class CartLoadingState extends CartState {}
 
 class CartSuccessState extends CartState {
   final List<CartItemModel> items;
+  final double subtotal;
+  final double discount;
+  final double total;
 
-  CartSuccessState(this.items);
+  CartSuccessState({
+    required this.items,
+    required this.subtotal,
+    required this.discount,
+    required this.total,
+  });
 }
 
 class CartErrorState extends CartState {

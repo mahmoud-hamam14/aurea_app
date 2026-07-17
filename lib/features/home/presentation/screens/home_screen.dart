@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:nti_ecommerce_team4/core/routes/app_routes.dart';
 import 'package:nti_ecommerce_team4/features/cart/data/date_source/cart_get_data.dart';
 import 'package:nti_ecommerce_team4/features/cart/presentation/cubits/add_to_cart_cubit.dart';
 import 'package:nti_ecommerce_team4/features/categories/presentation/cubits/categories_cubit.dart';
@@ -53,7 +54,9 @@ class _HomeScreenState extends State<HomeScreen> {
               clipBehavior: Clip.none,
               children: [
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushNamed(context, AppRoutes.cart);
+                  },
                   icon: const Icon(Icons.shopping_bag_outlined, size: 28),
                 ),
                 Positioned(

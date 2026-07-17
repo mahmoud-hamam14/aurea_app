@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:nti_ecommerce_team4/core/theme/app_theme.dart';
 import 'package:nti_ecommerce_team4/core/utils/validators.dart';
 import 'package:nti_ecommerce_team4/features/auth/data/auth_repo/auth_repo.dart';
 import 'package:nti_ecommerce_team4/features/auth/data/date_source/auth_remote_data_source.dart';
 import 'package:nti_ecommerce_team4/features/auth/presentation/cubits/auth_cubit.dart';
 import 'package:nti_ecommerce_team4/features/auth/presentation/cubits/auth_state.dart';
 import 'package:nti_ecommerce_team4/generated/l10n.dart';
+import '../../../../core/utils/app_colors.dart';
 import '../widgets/auth_divider.dart';
 import '../widgets/auth_header.dart';
 import 'package:gap/gap.dart';

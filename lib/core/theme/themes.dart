@@ -1,17 +1,7 @@
 import 'package:flutter/material.dart';
 
-class AppColors {
-  static const gold = Color(0xFFD4AF37);
-  static const darkGold = Color(0xFF735C00);
+import '../utils/app_colors.dart';
 
-  static const lightBg = Color(0xFFFFFFFF);
-  static const lightText = Color(0xFF1B1C1C);
-  static const lightSurface = Color(0xFFF8F7F4);
-
-  static const darkBg = Color(0xFF121212);
-  static const darkSurface = Color(0xFF1E1E1E);
-  static const darkText = Color(0xFFF5F5F0);
-}
 
 class AppTheme {
   static ThemeData light = ThemeData(

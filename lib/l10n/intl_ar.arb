@@ -9,6 +9,7 @@
   "forgotPassword": "نسيت كلمة المرور؟",
   "dontHaveAccount": "ليس لديك حساب؟",
   "signup": "إنشاء حساب",
+  "alreadyHaveAccount": "لديك حساب بالفعل؟",
   "createAccount": "إنشاء حساب",
   "joinSubtitle": "انضم إلى عالم الحرفية الرائعة",
   "firstName": "الاسم الأول",

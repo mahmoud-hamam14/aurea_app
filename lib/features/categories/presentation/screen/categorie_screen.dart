@@ -21,6 +21,16 @@ class _CategorieScreenState extends State<CategorieScreen> {
     return Scaffold(
       drawer: const DevDrawer(),
       appBar: AppBar(
+        leading: Builder(
+          builder: (context) {
+            return IconButton(
+              icon: const Icon(Icons.menu),
+              onPressed: () {
+                Scaffold.of(context).openDrawer();
+              },
+            );
+          }
+        ),
         iconTheme: const IconThemeData(
           color: Color.fromARGB(255, 158, 125, 16),
         ),

@@ -3,6 +3,7 @@ import 'package:nti_ecommerce_team4/core/routes/app_routes.dart';
 import 'package:nti_ecommerce_team4/core/theme/theme_extensions.dart';
 import 'package:nti_ecommerce_team4/features/products/data/models/product_model.dart';
 import '../../../../core/theme/app_theme.dart';
+import '../../../../core/utils/app_colors.dart';
 
 class RelatedCard extends StatefulWidget {
   final ProductItem item;

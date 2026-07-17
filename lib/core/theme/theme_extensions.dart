@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'app_theme.dart';
+import '../utils/app_colors.dart';
 
 extension AureaThemeX on BuildContext {
   bool get isDark => Theme.of(this).brightness == Brightness.dark;

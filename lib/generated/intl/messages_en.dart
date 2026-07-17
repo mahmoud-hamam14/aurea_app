@@ -35,6 +35,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "addedToCart": m0,
     "adminPanel": MessageLookupByLibrary.simpleMessage("Admin Panel"),
     "allProducts": MessageLookupByLibrary.simpleMessage("All Products"),
+    "alreadyHaveAccount": MessageLookupByLibrary.simpleMessage(
+      "Already have an account?",
+    ),
     "appTitle": MessageLookupByLibrary.simpleMessage("AUREA"),
     "arabicDescription": MessageLookupByLibrary.simpleMessage(
       "Description (Arabic)",

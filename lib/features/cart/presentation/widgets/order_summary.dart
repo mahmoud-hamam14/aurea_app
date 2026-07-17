@@ -1,9 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:nti_ecommerce_team4/core/theme/app_theme.dart';
+import 'package:nti_ecommerce_team4/core/routes/app_routes.dart';
 import 'package:nti_ecommerce_team4/generated/l10n.dart';
+import '../../../../core/utils/app_colors.dart';
 
 class OrderSummary extends StatelessWidget {
-  const OrderSummary({super.key});
+  final double subtotal;
+  final double discount;
+  final double total;
+
+  const OrderSummary({
+    super.key,
+    required this.subtotal,
+    required this.discount,
+    required this.total,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +35,10 @@ class OrderSummary extends StatelessWidget {
             const Divider(),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [Text(s.subtotal), const Text("€7,400")],
+              children: [
+                Text(s.subtotal),
+                Text("SAR ${subtotal.toStringAsFixed(2)}")
+              ],
             ),
             const SizedBox(height: 6),
             Row(
@@ -34,38 +47,39 @@ class OrderSummary extends StatelessWidget {
             ),
             const SizedBox(height: 6),
             const Divider(),
-            Container(
-              margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "${s.seasonalOffer} (-10%)",
-                    style: const TextStyle(fontWeight: FontWeight.w500),
-                  ),
-                  const Text(
-                    "-€740",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.redAccent,
+            if (discount > 0)
+              Container(
+                margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      s.seasonalOffer,
+                      style: const TextStyle(fontWeight: FontWeight.w500),
                     ),
-                  ),
-                ],
+                    Text(
+                      "-SAR ${discount.toStringAsFixed(2)}",
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.redAccent,
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
             const SizedBox(height: 6),
             const Divider(),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(s.total, style: const TextStyle(fontWeight: FontWeight.bold)),
-                const Text(
-                  "€6,660",
-                  style: TextStyle(
+                Text(
+                  "SAR ${total.toStringAsFixed(2)}",
+                  style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     color: Colors.black,
                   ),
@@ -81,7 +95,9 @@ class OrderSummary extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8),
                 ),
               ),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushNamed(context, AppRoutes.paymentSimulation);
+              },
               child: Text(
                 s.proceedToCheckout,
                 style: TextStyle(

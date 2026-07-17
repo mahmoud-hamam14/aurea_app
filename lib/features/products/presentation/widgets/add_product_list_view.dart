@@ -45,7 +45,7 @@ class AddProductListview extends StatelessWidget {
                         children: [
                           Text(
                             "Aurelian Solitaire Band",
-                            style: Theme.of(context).textTheme.bodyLarge
+                            style:theme.textTheme.bodyLarge
                                 ?.copyWith(
                                   fontWeight: FontWeight.w400,
                                   fontSize: 18,

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nti_ecommerce_team4/core/theme/app_theme.dart';
+import '../../../../core/theme/themes.dart';
+import '../../../../core/utils/app_colors.dart';
 
 class PrivacyPolicyScreen extends StatelessWidget {
   const PrivacyPolicyScreen({super.key});
@@ -172,7 +174,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: const Text(
+              child: Text(
                 "support@novamart.com",
                 style: TextStyle(
                   fontSize: 16,

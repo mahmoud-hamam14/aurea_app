@@ -1,119 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-/// ==========================================================
-/// AppColors
-/// كل الألوان اللي في تصميم الفيجما، مقسّمة Light / Dark
-/// الأسماء دلالية (semantic) عشان تعرف تستخدم اللون الصح
-/// في المكان الصح من غير ما تفكر في الـ hex value
-/// ==========================================================
-class AppColors {
-  AppColors._();
+import '../utils/app_text_styles.dart';
+import '../utils/app_colors.dart';
 
-  // ---------- اللون الأساسي (ثابت في الوضعين) ----------
-  static const gold = Color(0xFFD4AF37);
-  static const goldSoft = Color(
-    0x1AD4AF37,
-  ); // gold بشفافية 10% (خلفية الأيقونات)
 
-  // ---------- Light Mode ----------
-  static const lightBackground = Color(0xFFFFFFFF);
-  static const lightSurface = Color(0xFFF8F7F4); // خلفية الكروت
-  static const lightSurfaceAlt = Color(0xFFFAF7ED); // خلفية الأيقونة الدائرية
-  static const lightBorder = Color(0xFFE5E1DC);
 
-  static const lightTextPrimary = Color(0xFF1B1C1C); // نص أساسي/عناوين
-  static const lightTextSecondary = Color(0xFF6B7280); // نص ثانوي/وصف
-  static const lightTextMuted = Color(0xFF735C00); // نص خافت (زي "Categories")
 
-  static const lightSwitchTrackOff = Color(0xFFE2DFDE);
-
-  // ---------- Dark Mode ----------
-  static const darkBackground = Color(0xFF121212);
-  static const darkSurface = Color(0xFF1E1E1E);
-  static const darkSurfaceAlt = Color(0xFF2A2A28);
-  static const darkBorder = Color(0xFF3A3A3A);
-
-  static const darkTextPrimary = Color(0xFFF5F5F0);
-  static const darkTextSecondary = Color(0xFFB0B0AC);
-  static const darkTextMuted = Color(0xFFE8C766);
-
-  static const darkSwitchTrackOff = Color(0xFF3A3A3A);
-
-  // ---------- ألوان عامة (مشتركة) ----------
-  static const success = Color(0xFF2E7D32);
-  static const error = Color(0xFFD32F2F);
-  static const white = Color(0xFFFFFFFF);
-
-  static Color? get darkGold => null;
-}
-
-/// ==========================================================
-/// AppTextStyles
-/// أنماط الخطوط زي ما هي متسمّاة في الفيجما (Heading 1/2/3..)
-/// بدون لون، عشان اللون يتحدد حسب الـ Theme الحالي وقت الاستخدام
-/// ==========================================================
-class AppTextStyles {
-  AppTextStyles._();
-
-  static const fontFamily = 'Inter';
-
-  static TextStyle get heading1 => TextStyle(
-        fontFamily: fontFamily,
-        fontSize: 28.sp,
-        fontWeight: FontWeight.w600,
-        height: 1.2,
-      );
-
-  static TextStyle get heading2 => TextStyle(
-        fontFamily: fontFamily,
-        fontSize: 24.sp,
-        fontWeight: FontWeight.w600,
-        height: 1.25,
-      );
-
-  static TextStyle get heading3 => TextStyle(
-        fontFamily: fontFamily,
-        fontSize: 18.sp,
-        fontWeight: FontWeight.w600,
-        height: 1.3,
-      );
-
-  static TextStyle get heading4 => TextStyle(
-        fontFamily: fontFamily,
-        fontSize: 16.sp,
-        fontWeight: FontWeight.w600,
-        height: 1.3,
-      );
-
-  static TextStyle get bodyLarge => TextStyle(
-        fontFamily: fontFamily,
-        fontSize: 16.sp,
-        fontWeight: FontWeight.w400,
-        height: 1.5,
-      );
-
-  static TextStyle get bodyMedium => TextStyle(
-        fontFamily: fontFamily,
-        fontSize: 14.sp,
-        fontWeight: FontWeight.w400,
-        height: 1.4,
-      );
-
-  static TextStyle get bodySmall => TextStyle(
-        fontFamily: fontFamily,
-        fontSize: 12.sp,
-        fontWeight: FontWeight.w500,
-        height: 1.3,
-      );
-
-  static TextStyle get buttonText => TextStyle(
-        fontFamily: fontFamily,
-        fontSize: 16.sp,
-        fontWeight: FontWeight.w600,
-        height: 1.2,
-      );
-}
 
 /// ==========================================================
 /// AppTheme

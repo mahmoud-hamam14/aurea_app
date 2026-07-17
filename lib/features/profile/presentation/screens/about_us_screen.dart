@@ -4,6 +4,8 @@ import 'package:nti_ecommerce_team4/core/theme/app_theme.dart';
 import 'package:nti_ecommerce_team4/features/profile/presentation/widgets/about_us_card.dart';
 import 'package:nti_ecommerce_team4/features/profile/presentation/widgets/custom_about_us_card.dart';
 import 'package:nti_ecommerce_team4/features/profile/presentation/widgets/contact_card.dart';
+import '../../../../core/theme/themes.dart';
+import '../../../../core/utils/app_colors.dart';
 
 class AboutUsScreen extends StatelessWidget {
   const AboutUsScreen({super.key});

@@ -35,6 +35,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "addedToCart": m0,
     "adminPanel": MessageLookupByLibrary.simpleMessage("لوحة الإدارة"),
     "allProducts": MessageLookupByLibrary.simpleMessage("جميع المنتجات"),
+    "alreadyHaveAccount": MessageLookupByLibrary.simpleMessage(
+      "لديك حساب بالفعل؟",
+    ),
     "appTitle": MessageLookupByLibrary.simpleMessage("أوريا"),
     "arabicDescription": MessageLookupByLibrary.simpleMessage(
       "الوصف (بالعربية)",

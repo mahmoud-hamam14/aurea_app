@@ -3,6 +3,8 @@ import 'package:nti_ecommerce_team4/generated/l10n.dart';
 
 import '../../../../core/theme/app_theme.dart';
 import 'avatar_edit_badge.dart';
+import '../../../../core/utils/app_text_styles.dart';
+import '../../../../core/utils/app_colors.dart';
 
 class AddProductAppBar extends StatelessWidget {
   final VoidCallback onClose;
