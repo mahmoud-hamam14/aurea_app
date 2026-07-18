@@ -90,7 +90,7 @@ lib/
 
 ## 🤝 Contributors
 
-*   **Mohamed Hamam**
+*   **Mahmoud Hamam**
 *   **Momen Mohamed**
 *   **Huda Yasser**
 *   **Hagar Tamer**
