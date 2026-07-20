@@ -2,10 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:nti_ecommerce_team4/core/theme/theme_provider.dart';
 import 'package:nti_ecommerce_team4/core/theme/themes.dart';
 import 'package:provider/provider.dart';
+import '../../../../core/theme/app_colors.dart';
 
-class DarkModeToggle extends StatelessWidget {
+class DarkModeToggle extends StatefulWidget {
   const DarkModeToggle({super.key});
 
+  @override
+  State<DarkModeToggle> createState() => _DarkModeToggleState();
+}
+
+class _DarkModeToggleState extends State<DarkModeToggle> {
   @override
   Widget build(BuildContext context) {
     final themeProvider = context.watch<ThemeProvider>();
@@ -17,21 +23,11 @@ class DarkModeToggle extends StatelessWidget {
         children: [
           Row(
             children: [
-              Container(
-                width: 40,
-                height: 40,
-                decoration: BoxDecoration(
-                  color: AppColors.gold.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: const Icon(
-                  Icons.dark_mode_outlined,
-                  color: AppColors.gold,
-                  size: 20,
-                ),
-              ),
+              const Icon(Icons.dark_mode, color: AppColors.gold, size: 20),
+
               const SizedBox(width: 16),
-              Text('Dark Mode', style: Theme.of(context).textTheme.bodyMedium),
+
+              Text('Dark Mode', style: Theme.of(context).textTheme.bodyLarge),
             ],
           ),
           Switch(
